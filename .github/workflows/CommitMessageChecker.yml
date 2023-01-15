@@ -1,0 +1,30 @@
+name: 'Commit Message Check'
+on:
+  pull_request:
+    branches: [ "main" ]
+
+
+jobs:
+  check-commit-message:
+    name: Check Commit Message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vérification Syntaxe Commit 
+        uses: gsactions/commit-message-checker@v2
+        with:
+          pattern: '^(feat|fix|build|chore|ci|docs|style|refactor|perf|revert|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])+([\s\S]*)'
+          flags: 'gm'
+          error: 'Le message de commit ne respecte pas la syntaxe (voir https://www.conventionalcommits.org/en/v1.0.0/)'
+          excludeDescription: 'true'
+          excludeTitle: 'true'
+          checkAllCommitMessages: 'true'
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Vérification Taille Commit
+        uses: gsactions/commit-message-checker@v2
+        with:
+          pattern: '^[^#].{1,74}'
+          error: 'Le commit ne doit pas dépasser 74 charactères'
+          excludeDescription: 'true'
+          excludeTitle: 'true'
+          checkAllCommitMessages: 'true'
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
