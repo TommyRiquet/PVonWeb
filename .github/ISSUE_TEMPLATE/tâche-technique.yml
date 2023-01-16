@@ -1,0 +1,22 @@
+name: Tâche Technique
+description: Création d'une tâche technique
+title: "[TT]: <Titre>"
+labels: ["Tâche Technique"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Formulaire de création d'une tâche technique
+  - type: textarea #Tâche Technique
+    id: tachetechnique
+    attributes:
+      label: Tâche Technique
+    validations:
+      required: true
+  - type: textarea # Description de la Tâche Technique
+    id: description
+    attributes:
+      label: Description de la tâche technique
+      description: Explique brievement la tâche technique
+    validations:
+      required: true
