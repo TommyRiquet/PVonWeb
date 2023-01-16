@@ -1,0 +1,49 @@
+name: Rapport de Bug
+description: Création d'un ticket pour un bug
+title: "[Bug]: <Titre>"
+labels: ["Bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci d'avoir pris le temps de remplir un ticket de rapport de bug
+  - type: input #Email de contact
+    id: contact
+    attributes:
+      label: Prise de contact
+      description: Comment pouvons-nous vous joindre dans le cas ou nous avons besoin de plus d'informations ?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea # Description du bug
+    id: what-happened
+    attributes:
+      label: Que s'est-il passé?
+      description: Quelle était le comportement attendu?
+      placeholder: Ça fonctionne pas!
+    validations:
+      required: true
+  - type: dropdown # Type de navigateur
+    id: browsers
+    attributes:
+      label: Sur quelle navigateur avez-vous pu constaté le bug?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+  - type: textarea # Logs
+    id: logs
+    attributes:
+      label: Logs
+      description: Veuillez copier et coller tous messages d'erreur pertinent. Cela sera automatiquement formaté en code, donc pas besoin de backticks.
+      render: shell
+  - type: checkboxes # Code de conduite
+    id: terms
+    attributes:
+      label: Code de conduite
+      description: En soumettant ce problème, vous acceptez de suivre notre [Code de conduite](https://example.com)
+      options:
+        - label: J'accepte de suivre le code de conduite de ce projet
+          required: true
