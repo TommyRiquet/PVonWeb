@@ -20,3 +20,4 @@ body:
       description: Explique brievement la tâche technique
     validations:
       required: true
+
