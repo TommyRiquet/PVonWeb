@@ -11,9 +11,6 @@
 <!-- À PROPOS -->
 ## À propos
 
-![image](https://user-images.githubusercontent.com/71312500/212544009-3a3530c2-0aa4-46c5-a157-07b7b49478d2.png)
-
-<br />
 <br />
 
 Bienvenue dans PVonWeb, votre solution pour la gestion des procès-verbaux en ligne !
