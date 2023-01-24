@@ -23,7 +23,7 @@ PVonWeb est un outil pratique et utile pour les organisations qui ont besoin de 
 
 PVonWeb est développé en utilisant les dernières technologies web, telles que React.js pour le front-end et Node.js pour le back-end. Nous avons également utilisé des bases de données MongoDB pour stocker les procès-verbaux et les informations utilisateur.
 
-En ce qui concerne la sécurité, PVonWeb utilise des méthodes de cryptage pour protéger les données sensibles et des mesures de sécurité pour protéger contre les attaques de type DDoS. Nous avons également mis en place une authentification à plusieurs facteurs pour renforcer la sécurité des comptes utilisateur.
+En ce qui concerne la sécurité, PVonWeb utilise des méthodes de chiffrement pour protéger les données sensibles et des mesures de sécurité pour protéger contre les attaques de type DDoS. Nous avons également mis en place une authentification à plusieurs facteurs pour renforcer la sécurité des comptes utilisateur.
 
 N'hésitez pas à nous envoyer des pull requests si vous souhaitez contribuer au projet. Nous sommes également ouverts aux commentaires et aux suggestions pour améliorer PVonWeb.
 
