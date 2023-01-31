@@ -4,8 +4,8 @@
 import './assets/styles/App.scss';
 
 // Import Pages
-import Home from './pages/Home';
-import Error from './pages/Error';
+import Home from './pages/Home/Home';
+import Error from './pages/Error/Error';
 
 // Import Components
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
