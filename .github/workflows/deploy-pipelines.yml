@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
-  AZURE_WEBAPP_NAME: pvonweb-frontend
+  AZURE_WEBAPP_NAME: PVonWeb
   AZURE_WEBAPP_PACKAGE_PATH: 'frontend/'
   NODE_VERSION: '16.x'
 
