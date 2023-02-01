@@ -8,6 +8,10 @@ on:
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: frontend
+
     runs-on: ubuntu-latest
 
     steps:
@@ -19,9 +23,8 @@ jobs:
           node-version: '16.x'
 
       - name: npm install, build, and test
-        working-directory: 'frontend/'
         run: |
-          npm install
+          npm ci --omit=dev
           npm run build --if-present
           npm run test --if-present
 
@@ -32,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          path: frontend/release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,9 +49,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: node-app
-          
+
       - name: unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip release.zip -d frontend
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
