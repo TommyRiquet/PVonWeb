@@ -1,14 +1,13 @@
-[![Issues][issues-shield]][issues-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://user-images.githubusercontent.com/71312500/212544553-f4b7cdc3-3711-4c37-b889-439dda738b78.png" alt="Logo" width="260" height="260">
+  <a href="">
+    <img src="https://raw.githubusercontent.com/TommyRiquet/PVonWeb/main/frontend/public/PVWlogo512.png" alt="Logo" width="260" height="260">
   </a>
 </div>
 
 <!-- À PROPOS -->
+
 ## À propos
 
 <br />
@@ -27,17 +26,39 @@ En ce qui concerne la sécurité, PVonWeb utilise des méthodes de chiffrement p
 
 N'hésitez pas à nous envoyer des pull requests si vous souhaitez contribuer au projet. Nous sommes également ouverts aux commentaires et aux suggestions pour améliorer PVonWeb.
 
+<!-- Statut -->
+## Statut
+### Statistiques : [![Issues][issues-shield]][issues-url]  
+### Conventions : [![Commit Message Check][commit-message-checker-shield]][commit-message-checker-url][![Eslint Checker][eslint-checker-shield]][eslint-checker-url]  
+### Tests : [![Testing][testing-shield]][testing-url]  
+### Déploiment : [![Deploy][deploy-shield]][deploy-url] 
+
 <!-- LICENSE -->
+
 ## License
 
 Distribué sous la licence MIT. Voir `LICENSE.txt` pour plus d'informations.
 
+<!-- Contact -->
 ## Contact
 
 Tommy Riquet - tommy.riquet@hotmail.com
 
 Lien du Projet: https://github.com/TommyRiquet/PVonWeb
 
+
+
+
+
 <!-- VARIABLES -->
-[issues-shield]: https://img.shields.io/github/issues/TommyRiquet/PVonWeb.svg?style=for-the-badge
+
+[issues-shield]: https://img.shields.io/github/issues/TommyRiquet/PVonWeb.svg
 [issues-url]: https://github.com/TommyRiquet/PVonWeb/issues
+[commit-message-checker-shield]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/commit-message-checker.yml/badge.svg
+[commit-message-checker-url]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/commit-message-checker.yml
+[eslint-checker-shield]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/code-linter.yml/badge.svg
+[eslint-checker-url]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/code-linter.yml
+[testing-shield]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/code-test.yml/badge.svg
+[testing-url]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/code-test.yml
+[deploy-shield]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/main_pvonweb.yml/badge.svg
+[deploy-url]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/main_pvonweb.yml
