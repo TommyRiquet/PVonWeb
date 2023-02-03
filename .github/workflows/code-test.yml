@@ -1,0 +1,49 @@
+name: Testing
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  frontend_test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'frontend/package.json'
+    - run: npm i
+      working-directory: 'frontend/'
+    - run: npm test
+      working-directory: 'frontend/'
+
+  
+  backend_test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'backend/package.json'
+    - run: npm i
+      working-directory: 'backend/'
+    - run: npm test --if-present #--if-present to delete
+      working-directory: 'backend/'
