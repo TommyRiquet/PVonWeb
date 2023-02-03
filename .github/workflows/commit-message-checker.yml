@@ -6,7 +6,7 @@ on:
 
 jobs:
   check-commit-message:
-    name: Check Commit Message
+    name: Commit Message Check 
     runs-on: ubuntu-latest
     steps:
       - name: Vérification Syntaxe Commit 
