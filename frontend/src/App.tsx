@@ -9,9 +9,21 @@ import Error from './pages/Error/Error';
 
 // Import Components
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { io } from "socket.io-client";
+
+import { useEffect } from 'react';
 
 
 function App() {
+
+  useEffect(() => {
+    const socket = io("http://localhost:3001", {path: '/api/socket.io'});
+    socket.on("connect", () => {
+      console.log("Connected to server");
+    });
+
+  }, []);
+
  return (
   <BrowserRouter>
   <Routes>
