@@ -1,0 +1,27 @@
+name: 'Eslint Checker'
+on:
+  pull_request:
+    branches: [ "main" ]
+
+
+jobs:
+  eslint:
+    name: Runner
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write 
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: |
+          npm i
+        working-directory: frontend
+
+
+      - uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review # Change reporter.
+          eslint_flags: 'src/'
+          workdir: 'frontend/'
