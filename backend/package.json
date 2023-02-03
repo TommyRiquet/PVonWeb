@@ -14,7 +14,8 @@
     "http-errors": "~1.6.3",
     "mongoose": "^6.8.4",
     "socket.io": "^4.5.4",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
