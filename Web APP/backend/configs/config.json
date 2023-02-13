@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "pvonweb",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "DbTestUsername",
+    "password": "DbTestPassword",
+    "database": "DbTestDatabase",
+    "host": "DbTestHost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "DbProdUsername",
+    "password": "DbProdPassword",
+    "database": "DbProdDatabase",
+    "host": "DbProdHost",
+    "dialect": "mysql"
+  }
+}
