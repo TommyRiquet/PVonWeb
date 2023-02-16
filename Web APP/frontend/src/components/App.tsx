@@ -3,7 +3,6 @@
 // Import Components
 import { Routes, Route } from "react-router-dom";
 
-import ActionButton from "./app/actionbutton";
 import AppRoutes from "./Routes";
 
 function App() {
@@ -21,7 +20,6 @@ function App() {
         ))
       }
     </Routes>
-    <ActionButton/>
     </>
   );
 }

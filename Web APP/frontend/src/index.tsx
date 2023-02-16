@@ -10,6 +10,7 @@ import { ThemeProvider } from "@mui/material";
 import App from "./components/App";
 import reportWebVitals from "./controllers/reportWebVitals";
 import theme from "./theme";
+import { AuthContextProvider } from "contexts/AuthContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,9 +18,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <AuthContextProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthContextProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

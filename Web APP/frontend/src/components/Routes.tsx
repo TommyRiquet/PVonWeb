@@ -1,7 +1,13 @@
+// This file contains all the routes of the application
+//
+// Import views
 import Home from "./app/views/Home/Home";
-import SignIn from "./app/views/SignIn/SignIn";
-import Login from "./app/views/Login/Login";
 import Error from "./app/views/Error/Error";
+import Dashboard from "./app/views/Dashboard/Dashboard";
+
+// Import auth routes
+import SignIn from "./auth/SignIn/SignInScreen";
+import Login from "./auth/Login/LoginScreen";
 
 const AppRoutes = [
   {
@@ -17,6 +23,11 @@ const AppRoutes = [
   {
     path: "/signin",
     component: SignIn,
+    exact: true,
+  },
+  {
+    path: "/dashboard",
+    component: Dashboard,
     exact: true,
   },
   {
