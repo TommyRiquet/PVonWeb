@@ -1,50 +1,50 @@
 name: User Story
-description: Création d'une user story
-title: "[US]: <Titre>"
+description: Creating a user story
+title: "[US]: <Title>"
 labels: ["User Story"]
 body:
   - type: markdown
     attributes:
       value: |
-        Formulaire de création d'une User Story
+        User story creation form
   - type: textarea #User Story
     id: userstory
     attributes:
       label: User Story
-      placeholder: En tant qu'administrateur, je veux pouvoir supprimer tous les utilisateurs afin de semer le chaos.
+      placeholder: As an <actor>, I want to <feature> so that <goal>.
       value: |
-        En tant que <rôle>, je veux pouvoir <fonctionnalité> afin de <cause> .
+        As a <role>, I want to <feature> so that <cause>.
     validations:
       required: true
-  - type: textarea # Description de la User Story
+  - type: textarea #User story description
     id: description
     attributes:
-      label: Description de la User Story
-      description: Explique brievement la User Story
+      label: User Story description
+      description: Briefly explain the user story
     validations:
       required: true
-  - type: textarea # Maquette
-    id: maquette
+  - type: textarea #Mockup
+    id: mockup
     attributes:
-      label: "Maquette"
-      description: Optionnel, ajoute les maquettes de la User Story.
-      placeholder: Glisser et déposer les photos ici.
+      label: Mockup
+      description: Optional, add mockups of the user story.
+      placeholder: Drag and drop photos here.
     validations:
       required: false
-  - type: textarea # Critères d'acceptation 
-    id: criteresacceptation
+  - type: textarea #Acceptance criteria
+    id: acceptancecriteria
     attributes:
-      label: Critères d'acceptation
-      description: Veuillez lister tous les critères d'acceptation.
-  - type: markdown # Analyse Technique 
+      label: Acceptance Criteria
+      description: Please list all acceptance criteria.
+  - type: markdown #Technical Analysis
     attributes:
-      value: Analyse Technique
-  - type: textarea # Prérequis
+      value: Technical Analysis
+  - type: textarea #Prerequisites
     id: prerequis
     attributes:
-      label: Prérequis
-  - type: textarea # Impact sur la DB
+      label: Prerequisites
+  - type: textarea # Database Impact
     id: impactdb
     attributes:
-      label: Impact sur la DB
+      label: Database Impact
 

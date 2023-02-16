@@ -23,7 +23,7 @@ jobs:
         run: |
           cd frontend 
           npm install
-          npm run build
+          npm run build-prod
           npm run test --if-present
       
       - name: Zip frontend artifacts for backend
@@ -61,7 +61,7 @@ jobs:
       - name: Npm install
         run: |
           cd backend
-          npm install
+          npm ci
       
       - name: Zip backend artifacts for deployment
         run: |

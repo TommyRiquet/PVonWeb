@@ -1,0 +1,22 @@
+name: Technical Task
+description: Creation of a technical task
+title: "[TT]: <Title>"
+labels: ["Technical Task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Form to create a technical task
+  - type: textarea #Technical Task
+    id: technicaltask
+    attributes:
+      label: Technical Task
+    validations:
+      required: true
+  - type: textarea #Description of the Technical Task
+    id: description
+    attributes:
+      label: Description of the technical task
+      description: Briefly explain the technical task
+    validations:
+      required: true
