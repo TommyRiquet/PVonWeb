@@ -16,7 +16,7 @@ db.connect();
 
 const server = http.createServer(app);
 const socketIO = require("socket.io");
-
+const cors = require("cors");
 const path = require("path");
 
 var cookieParser = require("cookie-parser");
@@ -25,6 +25,8 @@ app.use(
     process.env.COOKIES_SECRET_KEY
   )
 );
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Socket.io
 const io = socketIO(server, {
@@ -51,7 +53,7 @@ app.use("/api/auth", auth);
 // Path: frontend\src\index.tsx
 // This is the entry point for the frontend
 app.use(express.static(__dirname + "/build"));
-app.get("/", (_, res) => {
+app.get("/*", (_, res) => {
   res.sendFile(path.join(__dirname + "/build/index.html"));
 });
 
