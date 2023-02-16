@@ -18,19 +18,18 @@ interface LoginParams {
 }
 
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body as LoginParams;
 
   //find and verify the match email/password
   db.query(
     `SELECT userId, firstName, lastName, email, password FROM users WHERE email = '${email}'`
   ).then((user: User) => {
-    // If the account exists
-    if (user) {
-      // Create session into table session and save UUID
+    if (user[0].length === 0) {
+      console.log("error")
+      res.send("Incorrect Email and/or Password!");
+    } else {
       argon2.verify(user[0][0].password, password).then(async (match) => {
-        if (!match) {
-          res.send("Incorrect Email and/or Password!");
-        } else {
+        if (match) {
           const sessionId = crypto.randomUUID();
           const userId = user[0][0].userId;
           db.query(
@@ -45,12 +44,13 @@ router.post("/login", async (req, res) => {
                 maxAge: 1000 * 60 * 60 * 4, //ms*sec*min*hours = 4 hours
                 signed: true,
               })
-              .send();
+              .send("success");
           });
+        } else {
+          console.log("err")
+          res.send("Incorrect Email and/or Password!");
         }
       });
-    } else {
-      res.send("Incorrect Email and/or Password!");
     }
   });
 });
@@ -86,5 +86,6 @@ router.post("/register", async (req, res) => {
     }
   );
 });
+
 
 module.exports = router;
