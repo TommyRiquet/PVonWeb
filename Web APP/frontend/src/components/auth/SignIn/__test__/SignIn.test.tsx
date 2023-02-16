@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
-import Login from '../Login';
+import SignIn from '../SignInScreen';
 
 test('render Home page', () => {
-  render(<Login />);
+  render(<SignIn />);
 
   expect(true).toBe(true);
 });
