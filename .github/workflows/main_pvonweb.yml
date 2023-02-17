@@ -21,7 +21,7 @@ jobs:
 
       - name: Npm install, build, and test
         run: |
-          cd frontend 
+          cd Web APP/frontend 
           npm install
           npm run build-prod
           npm run test --if-present
@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: frontend-build
-          path: frontend/frontend.zip
+          path: Web APP/frontend/frontend.zip
 
   build_backend:
     name: Build Backend
@@ -60,7 +60,7 @@ jobs:
 
       - name: Npm install
         run: |
-          cd backend
+          cd 'Web APP/backend'
           npm ci
       
       - name: Zip backend artifacts for deployment
@@ -98,4 +98,4 @@ jobs:
           app-name: 'PVonWeb'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6F6FAC144BCA4A3F8897AAF93371E678 }}
-          package: backend/
+          package: Web APP/backend/
