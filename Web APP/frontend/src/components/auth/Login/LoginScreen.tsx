@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Typography, TextField, Button, Container } from "@mui/material";
 import { PasswordTextField } from "components/common";
 import theme from "theme";
@@ -7,24 +7,24 @@ import { useAuth } from "contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function LoginScreen() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  //const { login } = useAuth();
+  // const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = React.useState("");
 
   function handleSubmit(event: any) {
     event.preventDefault();
-    login(
-      event.target.email.value,
-      event.target.password.value,
-      (res) => {
-        if (res.data === "success") {
-          navigate("/dashboard");
-          return;
-        }
-        setErrorMessage(res.data)
-      },
-      (err) => setErrorMessage(err.data)
-    );
+    // login(
+    //   event.target.email.value,
+    //   event.target.password.value,
+    //   (res) => {
+    //     if (res.data === "success") {
+    //       navigate("/dashboard");
+    //       return;
+    //     }
+    //     setErrorMessage(res.data)
+    //   },
+    //   (err) => setErrorMessage(err.data)
+    // );
   }
 
   return (
