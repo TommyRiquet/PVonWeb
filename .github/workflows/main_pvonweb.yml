@@ -21,7 +21,7 @@ jobs:
 
       - name: Npm install, build, and test
         run: |
-          cd Web APP/frontend 
+          cd 'Web APP/frontend'
           npm install
           npm run build-prod
           npm run test --if-present
