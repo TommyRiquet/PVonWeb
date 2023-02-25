@@ -16,11 +16,11 @@ jobs:
       with:
         node-version: '16.x'
         cache: 'npm'
-        cache-dependency-path: ${{github.workspace}}/Web APP/frontend/package-lock.json
+        cache-dependency-path: ${{github.workspace}}/Web App/frontend/package-lock.json
     - run: npm i
-      working-directory: Web APP/frontend/
+      working-directory: Web App/frontend/
     - run: npm test
-      working-directory: Web APP/frontend/
+      working-directory: Web App/frontend/
 
   
   backend_test:
@@ -34,8 +34,8 @@ jobs:
       with:
         node-version: '16.x'
         cache: 'npm'
-        cache-dependency-path: ${{github.workspace}}/Web APP/backend/package-lock.json
+        cache-dependency-path: ${{github.workspace}}/Web App/backend/package-lock.json
     - run: npm i
-      working-directory: Web APP/backend/
+      working-directory: Web App/backend/
     - run: npm test --if-present #--if-present to delete
-      working-directory: Web APP/backend/
+      working-directory: Web App/backend/

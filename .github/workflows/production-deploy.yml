@@ -21,20 +21,20 @@ jobs:
 
       - name: Npm install and build
         run: |
-          cd 'Web APP/frontend'
+          cd 'Web App/frontend'
           npm install
           npm run build-prod
       
       - name: Zip frontend artifacts for backend
         run: |
-          cd 'Web APP/frontend'
+          cd 'Web App/frontend'
           zip -r frontend.zip build
           
       - name: Upload artifact for backend job
         uses: actions/upload-artifact@v2
         with:
           name: frontend-build
-          path: Web APP/frontend/frontend.zip
+          path: Web App/frontend/frontend.zip
 
   build_backend:
     name: Build Backend
@@ -59,7 +59,7 @@ jobs:
 
       - name: Npm install
         run: |
-          cd 'Web APP/backend'
+          cd 'Web App/backend'
           npm ci
       
       - name: Zip backend artifacts for deployment

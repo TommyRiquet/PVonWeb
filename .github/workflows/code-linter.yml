@@ -16,7 +16,7 @@ jobs:
 
       - run: |
           npm i
-        working-directory: Web APP/frontend
+        working-directory: Web App/frontend
 
 
       - uses: reviewdog/action-eslint@v1
@@ -24,4 +24,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
           eslint_flags: 'src/'
-          workdir: Web APP/frontend/
+          workdir: Web App/frontend/
