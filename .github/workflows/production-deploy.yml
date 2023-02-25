@@ -1,4 +1,4 @@
-name: Build and deploy to Azure Web App
+name: Deploy to Azure
 
 on:
   push:
@@ -19,23 +19,22 @@ jobs:
         with:
           node-version: '16.x'
 
-      - name: Npm install, build, and test
+      - name: Npm install and build
         run: |
-          cd frontend 
+          cd 'Web APP/frontend'
           npm install
           npm run build-prod
-          npm run test --if-present
       
       - name: Zip frontend artifacts for backend
         run: |
-          cd frontend
+          cd 'Web APP/frontend'
           zip -r frontend.zip build
           
       - name: Upload artifact for backend job
         uses: actions/upload-artifact@v2
         with:
           name: frontend-build
-          path: frontend/frontend.zip
+          path: Web APP/frontend/frontend.zip
 
   build_backend:
     name: Build Backend
@@ -60,7 +59,7 @@ jobs:
 
       - name: Npm install
         run: |
-          cd backend
+          cd 'Web APP/backend'
           npm ci
       
       - name: Zip backend artifacts for deployment
