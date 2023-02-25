@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="">
-    <img src="https://raw.githubusercontent.com/TommyRiquet/PVonWeb/main/frontend/public/PVWlogo512.png" alt="Logo" width="260" height="260">
+    <img src="https://raw.githubusercontent.com/TommyRiquet/PVonWeb/main/Web%20APP/frontend/public/PVWlogo512.png" alt="Logo" width="260" height="260">
   </a>
 </div>
 
@@ -12,19 +12,19 @@
 
 <br />
 
-Bienvenue dans PVonWeb, votre solution pour la gestion des procès-verbaux en ligne !
+Welcome to PVonWeb, your solution for online minutes management!
 
-Notre application vous permet de créer, stocker et partager des procès-verbaux de manière efficace et sécurisée. Avec PVonWeb, vous pouvez également utiliser des outils de recherche avancés pour trouver des procès-verbaux spécifiques et accéder à des fonctionnalités de suivi pour suivre l'état d'avancement des procès-verbaux.
+Our application allows you to create, store, and share minutes efficiently and securely. With PVonWeb, you can also use advanced search tools to find specific minutes and access tracking features to monitor the progress of your minutes.
 
-Pour commencer à utiliser PVonWeb, vous devez d'abord vous inscrire et créer un compte. Une fois connecté, vous pourrez accéder à l'interface utilisateur où vous pourrez créer de nouveaux procès-verbaux en utilisant notre formulaire convivial. Vous pouvez également télécharger des procès-verbaux existants au format PDF ou Word.
+To get started with PVonWeb, you first need to register and create an account. Once logged in, you can access the user interface where you can create new minutes using our user-friendly form. You can also upload existing minutes in PDF or Word format.
 
-PVonWeb est un outil pratique et utile pour les organisations qui ont besoin de gérer des procès-verbaux de manière professionnelle et organisée. Nous espérons que vous apprécierez utiliser notre application ! Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter.
+PVonWeb is a convenient and useful tool for organizations that need to manage minutes in a professional and organized manner. We hope you enjoy using our application! If you have any questions or comments, please don't hesitate to contact us.
 
-PVonWeb est développé en utilisant les dernières technologies web, telles que React.js pour le front-end et Node.js pour le back-end. Nous avons également utilisé des bases de données MongoDB pour stocker les procès-verbaux et les informations utilisateur.
+PVonWeb is developed using the latest web technologies such as React.js for the front-end and Node.js for the back-end. We also used MongoDB databases to store minutes and user information.
 
-En ce qui concerne la sécurité, PVonWeb utilise des méthodes de chiffrement pour protéger les données sensibles et des mesures de sécurité pour protéger contre les attaques de type DDoS. Nous avons également mis en place une authentification à plusieurs facteurs pour renforcer la sécurité des comptes utilisateur.
+Regarding security, PVonWeb uses encryption methods to protect sensitive data and security measures to protect against DDoS attacks. We have also implemented multi-factor authentication to enhance the security of user accounts.
 
-N'hésitez pas à nous envoyer des pull requests si vous souhaitez contribuer au projet. Nous sommes également ouverts aux commentaires et aux suggestions pour améliorer PVonWeb.
+Feel free to send us pull requests if you would like to contribute to the project. We are also open to feedback and suggestions to improve PVonWeb.
 
 <!-- Statut -->
 ## Statut
@@ -37,14 +37,14 @@ N'hésitez pas à nous envoyer des pull requests si vous souhaitez contribuer au
 
 ## License
 
-Distribué sous la licence MIT. Voir `LICENSE.txt` pour plus d'informations.
+Distributed under the MIT license. See LICENSE.txt for more information.
 
 <!-- Contact -->
 ## Contact
 
 Tommy Riquet - tommy.riquet@hotmail.com
 
-Lien du Projet: https://github.com/TommyRiquet/PVonWeb
+Project Link: https://github.com/TommyRiquet/PVonWeb
 
 
 
