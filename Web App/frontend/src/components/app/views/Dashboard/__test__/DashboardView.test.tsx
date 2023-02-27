@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react'
-import Dashboard from '../Dashboard'
+import DashboardView from '../DashboardView'
 
 test('render Dashboard page', () => {
-	render(<Dashboard />)
+	render(<DashboardView />)
 
 	expect(true).toBe(true)
 })

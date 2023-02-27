@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react'
+import React, { FC } from 'react'
 
 import { Grid } from '@mui/material'
 
@@ -8,8 +8,6 @@ import Item from './Item'
 interface WidgetInterface {
 	children?: React.ReactNode
     title?: string
-    isInternal?: boolean
-    display?: () => boolean
     headerComponent?: React.ReactNode
     gridProps?: {
         xs?: number
@@ -22,23 +20,12 @@ interface WidgetInterface {
 }
 
 
-const Widget: FC<WidgetInterface> = ({title, isInternal, display, children, gridProps, headerComponent}) => {
-
-
-	const isVisible = useMemo(() => {
-		if (!!display && !display())
-			return false
-		return !isInternal
-	}, [isInternal])
-
-	if (!isVisible) {
-		return null
-	}
+const Widget: FC<WidgetInterface> = ({title, children, gridProps, headerComponent}) => {
 
 	return (
-		<Grid item {...gridProps}>
+		<Grid item {...gridProps} sx={{height: '100%'}}>
 			<Item variant='outlined' sx={{height: '100%', borderLeft: '2px solid'}}>
-				<WidgetHeader title={title} isInternal={isInternal}>{headerComponent}</WidgetHeader>
+				<WidgetHeader title={title} >{headerComponent}</WidgetHeader>
 				{children}
 			</Item>
 		</Grid>

@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useNavigate } from 'react-router-dom'
 import { Box, Typography, TextField, Button, Container } from '@mui/material'
 
 import { PasswordTextField } from 'components/common'
@@ -11,7 +10,6 @@ import theme from 'theme'
 
 function LoginScreen() {
 	const { login } = useAuth()
-	const navigate = useNavigate()
 	const [errorMessage, setErrorMessage] = React.useState('')
 
 	function handleSubmit(event: any) {
@@ -20,7 +18,7 @@ function LoginScreen() {
 			event.target.email.value,
 			event.target.password.value,
 			() => {
-				navigate('/dashboard')
+				window.location.reload()
 			},
 			() => {
 				setErrorMessage('Email ou mot de passe incorrect')
@@ -54,7 +52,7 @@ function LoginScreen() {
 						<TextField
 							label='Email'
 							variant='outlined'
-							sx={{ marginTop: '10px', minWidth: '50%' }}
+							sx={{ marginTop: '10px', minWidth: '54%' }}
 							id='email'
 						/>
 						<PasswordTextField

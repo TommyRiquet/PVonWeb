@@ -2,11 +2,11 @@
 
 // Import Components
 import { Routes, Route } from 'react-router-dom'
-import { Box } from '@mui/material'
 
 import { RequireAuth, RequireNotAuth } from 'contexts/AuthContext'
+import { AppContextProvider } from 'contexts/AppContext'
 
-import { AppRoutes, AppRoute } from './Routes'
+import { AppRoutes } from './Routes'
 import LoginScreen from './auth/Login/LoginScreen'
 import SignIn from './auth/SignIn/SignInScreen'
 import Main from './app/views/Main'
@@ -27,7 +27,9 @@ function App() {
 				<Route path='/'
 					element={
 						<RequireAuth>
-							<Main/>
+							<AppContextProvider>
+								<Main/>
+							</AppContextProvider>
 						</RequireAuth>
 					}
 				>
