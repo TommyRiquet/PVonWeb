@@ -37,8 +37,8 @@ router.post("/login", async (req, res) => {
               .status(200)
               .cookie("sessionId", sessionId, {
                 secure: true,
-                httpOnly: true,
-                SameSite: "none", // TODO: Change to "strict" when in production
+                httpOnly: false,  // TODO: Change to true when in production
+                SameSite: 'none', // TODO: Change to "strict" when in production
                 maxAge: 1000 * 60 * 60 * 4, //ms*sec*min*hours = 4 hours
                 signed: true
               })

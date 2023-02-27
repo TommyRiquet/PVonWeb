@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { useLocation, Navigate } from 'react-router-dom'
+import { useLocation, Navigate, useNavigate } from 'react-router-dom'
 import config from 'config.json'
 
 
@@ -19,7 +19,6 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 		const sessionCookie = document.cookie
 			.split('; ')
 			.find((row) => row.startsWith('sessionId='))
-
 		if (!sessionCookie) {
 			setAuthenticated(true)
 		} else {
@@ -27,16 +26,12 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 		}
 	}, [])
 
-	useEffect(() => {
-		console.log('authenticated', authenticated)
-	}, [authenticated])
-
 	const login = (email: string, password: string, onSuccess: (res: any) => any, onError: (err: any) => any) => {
 		fetch(config.API_URL + 'auth/login', {
 			method: 'POST',
+			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json',
-				credentials: 'include'
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
 				email: email,
@@ -44,6 +39,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 			})
 		}).then((res) => {
 			if (res.status === 200) {
+				setAuthenticated(true)
 				onSuccess(res)
 			} else {
 				onError(res)
@@ -79,7 +75,7 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 	const auth = useAuth()
 	const location = useLocation()
 
-	if (!auth.authenticated) {
+	if (auth.authenticated) {
 		return <Navigate to='/login' state={{ from: location }} replace />
 	}
 
@@ -94,7 +90,7 @@ export function RequireNotAuth({ children }: { children: JSX.Element }) {
 	const auth = useAuth()
 	const location = useLocation()
 
-	if (auth.authenticated) {
+	if (!auth.authenticated) {
 		return <Navigate to='/dashboard' state={{ from: location }} replace />
 	}
 
