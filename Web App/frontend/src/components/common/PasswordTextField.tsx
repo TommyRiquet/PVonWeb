@@ -11,6 +11,7 @@ const PasswordTextField = (props : any) => {
 		<TextField
 			{...props}
 			type={isPasswordVisible ? 'text' : 'password'}
+			sx={{ width: '100%'}}
 			InputProps={{
 				endAdornment: (
 					<InputAdornment position='end'>

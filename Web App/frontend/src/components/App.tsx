@@ -1,6 +1,7 @@
 // Description: This is the main component of the application. It is the parent of all other components.
 
 // Import Components
+import { Box } from '@mui/material'
 import { Routes, Route } from 'react-router-dom'
 
 import { RequireAuth, RequireNotAuth } from 'contexts/AuthContext'
@@ -9,12 +10,12 @@ import { AppContextProvider } from 'contexts/AppContext'
 import { AppRoutes } from './Routes'
 import LoginScreen from './auth/Login/LoginScreen'
 import SignIn from './auth/SignIn/SignInScreen'
-import Main from './app/views/Main'
+import Main from './app/views/MainScreen'
 
 function App() {
 
 	return (
-		<>
+		<Box height='100%'>
 			<Routes>
 				<Route
 					path='/login'
@@ -48,7 +49,7 @@ function App() {
 					}
 				</Route>
 			</Routes>
-		</>
+		</Box>
 	)
 }
 

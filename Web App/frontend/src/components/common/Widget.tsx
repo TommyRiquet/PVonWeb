@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 import { Grid } from '@mui/material'
 
@@ -23,7 +23,7 @@ interface WidgetInterface {
 const Widget: FC<WidgetInterface> = ({title, children, gridProps, headerComponent}) => {
 
 	return (
-		<Grid item {...gridProps} sx={{height: '100%'}}>
+		<Grid item {...gridProps}>
 			<Item variant='outlined' sx={{height: '100%', borderLeft: '2px solid'}}>
 				<WidgetHeader title={title} >{headerComponent}</WidgetHeader>
 				{children}

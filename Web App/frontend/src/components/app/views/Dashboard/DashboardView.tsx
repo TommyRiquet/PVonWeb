@@ -27,7 +27,7 @@ const DashboardView = () => {
 	const widgetArray = defaultLayout
 
 	return (
-		<Box flexGrow={1} height='100%'>
+		<Box flexGrow={1} padding={2}>
 			<ResponsiveReactGridLayout
 				verticalCompact={true}
 				preventCollision={false}

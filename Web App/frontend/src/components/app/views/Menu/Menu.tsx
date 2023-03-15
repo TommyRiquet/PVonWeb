@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 
+import { useNavigate } from 'react-router-dom'
 import { Box, List, Drawer } from '@mui/material'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import DescriptionIcon from '@mui/icons-material/Description'
@@ -11,40 +12,32 @@ import MenuItem from './MenuItem'
 
 import theme from 'theme'
 
+
 const MenuItems = [
 	{
 		text: 'Dashboard',
 		icon: <DashboardIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/dashboard'
+		link: '/dashboard',
 	},
 	{
 		text: 'Documents',
 		icon: <DescriptionIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/docs'
+		link: '/docs',
 	},
 	{
 		text: 'Teams',
 		icon: <GroupsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/teams'
-	}
-]
-const Settings = [
-	{
-		text: 'Settings',
-		icon: <SettingsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/settings'
-	},
-	{
-		text: 'Logout',
-		icon: <LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>
+		link: '/teams',
 	}
 ]
 
 
 
-const Menu = () => {
+const Menu : FC = () => {
 	const [hovered, setHovered] = useState(false)
-	const drawerWidth = hovered ? '300px' : '50px'
+	const openDrawerWidth = 300
+	const closedDrawerWidth = 50
+	const drawerWidth = hovered ? `${openDrawerWidth}px` : `${closedDrawerWidth}px`
 
 	const handleMouseEnter = () => {
 		setHovered(true)
@@ -60,8 +53,8 @@ const Menu = () => {
 			variant='permanent'
 			sx={{
 				width: drawerWidth,
-				flexShrink: 0,
-				height: '100%',
+				zIndex: 1,
+				position: 'absolute',
 				transition: 'width 0.2s',
 				'& .MuiDrawer-paper': {
 					background: 'linear-gradient(90deg, '+theme.palette.primary.light+' 0%, '+ theme.palette.primary.dark + ' 100%)',
@@ -82,31 +75,18 @@ const Menu = () => {
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
 			>
-				<List
-					component='nav'
-					sx={{
-						width: '100%'
-					}}
-				>
+				<List component='nav' sx={{ width: '100%' }}>
 
 					{
 						MenuItems.map((item) => (
-							<MenuItem key={item.text} text={item.text} link={item.link} icon={item.icon}/>
+							<MenuItem key={item.text} text={item.text} icon={item.icon} link={item.link}/>
 						))
 					}
 
 				</List>
-				<List
-					component='nav'
-					sx={{
-						width: '100%'
-					}}
-				>
-					{
-						Settings.map((item) => (
-							<MenuItem key={item.text} text={item.text} link={item.link} icon={item.icon}/>
-						))
-					}
+				<List component='nav' sx={{ width: '100%'}}>
+					<MenuItem key={'settings'} text={'Settings'} icon={<SettingsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} link={'/settings'}/>
+					<MenuItem key={'deconnection'} text={'Deconnection'} icon={<LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} event={() => document.cookie.split(';').forEach(function(c) {document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')})}/>
 				</List>
 			</Box>
 		</Drawer>

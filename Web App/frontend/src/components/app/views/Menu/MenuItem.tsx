@@ -1,26 +1,29 @@
 import { FC } from 'react'
 
 import { useNavigate } from 'react-router-dom'
-
 import { ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 
 interface MenuItemProps {
 	children?: React.ReactNode
 	icon: JSX.Element
 	text: string
-	link: string | undefined
+	link?: string
+	justifyContent?: 'flex-start' | 'flex-end'
+	event?: () => void
 }
 
 
-const MenuItem: FC<MenuItemProps> = ({ icon, text, link }) => {
+const MenuItem: FC<MenuItemProps> = ({ icon, text, link, event }) => {
 	const navigate = useNavigate()
 
 	return (
 		<ListItemButton
 			onClick={
-				link? () => navigate(link) : () => {null}
+				link? () => navigate(link) :
+					event? () => event : () => {null}
 			}
 			sx={{
+				justifySelf: 'flex-end',
 				justifyContent: 'center',
 				alignItems: 'center',
 				padding: '18px',

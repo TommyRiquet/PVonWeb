@@ -1,68 +1,51 @@
-// This is the entry point for the backend
-
-import exp from "constants";
-
-// Importing the modules
-const http = require("http");
-require("dotenv").config();
-const PORT = process.env.PORT || 3001;
-
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const express = require("express");
+const Sequelize = require('sequelize');
+import config from "./config/config";
+
+const sequelize = new Sequelize(
+  config.development.database,
+  config.development.username,
+  config.development.password,
+  {
+    host: config.development.host,
+    dialect: config.development.dialect as any,
+    logging: config.development.logging
+  }
+);
+
 const app = express();
 
-//connexion to db
-const db = require("./database/db");
-db.connect();
-
-const server = http.createServer(app);
-const socketIO = require("socket.io");
-const cors = require("cors");
-const path = require("path");
-
-var cookieParser = require("cookie-parser");
-app.use(
-  cookieParser(
-    process.env.COOKIES_SECRET_KEY
-  )
-);
-app.use(express.urlencoded({ extended: true }));
+// Middleware
 app.use(cors(
   {
-    origin: "http://localhost:3000",
+    origin: 'http://localhost:3000',
     credentials: true,
   }
 ));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Socket.io
-const io = socketIO(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-  path: "/api/socket.io",
-});
 
-io.on("connection", (socket: any) => {
-  console.log("client connected: ", socket.id);
+// Routes
+import userRouter from './routes/userRoutes';
+import authRouter from './routes/authRoutes';
 
-  socket.on("disconnect", (reason: String) => {
-    console.log(reason + ": ", socket.id);
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+
+// Start server
+const PORT = process.env.PORT || 3001;
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection to the database has been established successfully.");
+    app.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}.`);
+    });
+  })
+  .catch((error: Error) => {
+    console.error("Unable to connect to the database:", error);
   });
-});
-
-app.use(express.json());
-
-const auth = require("./routes/auth");
-app.use("/api/auth", auth);
-
-// Path: frontend\src\index.tsx
-// This is the entry point for the frontend
-app.use(express.static(__dirname + "/build"));
-app.get("/*", (_, res) => {
-  res.sendFile(path.join(__dirname + "/build/index.html"));
-});
-
-server.listen(PORT, (err: any) => {
-  if (err) console.log(err);
-  console.log("Server running on Port ", PORT);
-});

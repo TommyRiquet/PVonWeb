@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports = {
 	'env': {
 		'browser': true,
@@ -52,6 +53,7 @@ module.exports = {
 		'jsx-quotes': ['error', 'prefer-single'],
 		'key-spacing': 'error',
 		'no-trailing-spaces': 'error',
-		'no-extra-semi': 'off'
+		'no-extra-semi': 'off',
+		'eol-last': ['error', 'always']
 	}
 }

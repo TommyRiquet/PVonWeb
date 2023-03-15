@@ -1,7 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
 html, body, #root {
     height: 100%;
+    width: 100%;
     margin: 0;
-    font-family: Poppins;
 }

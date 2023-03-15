@@ -1,4 +1,4 @@
-declare module '*.png' {
+declare module '*.ttf' {
 	const value: any
 	export = value
-  }
+}
