@@ -2,6 +2,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const express = require("express");
 const Sequelize = require('sequelize');
+const path = require("path");
 import config from "./config/config";
 
 const sequelize = new Sequelize(
@@ -34,6 +35,12 @@ import authRouter from './routes/authRoutes';
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+
+
+app.use(express.static(__dirname + "/build"));
+app.get("/*", (_, res) => {
+  res.sendFile(path.join(__dirname + "/build/index.html"));
+});
 
 // Start server
 const PORT = process.env.PORT || 3001;
