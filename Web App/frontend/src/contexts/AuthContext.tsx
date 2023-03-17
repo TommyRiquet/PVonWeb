@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { useLocation, Navigate } from 'react-router-dom'
 
@@ -9,22 +9,17 @@ interface AuthContextType {
 	authenticated: boolean
 	token: string
     login: (email: string, password: string, onSuccess: (res: any) => any, onError: (err: any) => any) => void
-    logout: (onSuccess: (res: any) => any, onError: (err: any) => any) => void
+    logout: () => void
 }
 
 const AuthContext = React.createContext<AuthContextType>(null!)
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
-	const [authenticated, setAuthenticated] = useState(false)
 	const [ token, setToken ] = useState<any>(()=>{
-		document.cookie.split(';').forEach((cookie)=>{
-			if(cookie.trim().startsWith('token=')){
-				setAuthenticated(true)
-				return cookie.trim().split('=')[1]
-			}
-			return ''
-		})
+		const tokenLocalStorage = localStorage.getItem('token')
+		return tokenLocalStorage || ''
 	})
+	const [authenticated, setAuthenticated] = useState(token !== '')
 
 
 	const login = (email: string, password: string, onSuccess: (res: any) => any, onError: (err: any) => any) => {
@@ -40,27 +35,22 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 			})
 		}).then((res) => {
 			if (res.status === 200) {
-				setAuthenticated(true)
-				onSuccess(res)
+				res.json().then((res) => {
+					setToken(res.token)
+					localStorage.setItem('token', res.token)
+					setAuthenticated(true)
+					onSuccess(res)
+				})
 			} else {
 				onError(res)
 			}
 		})
 	}
 
-	const logout = (onSuccess: (res: any) => any, onError: (err: any) => any) => {
-		fetch(config.API_URL + 'auth/logout', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).then((res) => {
-			if (res.status === 200) {
-				onSuccess(res)
-			} else {
-				onError(res)
-			}
-		})
+	const logout = () => {
+		setToken('')
+		localStorage.removeItem('token')
+		setAuthenticated(false)
 	}
 
 

@@ -1,18 +1,20 @@
-import { Sequelize } from "sequelize";
-const config = require('./config')
+import "reflect-metadata"
+import { DataSource } from "typeorm"
+import { User } from "../models/User"
+import config from "./config"
 
-const ENV = process.env.NODE_ENV || 'development';
+const dbConfig = process.env.NODE_ENV === "production" ? config.production : config.development;
 
-const sequelize = new Sequelize(
-  config.default[ENV].database,
-  config.default[ENV].username,
-  config.default[ENV].password,
-  {
-    host: config.default[ENV].host,
-    port: config.default[ENV].port,
-    dialect: config.default[ENV].dialect,
+const AppDataSource = new DataSource({
+    type: "mysql",
+    host: dbConfig.host,
+    port: 3306,
+    username: dbConfig.username,
+    password: dbConfig.password,
+    database: dbConfig.database,
+    entities: [User],
+    synchronize: true,
     logging: false,
-  }
-);
+})
 
-export { sequelize };
+export { AppDataSource };

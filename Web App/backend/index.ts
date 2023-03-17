@@ -1,20 +1,8 @@
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const express = require("express");
-const Sequelize = require('sequelize');
 const path = require("path");
-import config from "./config/config";
-
-const sequelize = new Sequelize(
-  config.development.database,
-  config.development.username,
-  config.development.password,
-  {
-    host: config.development.host,
-    dialect: config.development.dialect as any,
-    logging: config.development.logging
-  }
-);
+import { AppDataSource } from "./config/database";
 
 const app = express();
 
@@ -45,14 +33,11 @@ app.get("/*", (_, res) => {
 // Start server
 const PORT = process.env.PORT || 3001;
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection to the database has been established successfully.");
-    app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}.`);
-    });
-  })
-  .catch((error: Error) => {
-    console.error("Unable to connect to the database:", error);
-  });
+AppDataSource.initialize()
+    .then(() => {
+        console.log("Connection to the database has been established successfully.");
+        app.listen(PORT, () => {
+          console.log(`Server listening on port ${PORT}.`);
+        });
+    })
+    .catch((error) => console.log(error))
