@@ -16,12 +16,17 @@ interface MenuItemProps {
 const MenuItem: FC<MenuItemProps> = ({ icon, text, link, event }) => {
 	const navigate = useNavigate()
 
+	const handleClick = () => {
+		if (link) {
+			navigate(link)
+		} else if (event) {
+			event()
+		}
+	}
+
 	return (
 		<ListItemButton
-			onClick={
-				link? () => navigate(link) :
-					event? () => event : () => {null}
-			}
+			onClick={handleClick}
 			sx={{
 				justifySelf: 'flex-end',
 				justifyContent: 'center',

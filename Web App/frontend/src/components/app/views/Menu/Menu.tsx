@@ -1,6 +1,5 @@
 import { FC, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom'
 import { Box, List, Drawer } from '@mui/material'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import DescriptionIcon from '@mui/icons-material/Description'
@@ -9,6 +8,8 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import LogoutIcon from '@mui/icons-material/Logout'
 
 import MenuItem from './MenuItem'
+
+import { useAuth } from 'contexts/AuthContext'
 
 import theme from 'theme'
 
@@ -35,6 +36,8 @@ const MenuItems = [
 
 const Menu : FC = () => {
 	const [hovered, setHovered] = useState(false)
+	const { logout } = useAuth()
+
 	const openDrawerWidth = 300
 	const closedDrawerWidth = 50
 	const drawerWidth = hovered ? `${openDrawerWidth}px` : `${closedDrawerWidth}px`
@@ -86,7 +89,7 @@ const Menu : FC = () => {
 				</List>
 				<List component='nav' sx={{ width: '100%'}}>
 					<MenuItem key={'settings'} text={'Settings'} icon={<SettingsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} link={'/settings'}/>
-					<MenuItem key={'deconnection'} text={'Deconnection'} icon={<LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} event={() => document.cookie.split(';').forEach(function(c) {document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')})}/>
+					<MenuItem key={'deconnection'} text={'Deconnection'} icon={<LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} event={() => logout()}/>
 				</List>
 			</Box>
 		</Drawer>
