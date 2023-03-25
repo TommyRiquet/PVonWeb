@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="">
-    <img src="https://raw.githubusercontent.com/TommyRiquet/PVonWeb/main/Web%20APP/frontend/public/PVWlogo512.png" alt="Logo" width="260" height="260">
+    <img src="https://raw.githubusercontent.com/TommyRiquet/PVonWeb/main/Web%20App/frontend/public/PVWlogo512.png" alt="Logo" width="260" height="260">
   </a>
 </div>
 
