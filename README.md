@@ -31,7 +31,6 @@ Feel free to send us pull requests if you would like to contribute to the projec
 ### Statistiques : [![Issues][issues-shield]][issues-url]  
 ### Conventions : [![Commit Message Check][commit-message-checker-shield]][commit-message-checker-url][![Eslint Checker][eslint-checker-shield]][eslint-checker-url]  
 ### Tests : [![Testing][testing-shield]][testing-url]  
-### Déploiment : [![Deploy][deploy-shield]][deploy-url] 
 
 <!-- LICENSE -->
 
@@ -60,5 +59,3 @@ Project Link: https://github.com/TommyRiquet/PVonWeb
 [eslint-checker-url]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/code-linter.yml
 [testing-shield]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/code-test.yml/badge.svg
 [testing-url]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/code-test.yml
-[deploy-shield]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/main_pvonweb.yml/badge.svg
-[deploy-url]: https://github.com/TommyRiquet/PVonWeb/actions/workflows/main_pvonweb.yml
