@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Environment } from './Environment';
 
 @Entity()
 export class User {
@@ -19,5 +20,9 @@ export class User {
 
   @Column()
   phoneNumber: string;
+
+
+  @ManyToOne(type => Environment, environment => environment.user)
+  environments: Environment;
   
 }
