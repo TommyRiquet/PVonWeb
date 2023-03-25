@@ -1,6 +1,8 @@
 import Error from './app/views/Error/Error'
 import DashboardView from './app/views/Dashboard/DashboardView'
 import TeamView from './app/views/Team/TeamView'
+import TranscriptView from './app/views/Transcript/TranscriptView'
+import SettingsView from './app/views/Settings/SettingsView'
 
 export interface MenuRoute {
     menuKey: string
@@ -22,8 +24,18 @@ const AppRoutes = [
 		exact: true
 	},
 	{
-		path: '/teams',
+		path: '/team',
 		view: <TeamView/>,
+		exact: true
+	},
+	{
+		path: '/transcript',
+		view: <TranscriptView/>,
+		exact: true
+	},
+	{
+		path: '/settings',
+		view: <SettingsView/>,
 		exact: true
 	},
 	{

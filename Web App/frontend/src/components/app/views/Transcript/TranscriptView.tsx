@@ -5,19 +5,19 @@ import { Box, Typography } from '@mui/material'
 import { TabsBox } from 'components/common'
 
 
-const TeamView: React.FC = () => {
+
+const TranscriptView: React.FC = () => {
 
 	const TabDataList = useMemo(() => [
-		{label: 'Members', content: <Box>Team</Box>, tab: 'members'},
-		{label: 'Roles', content: <Box>Roles</Box>, tab: 'roles'}
+		{label: 'Transcript', content: <Box>Transcript</Box>, tab: 'transcript'},
 	], [])
 
 	return (
 		<Box display='flex' flexDirection='column' width='100%'>
-			<Typography variant='h4'>Team</Typography>
+			<Typography variant='h4'>Transcript</Typography>
 			<TabsBox tabDataList={TabDataList}/>
 		</Box>
 	)
 }
 
-export default TeamView
+export default TranscriptView

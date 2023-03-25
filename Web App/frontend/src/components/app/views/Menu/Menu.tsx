@@ -11,6 +11,8 @@ import MenuItem from './MenuItem'
 
 import { useAuth } from 'contexts/AuthContext'
 
+import logo from 'static/images/logo-white.png'
+
 import theme from 'theme'
 
 
@@ -23,12 +25,12 @@ const MenuItems = [
 	{
 		text: 'Documents',
 		icon: <DescriptionIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/docs',
+		link: '/transcript',
 	},
 	{
 		text: 'Teams',
 		icon: <GroupsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/teams',
+		link: '/team',
 	}
 ]
 
@@ -79,6 +81,9 @@ const Menu : FC = () => {
 				onMouseLeave={handleMouseLeave}
 			>
 				<List component='nav' sx={{ width: '100%' }}>
+					<Box sx={{width: '100%', height: '10vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+						<img src={logo} alt='logo' style={{ position: 'static', width: '10vh', transition: 'all 0.2s ease-in-out', padding: hovered ? '0': '20px'}}/>
+					</Box>
 
 					{
 						MenuItems.map((item) => (
