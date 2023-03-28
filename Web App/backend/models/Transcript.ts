@@ -3,16 +3,28 @@ import { Environment } from './Environment';
 
 @Entity()
 export class Transcript {
-  @PrimaryGeneratedColumn()
-  id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-  @Column()
-  name: string;
+	@Column()
+	companyName: string;
 
-  @Column()
-  data: string;
+	@Column()
+	adminName: string;
 
-  @ManyToOne(type => Environment, environment => environment.user)
-  environment: Environment;
+	@Column()
+	secretaryName: string;
+
+	@Column()
+	scrutineerName: string;
+
+	@Column()
+	shareHolders: Array<string>;
+
+	@Column()
+	occurenceDate: string;
+
+	@ManyToOne(type => Environment, environment => environment.user)
+	environment: Environment;
   
 }
