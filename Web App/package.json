@@ -1,0 +1,13 @@
+{
+	"name": "pvonweb",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"client": "cd frontend && npm start",
+		"server": "cd backend && npm run devStart",
+		"start": "concurrently \"npm run server\" \"npm run client\""
+	},
+	"dependencies": {
+		"concurrently": "^7.6.0"
+	}
+}
