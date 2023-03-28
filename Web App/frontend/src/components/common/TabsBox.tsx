@@ -40,15 +40,15 @@ function TabPanel({ children, value, index, ...other }: TabPanelProps) {
 
 
 const TabsBox :FC<TopTabsProps> = ({tabDataList}) => {
-	const [value, setValue] = useState<number>(0)
+	const [selectedTab, setSelectedTab] = useState<number>(0)
 
-	const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-		setValue(newValue)
+	const handleChange = (_: React.SyntheticEvent, newTab: number) => {
+		setSelectedTab(newTab)
 	}
 
 	return (
 		<Box display='flex' flexDirection='column' width='100%' height='100%'>
-			<Tabs value={value} onChange={handleChange} sx={{ ml: '2rem' }} textColor='secondary' TabIndicatorProps={{style: {display: 'none'}}}>
+			<Tabs value={selectedTab} onChange={handleChange} sx={{ ml: '2rem', height: '3rem' }} textColor='secondary' TabIndicatorProps={{style: {display: 'none'}}}>
 				{
 					tabDataList.map((tabData, idx) => {
 						return (
@@ -58,10 +58,12 @@ const TabsBox :FC<TopTabsProps> = ({tabDataList}) => {
 								}
 								key={tabData.tab}
 								sx={{
+									height: selectedTab === idx ? '3.2rem' : '3rem',
 									mx: 1,
+									alignSelf: 'end',
 									color: 'white',
 									transition: 'all 0.3s ease-in-out',
-									backgroundColor: value === idx ? 'primary.dark': 'primary.main',
+									backgroundColor: selectedTab === idx ? 'primary.dark': 'primary.main',
 									borderWidth: '1px 1px 0 1px',
 									borderStyle: 'solid',
 									borderColor: 'whitesmoke',
@@ -73,7 +75,7 @@ const TabsBox :FC<TopTabsProps> = ({tabDataList}) => {
 			</Tabs>
 			<Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='100%' borderRadius={2} sx={{backgroundColor: 'whitesmoke'}}>
 				{tabDataList.map((tabData, idx) => (
-					<TabPanel value={value} index={idx} key={tabData.tab}>
+					<TabPanel value={selectedTab} index={idx} key={tabData.tab}>
 						{tabData.content}
 					</TabPanel>
 				))}
