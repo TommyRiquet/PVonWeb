@@ -27,6 +27,7 @@ function TabPanel({ children, value, index, ...other }: TabPanelProps) {
 			role='tabpanel'
 			hidden={value !== index}
 			id={`simple-tabpanel-${index}`}
+			sx={{width: '100%', height: '100%', p: 3}}
 			{...other}
 		>
 			{value === index && (
