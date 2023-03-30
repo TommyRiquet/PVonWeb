@@ -20,7 +20,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: ${{github.workspace}}/Web App/frontend/package-lock.json
 
-    - run: npm ci
+    - run: npm ci --legacy-peer-deps
       working-directory: Web App/frontend/
 
     - run: npm test
@@ -53,7 +53,7 @@ jobs:
         cache-dependency-path: ${{github.workspace}}/Web App/backend/package-lock.json
 
     - name: Installing dependencies
-      run: npm ci
+      run: npm ci --legacy-peer-deps
       working-directory: Web App/backend/
 
     - run: npm test --if-present #--if-present to delete
