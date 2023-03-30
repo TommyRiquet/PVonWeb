@@ -21,7 +21,7 @@ function LoginScreen() {
 				//window.location.reload()
 			},
 			() => {
-				setErrorMessage('Email ou mot de passe incorrect')
+				setErrorMessage('Wrong Credentials')
 			}
 		)
 	}
