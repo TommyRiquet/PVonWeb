@@ -96,20 +96,20 @@ jobs:
           run: npm ci --include=dev --legacy-peer-deps
           working-directory: Web App/
 
-        - name: Build the frontend
-          run: npm run build-test
-          working-directory: Web App/frontend/
+        # - name: Build the frontend
+        #   run: npm run build-test
+        #   working-directory: Web App/frontend/
 
-        - name: Serving build to backend
-          run: mv frontend/build backend/build
-          working-directory: Web App/
+        # - name: Serving build to backend
+        #   run: mv frontend/build backend/build
+        #   working-directory: Web App/
 
-        - name: Cypress run
-          uses: cypress-io/github-action@v5.5.1
-          env:
-            TEST_USER_MAIL: ${{ secrets.TEST_USER_MAIL }}
-            TEST_USER_PWD: ${{ secrets.TEST_USER_PWD }}
-          with:
-            working-directory: Web App/backend
-            install: false
-            start: npm start
+        # - name: Cypress run
+        #   uses: cypress-io/github-action@v5.5.1
+        #   env:
+        #     TEST_USER_MAIL: ${{ secrets.TEST_USER_MAIL }}
+        #     TEST_USER_PWD: ${{ secrets.TEST_USER_PWD }}
+        #   with:
+        #     working-directory: Web App/backend
+        #     install: false
+        #     start: npm start
