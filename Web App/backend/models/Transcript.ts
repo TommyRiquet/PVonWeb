@@ -19,7 +19,7 @@ export class Transcript {
 	scrutineerName: string;
 
 	@Column()
-	shareHolders: Array<string>;
+	shareHolders: string;
 
 	@Column()
 	occurenceDate: string;
