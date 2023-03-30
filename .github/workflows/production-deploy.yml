@@ -21,15 +21,16 @@ jobs:
 
       - name: Npm install and build
         run: |
-          cd 'Web App/frontend'
-          npm install
+          npm ci --legacy-peer-deps
           npm run build-prod
+        working-directory: Web App/frontend/
+
       
       - name: Zip frontend artifacts for backend
         run: |
-          cd 'Web App/frontend'
           zip -r frontend.zip build
-          
+        working-directory: Web App/frontend/
+
       - name: Upload artifact for backend job
         uses: actions/upload-artifact@v2
         with:
@@ -58,13 +59,11 @@ jobs:
         run: unzip frontend.zip -d backend
 
       - name: Npm install
-        run: |
-          cd 'Web App/backend'
-          npm ci
-      
+        run: npm ci
+        working-directory: Web App/backend/
+
       - name: Zip backend artifacts for deployment
-        run: |
-          zip -r release.zip backend
+        run: zip -r release.zip backend
           
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2

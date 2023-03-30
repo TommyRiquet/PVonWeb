@@ -6,7 +6,6 @@ import { AppContextProvider } from 'contexts/AppContext'
 
 import { AppRoutes } from './Routes'
 import LoginScreen from './auth/Login/LoginScreen'
-import SignIn from './auth/SignIn/SignInScreen'
 import Main from './app/views/MainScreen'
 
 function App() {
@@ -17,10 +16,6 @@ function App() {
 				<Route
 					path='/login'
 					element={<RequireNotAuth><LoginScreen/></RequireNotAuth>}
-				/>
-				<Route
-					path='/signin'
-					element={<RequireNotAuth><SignIn/></RequireNotAuth>}
 				/>
 				<Route path='/'
 					element={
