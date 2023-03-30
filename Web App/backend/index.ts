@@ -1,8 +1,8 @@
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const express = require("express");
-const path = require("path");
-import { AppDataSource } from "./config/database";
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const express = require("express")
+const path = require("path")
+const { AppDataSource } = require("./config/database")
 
 const app = express();
 
@@ -41,3 +41,5 @@ AppDataSource.initialize()
         });
     })
     .catch((error) => console.log(error))
+
+module.exports = app

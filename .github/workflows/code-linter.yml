@@ -6,7 +6,7 @@ on:
 
 jobs:
   eslint:
-    name: Runner
+    name: Eslint
     runs-on: ubuntu-latest
     permissions:
       contents: read

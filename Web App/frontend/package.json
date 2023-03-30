@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "start": "node generateConfig.mjs --dev && react-scripts start",
-    "build-prod": "node generateConfig.mjs --prod && react-scripts build",
+    "build-dev": "node generateConfig.mjs --dev && react-scripts build",
+    "build-test": "node generateConfig.mjs --test && react-scripts build",
     "build-staging": "node generateConfig.mjs --staging && react-scripts build",
+    "build-prod": "node generateConfig.mjs --prod && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test-e2e": "cypress run",
+    "global-start": "cd ../ && npm start"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -27,6 +30,7 @@
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.5.4",
+    "typescript": "^5.0.2",
     "web-vitals": "^2.1.4",
     "yup": "^1.0.0"
   },
@@ -49,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^12.9.0",
     "eslint": "^8.33.0"
   }
 }
