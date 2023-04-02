@@ -1,4 +1,4 @@
-name: Deploy to Azure
+name: Production Deploy
 
 on:
   push:
@@ -7,93 +7,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_frontend:
-    name: Build Frontend
-    runs-on: ubuntu-latest
+    frontend-deploy:
+      runs-on: ubuntu-latest
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      steps:
+          - uses: actions/checkout@v3
 
-    steps:
-      - uses: actions/checkout@v2
+          - name: Install dependencies
+            run: npm ci --legacy-peer-deps
+            working-directory: Web App/frontend/
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16.x'
+          - name: Build
+            run: npm run build-prod
+            working-directory: Web App/frontend/
 
-      - name: Npm install and build
-        run: |
-          npm ci --legacy-peer-deps
-          npm run build-prod
-        working-directory: Web App/frontend/
-
-      
-      - name: Zip frontend artifacts for backend
-        run: |
-          zip -r frontend.zip build
-        working-directory: Web App/frontend/
-
-      - name: Upload artifact for backend job
-        uses: actions/upload-artifact@v2
-        with:
-          name: frontend-build
-          path: Web App/frontend/frontend.zip
-
-  build_backend:
-    name: Build Backend
-    runs-on: ubuntu-latest
-    needs: build_frontend
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16.x'
-
-      - name: Download artifact from frontend job
-        uses: actions/download-artifact@v2
-        with:
-          name: frontend-build
-
-      - name: Unzip frontend artifact for merging
-        run: unzip frontend.zip -d backend
-
-      - name: Npm install
-        run: npm ci
-        working-directory: Web App/backend/
-
-      - name: Zip backend artifacts for deployment
-        run: zip -r release.zip backend
-          
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-package
-          path: release.zip
-
-  deploy:
-    name: Deploy to Azure
-    runs-on: ubuntu-latest
-    needs: build_backend
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: app-package
-
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'PVonWeb'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6F6FAC144BCA4A3F8897AAF93371E678 }}
-          package: backend/
+          - name: Deploy
+            uses: reggionick/s3-deploy@v3
+            with:
+              folder: Web App/frontend/build
+              bucket: ${{ secrets.S3_BUCKET }}
+              bucket-region: ${{ secrets.S3_BUCKET_REGION }}
+              dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+              invalidation: /
+              delete-removed: true
+              no-cache: true
+              private: true
+              files-to-include: ".*/*,*/*,**"
