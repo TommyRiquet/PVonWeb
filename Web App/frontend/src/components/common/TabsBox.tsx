@@ -10,7 +10,7 @@ interface TabPanelProps {
 }
 
 export interface TabData {
-	label: string
+	label: string | JSX.Element
 	content: React.ReactNode
 	tab: string
   }
