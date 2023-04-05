@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import { ListView } from 'components/common'
 
 
@@ -78,7 +78,9 @@ const TranscriptListView: React.FC = () => {
 					<TextField label='Search' size='small'/>
 				</Box>
 				<Box>
-					<Button variant='contained' color='primary' onClick={() => console.log('/transcript/create')}>Create</Button>
+					<Button variant='contained' color='primary' onClick={() => console.log('/transcript/create')}>
+						<Typography fontWeight='bold' >Create</Typography>
+					</Button>
 				</Box>
 			</Box>
 
