@@ -27,7 +27,7 @@ function TabPanel({ children, value, index, ...other }: TabPanelProps) {
 			role='tabpanel'
 			hidden={value !== index}
 			id={`simple-tabpanel-${index}`}
-			sx={{width: '100%', height: '100%', p: 3}}
+			sx={{width: '100%', height: '100%', padding: 3}}
 			{...other}
 		>
 			{value === index && (
@@ -55,12 +55,12 @@ const TabsBox :FC<TopTabsProps> = ({tabDataList}) => {
 						return (
 							<Tab
 								label={
-									<Typography>{tabData.label}</Typography>
+									<Typography fontWeight='bold'>{tabData.label}</Typography>
 								}
 								key={tabData.tab}
 								sx={{
 									height: selectedTab === idx ? '3.2rem' : '3rem',
-									mx: 1,
+									marginX: 1,
 									alignSelf: 'end',
 									color: 'white',
 									transition: 'all 0.3s ease-in-out',
