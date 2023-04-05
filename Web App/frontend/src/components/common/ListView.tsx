@@ -23,6 +23,23 @@ const ListView: FC<ListViewI> = ({rows, columns}) => {
 			columns={columns}
 			disableSelectionOnClick
 			hideFooter
+			disableColumnMenu
+			sx={{
+				border: '0px solid #000000',
+				color: theme => theme.palette.primary.main,
+				'& .MuiDataGrid-row': {
+					cursor: 'pointer',
+				},
+				'& .MuiDataGrid-columnHeader': {
+					border: '0px solid transparent',
+				},
+				'& .MuiDataGrid-columnSeparator': {
+					display: 'none',
+				},
+				'& .MuiDataGrid-columnHeaderTitle': {
+					fontWeight: 'bold',
+				}
+			}}
 		/>
 
 	)
