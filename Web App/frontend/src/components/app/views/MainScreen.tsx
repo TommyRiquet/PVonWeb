@@ -10,7 +10,7 @@ const MainScreen = () => {
 	return (
 		<Box display='flex' height='100%'>
 			<Menu/>
-			<Box display='flex' width='100%' ml={`${closedDrawerWidth}px`} p={5}>
+			<Box display='flex' width='100%' ml={`${closedDrawerWidth}px`} paddingX={5} paddingY={7}>
 				<Outlet/>
 			</Box>
 		</Box>
