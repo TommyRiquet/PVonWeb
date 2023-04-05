@@ -58,7 +58,7 @@ const Menu : FC = () => {
 			variant='permanent'
 			sx={{
 				width: drawerWidth,
-				zIndex: 1,
+				zIndex: 1000,
 				position: 'absolute',
 				transition: 'width 0.2s',
 				'& .MuiDrawer-paper': {
