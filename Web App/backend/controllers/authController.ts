@@ -1,6 +1,6 @@
 //const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
-import { User } from '../models/User'
+import { User } from '../entity'
 import { AppDataSource } from '../config/database'
 import { Request, Response } from 'express'
 
