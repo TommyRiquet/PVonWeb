@@ -1,15 +1,21 @@
+import { useMemo, useState } from 'react'
+
 import { Box, Typography, Button, Tooltip, TextField } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import EditIcon from '@mui/icons-material/Edit'
 
 import { ListView } from 'components/common'
 
+import { useTeamAPI } from 'services/teams.services'
+
+
 const columns = [
 	{
 		field: 'name',
 		headerName: 'Name',
 		hideable: false,
-		flex: 1
+		flex: 1,
+		valueGetter: (params: any) => `${params.row.firstName} ${params.row.lastName}`
 	},
 	{
 		field: 'email',
@@ -80,6 +86,13 @@ const rows = [
 
 const TeamMembersListView: React.FC = () => {
 
+	const { getListMembers } = useTeamAPI()
+
+	const [listMembers, setListMembers] = useState<Array<any>>([])
+
+	useMemo(() => {
+		getListMembers().then(res => setListMembers(res))
+	}, [])
 
 	return (
 		<Box display='flex' flexDirection='column' width='100%' paddingX={5}>
@@ -93,7 +106,7 @@ const TeamMembersListView: React.FC = () => {
 					</Button>
 				</Box>
 			</Box>
-			<ListView columns={columns} rows={rows}/>
+			<ListView columns={columns} rows={listMembers}/>
 		</Box>
 	)
 }
