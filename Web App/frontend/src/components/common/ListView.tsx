@@ -38,6 +38,9 @@ const ListView: FC<ListViewI> = ({rows, columns}) => {
 				},
 				'& .MuiDataGrid-columnHeaderTitle': {
 					fontWeight: 'bold',
+				},
+				'& .MuiDataGrid-cell:focus': {
+					outline: 0,
 				}
 			}}
 		/>
