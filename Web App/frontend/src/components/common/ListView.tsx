@@ -28,19 +28,19 @@ const ListView: FC<ListViewI> = ({rows, columns}) => {
 				border: '0px solid #000000',
 				color: theme => theme.palette.primary.main,
 				'& .MuiDataGrid-row': {
-					cursor: 'pointer',
+					cursor: 'pointer'
 				},
 				'& .MuiDataGrid-columnHeader': {
-					border: '0px solid transparent',
+					border: '0px solid transparent'
 				},
 				'& .MuiDataGrid-columnSeparator': {
-					display: 'none',
+					display: 'none'
 				},
 				'& .MuiDataGrid-columnHeaderTitle': {
-					fontWeight: 'bold',
+					fontWeight: 'bold'
 				},
 				'& .MuiDataGrid-cell:focus': {
-					outline: 0,
+					outline: 0
 				}
 			}}
 		/>

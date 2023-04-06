@@ -10,7 +10,7 @@ import { TabsBox } from 'components/common'
 const TranscriptView: React.FC = () => {
 
 	const TabDataList = useMemo(() => [
-		{label: 'Transcript', content: <TranscriptListView/>, tab: 'transcript'},
+		{label: 'Transcript', content: <TranscriptListView/>, tab: 'transcript'}
 	], [])
 
 	return (

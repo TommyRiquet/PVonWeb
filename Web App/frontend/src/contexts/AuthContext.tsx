@@ -15,7 +15,7 @@ interface AuthContextType {
 const AuthContext = React.createContext<AuthContextType>(null!)
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
-	const [ token, setToken ] = useState<any>(()=>{
+	const [ token, setToken ] = useState<any>(() => {
 		const tokenLocalStorage = localStorage.getItem('token')
 		return tokenLocalStorage || ''
 	})

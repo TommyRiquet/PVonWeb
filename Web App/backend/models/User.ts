@@ -1,28 +1,28 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Environment } from './Environment';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
+import { Environment } from './Environment'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  firstName: string;
+  firstName: string
 
   @Column()
-  lastName: string;
+  lastName: string
 
   @Column()
-  email: string;
+  email: string
 
   @Column()
-  password: string;
+  password: string
 
   @Column()
-  phoneNumber: string;
+  phoneNumber: string
 
 
   @ManyToOne(type => Environment, environment => environment.user)
-  environments: Environment;
+  environments: Environment
   
 }

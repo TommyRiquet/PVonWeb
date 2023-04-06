@@ -5,8 +5,8 @@ on:
 
 
 jobs:
-  eslint:
-    name: Eslint
+  eslint-frontend:
+    name: Eslint Frontend
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -14,8 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: |
-          npm ci --legacy-peer-deps
+      - run: npm ci --legacy-peer-deps
         working-directory: Web App/frontend
 
 
