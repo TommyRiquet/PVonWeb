@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-import { User } from '../models/User'
-import { Environment } from '../models/Environment'
-import { Transcript } from '../models/Transcript'
+import { User } from '../entity/User'
+import { Environment } from '../entity/Environment'
+import { Transcript } from '../entity/Transcript'
 
 import config from './config'
 

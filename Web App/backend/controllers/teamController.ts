@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import { AppDataSource } from '../config/database'
 
-import { User, Environment } from '../models'
+import { User, Environment } from '../entity'
 
 import { verifyToken } from '../services/authService'
 
