@@ -20,10 +20,11 @@ app.use(bodyParser.json())
 // Routes
 import userRouter from './routes/userRoutes'
 import authRouter from './routes/authRoutes'
+import transcriptRouter from './routes/transcriptRoutes'
 
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
-
+app.use('/api/transcript', transcriptRouter)
 
 app.use(express.static(__dirname + '/build'))
 app.get('/*', (_, res) => {

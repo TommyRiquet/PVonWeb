@@ -7,6 +7,9 @@ export class Transcript {
 	id: number
 
 	@Column()
+	name: string
+
+	@Column()
 	companyName: string
 
 	@Column()
@@ -24,7 +27,7 @@ export class Transcript {
 	@Column()
 	occurenceDate: string
 
-	@ManyToOne(type => Environment, environment => environment.user)
+	@ManyToOne(type => Environment, environment => environment.transcripts)
 	environment: Environment
   
 }

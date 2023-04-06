@@ -13,8 +13,8 @@ export class Environment {
   @Column()
   description: string
 
-  @OneToMany(type => User, user => user.environments)
-  user: User[]
+  @OneToMany(type => User, user => user.environment)
+  users: User[]
 
   @OneToMany(type => Transcript, transcript => transcript.environment)
   transcripts: Transcript[]

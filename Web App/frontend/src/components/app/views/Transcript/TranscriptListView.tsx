@@ -1,6 +1,9 @@
+import { useEffect, useMemo, useState } from 'react'
+
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { ListView } from 'components/common'
 
+import { useTranscriptAPI } from 'services/transcripts.services'
 
 const columns = [
 	{
@@ -16,13 +19,13 @@ const columns = [
 		flex: 1
 	},
 	{
-		field: 'date',
+		field: 'occurenceDate',
 		headerName: 'Date',
 		hideable: false,
 		flex: 1
 	},
 	{
-		field: 'admin',
+		field: 'adminName',
 		headerName: 'Admin',
 		hideable: false,
 		flex: 1
@@ -70,6 +73,12 @@ const rows = [
 
 
 const TranscriptListView: React.FC = () => {
+	const { getListTranscript } = useTranscriptAPI()
+	const [listTranscript, setListTranscript] = useState<Array<any>>([])
+
+	useMemo(() => {
+		getListTranscript().then(res => setListTranscript(res))
+	}, [])
 
 	return (
 		<Box display='flex' flexDirection='column' alignItems='stretch' paddingX={5}>
@@ -79,12 +88,12 @@ const TranscriptListView: React.FC = () => {
 				</Box>
 				<Box>
 					<Button variant='contained' color='primary' onClick={() => console.log('/transcript/create')}>
-						<Typography fontWeight='bold' >Create</Typography>
+						<Typography fontWeight='bold'>Create</Typography>
 					</Button>
 				</Box>
 			</Box>
 
-			<ListView columns={columns} rows={rows}/>
+			<ListView columns={columns} rows={listTranscript}/>
 		</Box>
 	)
 }
