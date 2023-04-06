@@ -6,6 +6,7 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import GroupsIcon from '@mui/icons-material/Groups'
 import SettingsIcon from '@mui/icons-material/Settings'
 import LogoutIcon from '@mui/icons-material/Logout'
+import PersonIcon from '@mui/icons-material/Person'
 
 import MenuItem from './MenuItem'
 
@@ -31,6 +32,11 @@ const MenuItems = [
 		text: 'Teams',
 		icon: <GroupsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
 		link: '/team',
+	},
+	{
+		text: 'Profil',
+		icon: <PersonIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
+		link: '/profil',
 	}
 ]
 
