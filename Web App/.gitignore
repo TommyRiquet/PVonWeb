@@ -1,5 +1,5 @@
 # dependencies
-/node_modules
+**/node_modules
 /.pnp
 .pnp.js
 
@@ -9,13 +9,15 @@
 /cypress/screenshots
 
 # production
-/build
+**/build
 
 # misc
+frontend/src/config.json
 .DS_Store
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env
 
 npm-debug.log*

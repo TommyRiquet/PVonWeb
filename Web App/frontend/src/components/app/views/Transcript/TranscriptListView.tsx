@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { ListView } from 'components/common'
@@ -29,45 +29,6 @@ const columns = [
 		headerName: 'Admin',
 		hideable: false,
 		flex: 1
-	}
-]
-
-const rows = [
-	{
-		id: 1,
-		name: 'PV 1',
-		date: '2021-01-01',
-		admin: 'Admin 1'
-	},
-	{
-		id: 2,
-		name: 'PV 2',
-		date: '2021-01-01',
-		admin: 'Admin 1'
-	},
-	{
-		id: 3,
-		name: 'PV 3',
-		date: '2021-01-01',
-		admin: 'Admin 1'
-	},
-	{
-		id: 4,
-		name: 'PV 4',
-		date: '2021-01-01',
-		admin: 'Admin 1'
-	},
-	{
-		id: 5,
-		name: 'PV 5',
-		date: '2021-01-01',
-		admin: 'Admin 1'
-	},
-	{
-		id: 6,
-		name: 'PV 6',
-		date: '2021-01-01',
-		admin: 'Admin 1'
 	}
 ]
 
