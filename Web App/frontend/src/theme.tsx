@@ -36,6 +36,9 @@ const theme = createTheme({
 			main: '#FFFFFF',
 			dark: '#FFFFFF',
 			contrastText: '#2f2f2f'
+		},
+		background: {
+			default: '#f9f9f9'
 		}
 	}
 })
