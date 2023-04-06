@@ -22,7 +22,7 @@ export class User {
   phoneNumber: string
 
 
-  @ManyToOne(type => Environment, environment => environment.user)
-  environments: Environment
+  @ManyToOne(type => Environment, environment => environment.users)
+  environment: Environment
   
 }

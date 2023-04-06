@@ -16,7 +16,7 @@ function verifyToken(token: string): { id: number, username: string, email: stri
   return jwt.verify(token, secret) as { id: number, username: string, email: string }
 }
 
-export default {
+export {
   generateToken,
   verifyToken
 }
