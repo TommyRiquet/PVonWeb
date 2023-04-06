@@ -56,33 +56,6 @@ const columns = [
 	}
 ]
 
-const rows = [
-	{
-		id: 1,
-		name: 'Me',
-		email: 'admin@pvonweb.com',
-		role: 'Owner'
-	},
-	{
-		id: 2,
-		name: 'Daenerys Targaryen',
-		email: 'daenerys.targaryen@pvonweb.com',
-		role: 'Admin'
-	},
-	{
-		id: 3,
-		name: 'Jhnon Snow',
-		email: 'j.snwo@pvonweb.com',
-		role: 'Member'
-	},
-	{
-		id: 4,
-		name: 'Hodor',
-		email: 'hodor@pvonweb.com',
-		role: 'Member'
-	}
-]
-
 
 const TeamMembersListView: React.FC = () => {
 
