@@ -11,14 +11,14 @@ const data = {
 		{
 			id: 1,
 			name: 'Actionnaire 1',
-			share: 50,
+			share: 50
 		},
 		{
 			id: 2,
 			name: 'Actionnaire 2',
-			share: 50,
-		},
-	],
+			share: 50
+		}
+	]
 }
 
 

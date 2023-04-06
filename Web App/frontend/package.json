@@ -10,7 +10,9 @@
     "build-prod": "node generateConfig.mjs --prod && react-scripts build",
     "test": "react-scripts test",
     "test-e2e": "cypress run",
-    "global-start": "cd ../ && npm start"
+    "global-start": "cd ../ && npm start",
+	"lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

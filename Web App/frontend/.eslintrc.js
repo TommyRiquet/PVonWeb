@@ -54,6 +54,9 @@ module.exports = {
 		'key-spacing': 'error',
 		'no-trailing-spaces': 'error',
 		'no-extra-semi': 'off',
-		'eol-last': ['error', 'always']
+		'arrow-spacing': ['error', {'before': true, 'after': true}],
+		'eol-last': ['error', 'always'],
+		'comma-spacing': ['error', { 'before': false, 'after': true }],
+		'comma-dangle': ['error', 'never']
 	}
 }

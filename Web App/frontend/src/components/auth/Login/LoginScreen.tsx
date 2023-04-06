@@ -49,7 +49,7 @@ function LoginScreen() {
 				sx={{
 					display: 'flex',
 					justifyContent: 'center',
-					alignItems: 'center',
+					alignItems: 'center'
 				}}
 			>
 				<form onSubmit={handleSubmit} style={{ width: '100%' }}>

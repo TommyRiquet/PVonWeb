@@ -21,22 +21,22 @@ const MenuItems = [
 	{
 		text: 'Dashboard',
 		icon: <DashboardIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/dashboard',
+		link: '/dashboard'
 	},
 	{
 		text: 'Documents',
 		icon: <DescriptionIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/transcript',
+		link: '/transcript'
 	},
 	{
 		text: 'Teams',
 		icon: <GroupsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/team',
+		link: '/team'
 	},
 	{
 		text: 'Profil',
 		icon: <PersonIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
-		link: '/profil',
+		link: '/profil'
 	}
 ]
 
@@ -68,7 +68,7 @@ const Menu : FC = () => {
 				position: 'absolute',
 				transition: 'width 0.2s',
 				'& .MuiDrawer-paper': {
-					background: 'linear-gradient(90deg, '+theme.palette.primary.light+' 0%, '+ theme.palette.primary.dark + ' 100%)',
+					background: 'linear-gradient(90deg, '+theme.palette.primary.light+' 0%, '+ theme.palette.primary.dark + ' 100%)'
 				}
 			}}
 		>

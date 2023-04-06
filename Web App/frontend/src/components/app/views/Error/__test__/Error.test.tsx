@@ -1,8 +1,8 @@
-import { render } from "@testing-library/react";
-import Error from "../Error";
+import { render } from '@testing-library/react'
+import Error from '../Error'
 
 test('render Error page', () => {
-  render(<Error />);
+	render(<Error />)
 
-  expect(true).toBe(true);
-});
+	expect(true).toBe(true)
+})

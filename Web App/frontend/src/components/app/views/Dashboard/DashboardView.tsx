@@ -37,7 +37,7 @@ const DashboardView = () => {
 					md: [20, 20],
 					sm: [20, 20],
 					xs: [20, 20],
-					xxs: [20, 20],
+					xxs: [20, 20]
 				}}
 				style={{
 					height: '100%'

@@ -49,7 +49,7 @@ const AppRoutes = [
 		path: '*',
 		view: <Error/>,
 		exact: true
-	},
+	}
 ]
 
 export { AppRoutes }
