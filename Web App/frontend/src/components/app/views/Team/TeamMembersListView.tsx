@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Tooltip } from '@mui/material'
+import { Box, Typography, Button, Tooltip, TextField } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import EditIcon from '@mui/icons-material/Edit'
 
@@ -82,8 +82,17 @@ const TeamMembersListView: React.FC = () => {
 
 
 	return (
-		<Box display='flex' flexDirection='column' width='100%'>
-			<Typography variant='h4'>Members</Typography>
+		<Box display='flex' flexDirection='column' width='100%' paddingX={5}>
+			<Box display='flex' justifyContent='space-between' paddingY={3}>
+				<Box>
+					<TextField label='Search' size='small'/>
+				</Box>
+				<Box>
+					<Button variant='contained' color='primary' onClick={() => console.log('/members/add')}>
+						<Typography fontWeight='bold' >Add Member</Typography>
+					</Button>
+				</Box>
+			</Box>
 			<ListView columns={columns} rows={rows}/>
 		</Box>
 	)
