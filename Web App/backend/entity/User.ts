@@ -21,7 +21,7 @@ export class User {
   @Column({default: 'user'})
   role: string
 
-  @Column()
+  @Column({nullable: true})
   phoneNumber: string
 
 

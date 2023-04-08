@@ -23,7 +23,6 @@ export const loadDemoData = async (AppDataSource) => {
 	user1.lastName = 'Admin'
 	user1.email = 'admin@pvonweb.com'
 	user1.password = 'adminadmin'
-	user1.phoneNumber = '1234567890'
 	user1.environment = environment1
 	await userRepository.save(user1)
 
@@ -32,7 +31,6 @@ export const loadDemoData = async (AppDataSource) => {
 	user2.lastName = 'Demo'
 	user2.email = 'demo@pvonweb.com'
 	user2.password = 'demodemo'
-	user2.phoneNumber = '1234567890'
 	user2.environment = environment1
 	await userRepository.save(user2)
 
