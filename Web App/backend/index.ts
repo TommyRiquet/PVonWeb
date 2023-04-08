@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const path = require('path')
 const { AppDataSource } = require('./config/database')
+const { loadDemoData } = require('./utils/demoData')
 
 const app = express()
 
@@ -36,8 +37,9 @@ app.get('/*', (_, res) => {
 const PORT = process.env.PORT || 3001
 
 AppDataSource.initialize()
-	.then(() => {
+	.then(async () => {
 		console.log('Connection to the database has been established successfully.')
+		await loadDemoData(AppDataSource)
 		app.listen(PORT, () => {
 			console.log(`Server listening on port ${PORT}.`)
 		})

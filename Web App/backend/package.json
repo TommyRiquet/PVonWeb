@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "ts-node index.ts",
-    "devStart": "nodemon index.ts",
+    "devStart": "nodemon index.ts ",
     "test": "jest --forceExit --passWithNoTests"
   },
   "dependencies": {
