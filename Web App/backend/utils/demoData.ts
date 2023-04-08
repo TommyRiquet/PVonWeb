@@ -23,6 +23,7 @@ export const loadDemoData = async (AppDataSource) => {
 	user1.lastName = 'Admin'
 	user1.email = 'admin@pvonweb.com'
 	user1.password = 'adminadmin'
+	user1.role = 'admin'
 	user1.environment = environment1
 	await userRepository.save(user1)
 
