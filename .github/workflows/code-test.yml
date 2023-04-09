@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: '16.x'
         cache: 'npm'
-        cache-dependency-path: ${{github.workspace}}/Web App/frontend/package-lock.json
+        cache-dependency-path: ${{github.workspace}}/WebApp/frontend/package-lock.json
 
     - run: npm ci --legacy-peer-deps
       working-directory: Web App/frontend/
@@ -50,7 +50,7 @@ jobs:
       with:
         node-version: '16.x'
         cache: 'npm'
-        cache-dependency-path: ${{github.workspace}}/Web App/backend/package-lock.json
+        cache-dependency-path: ${{github.workspace}}/WebApp/backend/package-lock.json
 
     - name: Installing dependencies
       run: npm ci --legacy-peer-deps
@@ -82,7 +82,7 @@ jobs:
           with:
             node-version: '16.x'
             cache: 'npm'
-            cache-dependency-path: ${{github.workspace}}/Web App/frontend/package-lock.json
+            cache-dependency-path: ${{github.workspace}}/WebApp/frontend/package-lock.json
 
         - name: Installing frontend dependencies
           run: npm ci --include=dev --legacy-peer-deps
