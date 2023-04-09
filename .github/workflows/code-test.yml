@@ -21,10 +21,10 @@ jobs:
         cache-dependency-path: ${{github.workspace}}/WebApp/frontend/package-lock.json
 
     - run: npm ci --legacy-peer-deps
-      working-directory: Web App/frontend/
+      working-directory: WebApp/frontend/
 
     - run: npm test
-      working-directory: Web App/frontend/
+      working-directory: WebApp/frontend/
 
   
   backend_test:
@@ -54,10 +54,10 @@ jobs:
 
     - name: Installing dependencies
       run: npm ci --legacy-peer-deps
-      working-directory: Web App/backend/
+      working-directory: WebApp/backend/
 
     - run: npm test --if-present #--if-present to delete
-      working-directory: Web App/backend/
+      working-directory: WebApp/backend/
 
   cypress-run:
       name: E2E Testing
@@ -86,15 +86,15 @@ jobs:
 
         - name: Installing frontend dependencies
           run: npm ci --include=dev --legacy-peer-deps
-          working-directory: Web App/frontend/
+          working-directory: WebApp/frontend/
 
         - name: Installing backend dependencies
           run: npm ci --include=dev --legacy-peer-deps
-          working-directory: Web App/backend/
+          working-directory: WebApp/backend/
 
         - name: Installing global dependencies
           run: npm ci --include=dev --legacy-peer-deps
-          working-directory: Web App/
+          working-directory: WebApp/
 
         # - name: Build the frontend
         #   run: npm run build-test
