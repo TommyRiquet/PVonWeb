@@ -11,7 +11,7 @@
     "test": "react-scripts test",
     "test-e2e": "cypress run",
     "global-start": "cd ../ && npm start",
-	"lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
   "dependencies": {
@@ -34,7 +34,7 @@
     "socket.io-client": "^4.5.4",
     "typescript": "^5.0.2",
     "web-vitals": "^2.1.4",
-    "yup": "^1.0.0"
+    "yup": "^1.0.2"
   },
   "eslintConfig": {
     "extends": [
