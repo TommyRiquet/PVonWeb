@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 
 import { IconButton, InputAdornment, TextField } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 
+interface PasswordTextFieldProps {
+	label: string
+	variant?: 'standard' | 'filled' | 'outlined'
+	id?: string
+}
 
-const PasswordTextField = (props : any) => {
+const PasswordTextField: FC<PasswordTextFieldProps> = (props : any) => {
 
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 	return (
@@ -25,4 +30,4 @@ const PasswordTextField = (props : any) => {
 	)
 }
 
-export {PasswordTextField}
+export default PasswordTextField
