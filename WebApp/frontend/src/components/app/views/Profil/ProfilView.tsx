@@ -4,11 +4,12 @@ import { Box, Typography } from '@mui/material'
 
 import { TabsBox } from 'components/common'
 
+import ProfilSection from './ProfilSection'
 
 const ProfilView: React.FC = () => {
 
 	const TabDataList = useMemo(() => [
-		{label: 'Profil', content: <Box>Profile</Box>, tab: 'profile'},
+		{label: 'Profil', content: <ProfilSection/>, tab: 'profile'},
 		{label: 'Connected Applications', content: <Box>API</Box>, tab: 'api'}
 	], [])
 
