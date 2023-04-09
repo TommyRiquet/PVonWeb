@@ -3,7 +3,7 @@ name: Production Deploy
 on:
   push:
     branches:
-      - staging
+      - main
   workflow_dispatch:
 
 jobs:
@@ -33,8 +33,13 @@ jobs:
       uses: easingthemes/ssh-deploy@main
       env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvc -i --delete"
+          ARGS: "-rlgoDzvc -i"
           SOURCE: "WebApp/backend/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
           EXCLUDE: ".vscode/, docs/, WebApp/frontend/, WebApp/backend/test/"
+          SCRIPT_AFTER: |
+            cd /home/ubuntu/pvonweb
+            sudo docker compose build
+            sudo docker compose up -d

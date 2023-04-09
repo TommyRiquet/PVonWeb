@@ -6,7 +6,7 @@ import { Transcript } from '../entity/Transcript'
 
 import config from './config'
 
-const dbConfig = process.env.NODE_ENV === 'production' ? config.production : config.development
+const dbConfig = config[process.env.NODE_ENV || 'development']
 
 const AppDataSource = new DataSource({
 	type: 'mysql',

@@ -8,12 +8,12 @@ const generateConfig = () => {
 	const routes = {
 		'--dev': 'http://localhost:3001/api/',
 		'--test': 'http://localhost:3001/api/',
-		'--prod': 'https://pvonweb.azurewebsites.net/api',
-		'--staging': 'https://pvonweb.azurewebsites.net/api',
+		'--prod': 'http://ec2-15-236-208-84.eu-west-3.compute.amazonaws.com/api/',
+		'--staging': 'http://ec2-15-236-208-84.eu-west-3.compute.amazonaws.com/api/'
 	}
 
 	const config = {
-		API_URL: routes[process.argv[2]],
+		API_URL: routes[process.argv[2]]
 	}
 
 	const filePath = path.resolve('src', 'config.json')

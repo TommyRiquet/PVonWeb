@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Box, Typography, TextField, Button, Container, Stack, Paper, Snackbar, Alert} from '@mui/material'
+import { Box, Typography, TextField, Button, Container, Stack, Paper, Snackbar, Alert, Link} from '@mui/material'
 
 import { PasswordTextField } from 'components/common'
 import { useAuth } from 'contexts/AuthContext'
@@ -79,6 +79,11 @@ function LoginScreen() {
 									variant='outlined'
 									id='password'
 								/>
+								<Typography variant='body2' fontWeight='bold' marginTop={2} textAlign='end' sx={{color: theme.palette.primary.main}}>
+									<Link href='_blank' rel='noreferrer' underline='none'>
+										Forgot your password ?
+									</Link>
+								</Typography>
 							</Paper>
 							<Paper elevation={0} sx={{width: '100%'}}>
 								<Stack justifyContent='right' alignItems='left' spacing={1}>
