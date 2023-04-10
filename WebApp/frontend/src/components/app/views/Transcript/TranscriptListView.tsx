@@ -36,6 +36,21 @@ const columns = [
 const TranscriptListView: React.FC = () => {
 	const { getListTranscript } = useTranscriptAPI()
 	const [listTranscript, setListTranscript] = useState<Array<any>>([])
+	const [searchText, setSearchText] = useState<string | null>(null)
+
+	console.log(listTranscript)
+	const filteredTranscripts = useMemo(() => {
+		if (!searchText) {
+			return listTranscript
+		}
+
+		const regex = new RegExp(searchText, 'i')
+
+		return listTranscript.filter((transcript) => {
+			return regex.test(transcript.id) ||regex.test(transcript.name)
+		}).sort((a, b) => a.name.localeCompare(b.name))
+
+	}, [searchText, listTranscript])
 
 	useMemo(() => {
 		getListTranscript().then(res => setListTranscript(res))
@@ -45,7 +60,13 @@ const TranscriptListView: React.FC = () => {
 		<Box display='flex' flexDirection='column' alignItems='stretch' paddingX={5}>
 			<Box display='flex' justifyContent='space-between' paddingY={3}>
 				<Box>
-					<TextField label='Search' size='small'/>
+					<TextField
+						placeholder='Search'
+						size='small'
+						autoComplete='off'
+						onChange={(event: any) => {
+							setSearchText(event.target.value.toLowerCase())
+						}}/>
 				</Box>
 				<Box>
 					<Button variant='contained' color='primary' onClick={() => console.log('/transcript/create')}>
@@ -54,7 +75,7 @@ const TranscriptListView: React.FC = () => {
 				</Box>
 			</Box>
 
-			<ListView columns={columns} rows={listTranscript}/>
+			<ListView columns={columns} rows={filteredTranscripts}/>
 		</Box>
 	)
 }
