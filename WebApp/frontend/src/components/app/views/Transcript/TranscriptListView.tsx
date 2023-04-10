@@ -25,8 +25,8 @@ const columns = [
 		flex: 1
 	},
 	{
-		field: 'adminName',
-		headerName: 'Admin',
+		field: 'companyName',
+		headerName: 'Company',
 		hideable: false,
 		flex: 1
 	}
@@ -38,7 +38,6 @@ const TranscriptListView: React.FC = () => {
 	const [listTranscript, setListTranscript] = useState<Array<any>>([])
 	const [searchText, setSearchText] = useState<string | null>(null)
 
-	console.log(listTranscript)
 	const filteredTranscripts = useMemo(() => {
 		if (!searchText) {
 			return listTranscript
