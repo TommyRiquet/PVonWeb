@@ -5,6 +5,8 @@ import { Box, Typography, TextField, Button, Container, Stack, Paper, Snackbar, 
 import { PasswordTextField } from 'components/common'
 import { useAuth } from 'contexts/AuthContext'
 
+import logo from 'static/images/PVWlogo512.png'
+
 import theme from 'theme'
 
 
@@ -63,7 +65,9 @@ function LoginScreen() {
 						borderRadius='10px'
 						sx={{ backgroundColor: theme.palette.secondary.main }}
 					>
-						<Typography p={'10px 0'} variant='h3'>Login</Typography>
+						<Box width='100%' display='flex' flexDirection='column' alignItems='center' justifyContent='space-between' marginBottom={1}>
+							<img src={logo} alt='logo' style={{ width: '10vh'}}/>
+						</Box>
 						<Stack height='100%' width='100%' justifyContent='center' alignItems='center' spacing={3}>
 							<Paper elevation={0} sx={{height: 70, width: '100%'}}>
 								<TextField
@@ -73,9 +77,9 @@ function LoginScreen() {
 									id='email'
 								/>
 							</Paper>
-							<Paper elevation={0} sx={{height: 70, width: '100%'}}>
+							<Paper elevation={0} sx={{height: 80, width: '100%'}}>
 								<PasswordTextField
-									label='Mot de passe'
+									label='Password'
 									variant='outlined'
 									id='password'
 								/>
@@ -88,7 +92,7 @@ function LoginScreen() {
 							<Paper elevation={0} sx={{width: '100%'}}>
 								<Stack justifyContent='right' alignItems='left' spacing={1}>
 									<Button type='submit' sx={{height: 45}} fullWidth variant='contained'>
-										Login
+										<Typography variant='body1' fontWeight='bold'>Login</Typography>
 									</Button>
 								</Stack>
 							</Paper>
