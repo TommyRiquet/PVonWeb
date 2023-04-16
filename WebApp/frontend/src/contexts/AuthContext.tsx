@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { ReactNode, useContext, createContext, useState, useEffect } from 'react'
 
 import { useLocation, Navigate } from 'react-router-dom'
 
@@ -6,20 +6,36 @@ import config from 'config.json'
 
 
 interface AuthContextType {
-	authenticated: boolean
 	token: string
     login: (email: string, password: string, onSuccess: (res: any) => any, onError: (err: any) => any) => void
     logout: () => void
 }
 
-const AuthContext = React.createContext<AuthContextType>(null!)
+const AuthContext = createContext<AuthContextType>(null!)
 
-export function AuthContextProvider({ children }: { children: React.ReactNode }) {
-	const [ token, setToken ] = useState<any>(() => {
-		const tokenLocalStorage = localStorage.getItem('token')
-		return tokenLocalStorage || ''
-	})
-	const [authenticated, setAuthenticated] = useState(token !== '')
+export function AuthContextProvider({ children }: { children: ReactNode }) {
+
+	const [token, setToken] = useState<string>(localStorage.getItem('token') || '')
+
+	useEffect(() => {
+		if (token) {
+			fetch(config.API_URL + 'auth/verify', {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					token: token
+				})
+			}).then((res) => {
+				if (res.status !== 200) {
+					setToken('')
+					localStorage.removeItem('token')
+				}
+			})
+		}
+	}, [token])
 
 
 	const login = (email: string, password: string, onSuccess: (res: any) => any, onError: (err: any) => any) => {
@@ -38,7 +54,6 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 				res.json().then((res) => {
 					setToken(res.token)
 					localStorage.setItem('token', res.token)
-					setAuthenticated(true)
 					onSuccess(res)
 				})
 			} else {
@@ -50,24 +65,23 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 	const logout = () => {
 		setToken('')
 		localStorage.removeItem('token')
-		setAuthenticated(false)
 	}
 
 
-	const value = { authenticated, token, login, logout }
+	const value = { token, login, logout }
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {
-	return React.useContext(AuthContext)
+	return useContext(AuthContext)
 }
 
 export function RequireAuth({ children }: { children: JSX.Element }) {
-	const auth = useAuth()
+	const { token } = useAuth()
 	const location = useLocation()
 
-	if (!auth.authenticated) {
+	if (!token) {
 		return <Navigate to='/login' state={{ from: location }} replace />
 	}
 
@@ -79,10 +93,10 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 }
 
 export function RequireNotAuth({ children }: { children: JSX.Element }) {
-	const auth = useAuth()
+	const { token }  = useAuth()
 	const location = useLocation()
 
-	if (auth.authenticated) {
+	if (token) {
 		return <Navigate to='/dashboard' state={{ from: location }} replace />
 	}
 
