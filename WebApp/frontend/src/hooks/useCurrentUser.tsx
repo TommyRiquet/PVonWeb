@@ -6,7 +6,7 @@ import { useUserAPI } from 'services/users.services'
 
 
 const useCurrentUser = () => {
-	const { getCurrentUser } = useUserAPI()
+	const { getCurrentUser, updateUser } = useUserAPI()
 
 	const [userProfile, setUserProfile] = useState<User>()
 
@@ -14,8 +14,18 @@ const useCurrentUser = () => {
 		getCurrentUser().then(res => setUserProfile(res))
 	}, [])
 
+	const updateCurrentUser = (user: any) => {
+		return updateUser(user)
+			.then(res => {
+				if(!res) return false
+				setUserProfile(res)
+				return true
+			})
+	}
+
 	return {
-		userProfile
+		userProfile,
+		updateCurrentUser
 	}
 }
 
