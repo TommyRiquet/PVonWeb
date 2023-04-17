@@ -8,11 +8,12 @@ const generateConfig = () => {
 	const routes = {
 		'--dev': 'http://localhost:3001/api/',
 		'--test': 'http://localhost:3001/api/',
-		'--prod': 'http://ec2-15-236-208-84.eu-west-3.compute.amazonaws.com/api/',
-		'--staging': 'http://ec2-15-236-208-84.eu-west-3.compute.amazonaws.com/api/'
+		'--prod': '13.36.67.201/api/',
+		'--staging': '13.36.67.201/api/'
 	}
 
 	const config = {
+		// eslint-disable-next-line no-undef
 		API_URL: routes[process.argv[2]]
 	}
 
