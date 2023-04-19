@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 
+import { DateTime } from 'luxon'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { ListView } from 'components/common'
 
@@ -22,7 +23,14 @@ const columns = [
 		field: 'occurenceDate',
 		headerName: 'Date',
 		hideable: false,
-		flex: 1
+		flex: 1,
+		renderCell: (params: any) => {
+			return (
+				<Typography>
+					{DateTime.fromSQL(params.value).toLocaleString(DateTime.DATETIME_SHORT)}
+				</Typography>
+			)
+		}
 	},
 	{
 		field: 'companyName',
