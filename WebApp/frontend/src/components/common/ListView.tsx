@@ -14,7 +14,7 @@ interface ListViewI {
 }
 
 
-const ListView: FC<ListViewI> = ({rows, columns}) => {
+const ListView: FC<ListViewI> = ({rows, columns, ...props}) => {
 
 	return (
 		<DataGrid
@@ -22,8 +22,9 @@ const ListView: FC<ListViewI> = ({rows, columns}) => {
 			rows={rows}
 			columns={columns}
 			disableSelectionOnClick
-			hideFooter
 			disableColumnMenu
+			hideFooter={rows.length < 10}
+			pageSize={10}
 			sx={{
 				border: '0px solid #000000',
 				color: theme => theme.palette.primary.main,
@@ -43,6 +44,7 @@ const ListView: FC<ListViewI> = ({rows, columns}) => {
 					outline: 0
 				}
 			}}
+			{...props}
 		/>
 
 	)
