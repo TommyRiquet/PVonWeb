@@ -74,7 +74,19 @@ const TabsBox :FC<TopTabsProps> = ({tabDataList}) => {
 					})
 				}
 			</Tabs>
-			<Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='100%' borderRadius={2} sx={{backgroundColor: 'white'}}>
+			<Box
+				display='flex'
+				flexDirection='column'
+				alignItems='center'
+				justifyContent='center'
+				height='100%'
+				borderRadius={2}
+				sx={{
+					backgroundColor: 'white',
+					boxShadow: 2,
+					border: '1px solid',
+					borderColor: 'divider'
+				}}>
 				{tabDataList.map((tabData, idx) => (
 					<TabPanel value={selectedTab} index={idx} key={tabData.tab}>
 						{tabData.content}
