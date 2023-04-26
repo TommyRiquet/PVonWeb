@@ -27,14 +27,7 @@ const columns = [
 		field: 'role',
 		headerName: 'Role',
 		hideable: false,
-		flex: 1,
-		sortComparator: (v1: any, v2: any) => {
-			if (v1 === 'Owner') return -1
-			if (v2 === 'Owner') return 1
-			if (v1 === 'Admin') return -1
-			if (v2 === 'Admin') return 1
-			return 0
-		}
+		flex: 1
 	},
 	{
 		field: 'buttons',
@@ -104,7 +97,15 @@ const TeamMembersListView: React.FC = () => {
 					</Button>
 				</Box>
 			</Box>
-			<ListView columns={columns} rows={filteredMembers}/>
+			<ListView
+				columns={columns}
+				rows={filteredMembers}
+				initialState={{
+					sorting: {
+						sortModel: [{ field: 'role', sort: 'asc' }]
+					}
+				}}
+			/>
 		</Box>
 	)
 }
