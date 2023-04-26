@@ -51,7 +51,7 @@ export const loadDemoData = async (AppDataSource) => {
 
 	const environment1 = await createEnvironment(environmentRepository, 'Demo Environment', 'Demo Environment')
 
-	await createUser(userRepository, 'Admin', 'Admin', 'admin@pvonweb.com', 'adminadmin', 'admin', environment1)
+	await createUser(userRepository, 'Admin', 'Admin', 'admin@pvonweb.com', '$argon2id$v=19$m=65536,t=3,p=4$nB77VadB/gjKo8rXdS0OpQ$Ov8LHlVWDm3dW1GJPPBdU8OsPm5pg+5ZANZHh4fkUeY', 'admin', environment1)
 
 	await createUser(userRepository, 'Demo', 'Demo', 'demo@pvonweb.com', 'demodemo', 'user', environment1)
 

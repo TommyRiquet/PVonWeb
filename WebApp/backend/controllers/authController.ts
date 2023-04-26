@@ -1,8 +1,8 @@
-//const argon2 = require('argon2')
 import { User } from '../entity'
 import { AppDataSource } from '../config/database'
 import { Request, Response } from 'express'
 import { generateToken, verifyToken} from '../services/authService'
+const argon2 = require('argon2')
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -18,9 +18,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Invalid credentials' })
     }
 
-    //const isPasswordValid = await argon2.verify(user.password, password);
-
-	const isPasswordValid = user.password === password
+    const isPasswordValid = await argon2.verify(user.password, password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid credentials' })
