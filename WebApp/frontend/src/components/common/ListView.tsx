@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridRenderCellParams, DataGridProps} from '@mui/x-data-grid'
 
 
 export interface ListViewCol extends GridColDef {
@@ -14,7 +14,7 @@ interface ListViewI {
 }
 
 
-const ListView: FC<ListViewI> = ({rows, columns, ...props}) => {
+const ListView: FC<ListViewI & DataGridProps> = ({rows, columns, ...props}) => {
 
 	return (
 		<DataGrid
