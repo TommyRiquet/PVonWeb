@@ -32,9 +32,25 @@ export const useUserAPI = () => {
 		}).then(res => res.json())
 	}
 
+	const changePassword = async (oldPassword: string, newPassword1: string, newPassword2: string): Promise<any> => {
+		return fetch(`${config.API_URL}user/password`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${localStorage.getItem('token')}`
+			},
+			body: JSON.stringify({
+				oldPassword,
+				newPassword1,
+				newPassword2
+			})
+		}).then(res => res.json())
+	}
+
 
 	return {
 		getCurrentUser,
-		updateUser
+		updateUser,
+		changePassword
 	}
 }

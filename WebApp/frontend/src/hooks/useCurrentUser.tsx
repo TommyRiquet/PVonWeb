@@ -6,7 +6,7 @@ import { useUserAPI } from 'services/users.services'
 
 
 const useCurrentUser = () => {
-	const { getCurrentUser, updateUser } = useUserAPI()
+	const { getCurrentUser, updateUser, changePassword } = useUserAPI()
 
 	const [userProfile, setUserProfile] = useState<User>()
 
@@ -23,9 +23,11 @@ const useCurrentUser = () => {
 			})
 	}
 
+
 	return {
 		userProfile,
-		updateCurrentUser
+		updateCurrentUser,
+		changePassword
 	}
 }
 

@@ -63,7 +63,7 @@ const ProfileSection: FC = () => {
 					onClose={() => {setUpdateError(false)}}
 				>
 					<Alert>
-						Your profile has been updated!
+						Unknown error, please try again later.
 					</Alert>
 				</Snackbar>
 				<Snackbar
