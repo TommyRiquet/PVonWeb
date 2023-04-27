@@ -1,4 +1,6 @@
 import { User, Environment, Transcript } from '../entity/'
+require('dotenv').config()
+
 
 const createEnvironment = async (environmentRepository, name, description) => {
 	const environment = new Environment()
@@ -51,9 +53,9 @@ export const loadDemoData = async (AppDataSource) => {
 
 	const environment1 = await createEnvironment(environmentRepository, 'Demo Environment', 'Demo Environment')
 
-	await createUser(userRepository, 'Admin', 'Admin', 'admin@pvonweb.com', '$argon2id$v=19$m=65536,t=3,p=4$nB77VadB/gjKo8rXdS0OpQ$Ov8LHlVWDm3dW1GJPPBdU8OsPm5pg+5ZANZHh4fkUeY', 'admin', environment1)
+	await createUser(userRepository, 'Admin', 'Admin', 'admin@pvonweb.com', process.env.DEMO_DATA_ADMIN_PASSWORD, 'admin', environment1)
 
-	await createUser(userRepository, 'Demo', 'Demo', 'demo@pvonweb.com', 'demodemo', 'user', environment1)
+	await createUser(userRepository, 'Demo', 'Demo', 'demo@pvonweb.com', process.env.DEMO_DATA_DEMO_PASSWORD, 'user', environment1)
 
 	await createTranscript(transcriptRepository, 'Demo Transcript 1', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
 	await createTranscript(transcriptRepository, 'Demo Transcript 2', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)

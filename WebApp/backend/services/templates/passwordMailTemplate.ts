@@ -11,13 +11,13 @@ export const passwordEmailTemplate = (user: any, password: string) => {
 					Please click on the link below to login.
 				<br>
 				<br>
-					<a href="http://localhost:3000/">Login</a>
+					<a href="http://13.36.67.201/login">Login</a>
 				<br>
 				<br>
-					Your email is: ${user.email}
+					Your email is: <code>${user.email}</code>
 				<br>
 				<br>
-					Your password is: ${password}
+					Your password is: <code>${password}</code>
 				<br>
 				<br>
 					Thank you,
