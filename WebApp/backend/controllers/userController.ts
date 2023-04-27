@@ -113,6 +113,11 @@ export const addUser = async (req: Request, res: Response) => {
 			}
 		)
 
+		if(selfUser.role !== 'admin') {
+			res.status(401).json({ status: 401, message: 'You are not allowed to invite users' })
+			return
+		}
+
 		const environment = await environnementRepository.findOne({ where : { id :selfUser.environment.id }})
 
 		const password = generateRandomPassword()

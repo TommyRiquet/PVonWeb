@@ -8,6 +8,7 @@ import { ListView, Loading } from 'components/common'
 import TeamAddMemberDialog from './TeamAddMemberDialog'
 
 import { useTeamAPI } from 'services/teams.services'
+import useCurrentUser from 'hooks/useCurrentUser'
 
 
 const columns = [
@@ -57,6 +58,8 @@ const TeamMembersListView: React.FC = () => {
 
 	const { getListMembers } = useTeamAPI()
 
+	const { userProfile } = useCurrentUser()
+
 	const [listMembers, setListMembers] = useState<Array<any>>([])
 	const [searchText, setSearchText] = useState<string | null>(null)
 	const [openAddMemberDialog, setOpenAddMemberDialog] = useState<boolean>(false)
@@ -101,9 +104,12 @@ const TeamMembersListView: React.FC = () => {
 						}}/>
 				</Box>
 				<Box>
-					<Button variant='contained' color='primary' onClick={() => setOpenAddMemberDialog(true)}>
-						<Typography fontWeight='bold' >Add Member</Typography>
-					</Button>
+					{
+						userProfile?.role === 'admin' &&
+						<Button variant='contained' color='primary' onClick={() => setOpenAddMemberDialog(true)}>
+							<Typography fontWeight='bold' >Add Member</Typography>
+						</Button>
+					}
 				</Box>
 			</Box>
 			<ListView
