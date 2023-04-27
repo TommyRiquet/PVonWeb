@@ -1,8 +1,13 @@
-import { User } from '../entity'
+const argon2 = require('argon2')
+
+import { User, Environment } from '../entity'
 import { AppDataSource } from '../config/database'
 import { Request, Response } from 'express'
+
 import { verifyToken } from '../services/authService'
-const argon2 = require('argon2')
+import { sendPasswordMail } from '../services/mailService'
+
+import { generateRandomPassword } from '../utils/utils'
 
 
 export const getUser = async (req: Request, res: Response) => {
@@ -84,5 +89,54 @@ export const changePassword = async (req: Request, res: Response) => {
 	}
 	catch (error) {
 		res.status(500).json({message: error})
+	}
+}
+
+export const addUser = async (req: Request, res: Response) => {
+	
+	try{
+		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
+
+		const userRepository = AppDataSource.getRepository(User)
+		const environnementRepository = AppDataSource.getRepository(Environment)
+
+		const isEmailUsed = await userRepository.findOne({ where : { email : req.body.email }})
+		if (isEmailUsed) {
+			res.status(401).json({ status: 401, message: 'User already invited' })
+			return
+		}
+
+		const selfUser = await userRepository.findOne(
+			{
+				relations : ['environment'],
+				where : { id }
+			}
+		)
+
+		const environment = await environnementRepository.findOne({ where : { id :selfUser.environment.id }})
+
+		const password = generateRandomPassword()
+
+		const user = new User()
+		user.firstName = req.body.firstName
+		user.lastName = req.body.lastName
+		user.email = req.body.email
+		user.phoneNumber = req.body.phoneNumber
+		user.role = 'user'
+		user.environment = environment
+		user.password = await argon2.hash(password)
+
+		await userRepository.save(user)
+
+		sendPasswordMail(user, password)
+		.then(() => {
+			res.status(200).json({ status: 200, message: 'User added' })
+		}).catch((error) => {
+			res.status(500).json({message: error})
+		})
+
+	}
+	catch (error) {
+		res.status(500).json(error)
 	}
 }

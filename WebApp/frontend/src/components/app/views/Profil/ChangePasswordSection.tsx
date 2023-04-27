@@ -34,7 +34,6 @@ const ChangePasswordSection: FC = () => {
 	const handleChangeUserProfile = async (data: any) => {
 		setIsLoading(true)
 		const result = await changePassword(data.oldPassword, data.newPassword1, data.newPassword2)
-		console.log(result)
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)

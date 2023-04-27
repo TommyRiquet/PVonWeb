@@ -47,10 +47,21 @@ export const useUserAPI = () => {
 		}).then(res => res.json())
 	}
 
+	const addUser = async (user: any): Promise<any> => {
+		return fetch(`${config.API_URL}user/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${localStorage.getItem('token')}`
+			},
+			body: JSON.stringify(user)
+		}).then(res => res.json())
+	}
 
 	return {
 		getCurrentUser,
 		updateUser,
-		changePassword
+		changePassword,
+		addUser
 	}
 }

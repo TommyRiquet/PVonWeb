@@ -5,6 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import EditIcon from '@mui/icons-material/Edit'
 
 import { ListView, Loading } from 'components/common'
+import TeamAddMemberDialog from './TeamAddMemberDialog'
 
 import { useTeamAPI } from 'services/teams.services'
 
@@ -33,6 +34,8 @@ const columns = [
 		field: 'buttons',
 		headerName: '',
 		hideable: false,
+		sortable: false,
+		editable: false,
 		width: 200,
 		renderCell: () => (
 			<Box display='flex' flexDirection='row' justifyContent='space-between'>
@@ -56,6 +59,7 @@ const TeamMembersListView: React.FC = () => {
 
 	const [listMembers, setListMembers] = useState<Array<any>>([])
 	const [searchText, setSearchText] = useState<string | null>(null)
+	const [openAddMemberDialog, setOpenAddMemberDialog] = useState<boolean>(false)
 
 	const filteredMembers = useMemo(() => {
 		if (!searchText) {
@@ -71,6 +75,10 @@ const TeamMembersListView: React.FC = () => {
 
 	}, [searchText, listMembers])
 
+	const handleDialogClose = () => {
+		setOpenAddMemberDialog(false)
+	}
+
 	useMemo(() => {
 		getListMembers().then(res => setListMembers(res))
 	}, [])
@@ -81,6 +89,7 @@ const TeamMembersListView: React.FC = () => {
 
 	return (
 		<Box display='flex' flexDirection='column' width='100%' paddingX={5}>
+			<TeamAddMemberDialog open={openAddMemberDialog} handleClose={handleDialogClose}/>
 			<Box display='flex' justifyContent='space-between' paddingY={3}>
 				<Box>
 					<TextField
@@ -92,7 +101,7 @@ const TeamMembersListView: React.FC = () => {
 						}}/>
 				</Box>
 				<Box>
-					<Button variant='contained' color='primary' onClick={() => console.log('/members/add')}>
+					<Button variant='contained' color='primary' onClick={() => setOpenAddMemberDialog(true)}>
 						<Typography fontWeight='bold' >Add Member</Typography>
 					</Button>
 				</Box>

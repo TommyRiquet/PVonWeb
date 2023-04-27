@@ -22,6 +22,7 @@ export const getTeamMembersByEnvironment = async (req: Request, res: Response) =
 			users: user
 		})
 		const teamMembers = await userRepository.find({
+			select: ['id', 'firstName', 'lastName', 'email', 'phoneNumber', 'role'],
 			where: {
 				environment: environment
 			}
