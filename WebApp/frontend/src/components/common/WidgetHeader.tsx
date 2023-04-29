@@ -18,7 +18,7 @@ interface WidgetHeaderInterface {
 
 const WidgetHeader: FC<WidgetHeaderInterface> = ({children, title}) => {
 	return (
-		<Box display='flex' width='100%' alignContent='center' alignItems='center' justifyContent='space-between' paddingBottom={theme.spacing(1)}>
+		<Box display='flex' width='100%' alignContent='center' alignItems='center' justifyContent='center' paddingBottom={theme.spacing(1)}>
 			<Box display='flex'>
 				<Typography color='primary' textTransform={'capitalize'} variant='h5'>{title}</Typography>
 			</Box>
