@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 
-import { HistoryWidget, TranscriptWidget, TeamWidget, StatisticsWidget } from 'components/app/widgets'
+import { HistoryWidget, TranscriptWidget, TeamWidget, StatisticsWidget } from 'components/app/views/Dashboard/widgets'
 import { Widget } from 'components/common'
 
 import 'react-grid-layout/css/styles.css'
