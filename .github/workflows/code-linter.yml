@@ -24,3 +24,22 @@ jobs:
           reporter: github-pr-review
           eslint_flags: 'src/'
           workdir: WebApp/frontend/
+
+  eslint-backend:
+    name: Eslint Backend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write 
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: npm ci --legacy-peer-deps
+        working-directory: WebApp/backend
+
+
+      - uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          workdir: WebApp/backend/

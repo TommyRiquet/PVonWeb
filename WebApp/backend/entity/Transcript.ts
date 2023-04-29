@@ -4,30 +4,30 @@ import { Environment } from './Environment'
 @Entity()
 export class Transcript {
 	@PrimaryGeneratedColumn()
-	id: number
+		id: number
 
 	@Column()
-	name: string
+		name: string
 
 	@Column()
-	companyName: string
+		companyName: string
 
 	@Column()
-	adminName: string
+		adminName: string
 
 	@Column()
-	secretaryName: string
+		secretaryName: string
 
 	@Column()
-	scrutineerName: string
+		scrutineerName: string
 
 	@Column()
-	shareHolders: string
+		shareHolders: string
 
 	@Column()
-	occurenceDate: string
+		occurenceDate: string
 
 	@ManyToOne(type => Environment, environment => environment.transcripts)
-	environment: Environment
-  
+		environment: Environment
+
 }

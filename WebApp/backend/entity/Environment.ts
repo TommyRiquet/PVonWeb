@@ -5,18 +5,18 @@ import { Transcript } from './Transcript'
 @Entity()
 export class Environment {
   @PrimaryGeneratedColumn()
-  id: number
+  	id: number
 
   @Column()
-  name: string
+  	name: string
 
   @Column()
-  description: string
+  	description: string
 
   @OneToMany(type => User, user => user.environment)
-  users: User[]
+  	users: User[]
 
   @OneToMany(type => Transcript, transcript => transcript.environment)
-  transcripts: Transcript[]
-  
+  	transcripts: Transcript[]
+
 }
