@@ -5,32 +5,32 @@ import { generateToken, verifyToken} from '../services/authService'
 const argon2 = require('argon2')
 
 export const login = async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body
+	try {
+		const { email, password } = req.body
 
-    const userRepository = AppDataSource.getRepository(User)
-	
-    const user = await userRepository.findOneBy({
-		email:  email
-	})
+		const userRepository = AppDataSource.getRepository(User)
 
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' })
-    }
+		const user = await userRepository.findOneBy({
+			email: email
+		})
 
-    const isPasswordValid = await argon2.verify(user.password, password);
+		if (!user) {
+			return res.status(401).json({ message: 'Invalid credentials' })
+		}
 
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid credentials' })
-    }
+		const isPasswordValid = await argon2.verify(user.password, password)
 
-    const token = generateToken(user.id)
-    res.json({ token })
+		if (!isPasswordValid) {
+			return res.status(401).json({ message: 'Invalid credentials' })
+		}
 
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: 'Internal server error' })
-  }
+		const token = generateToken(user.id)
+		res.json({ token })
+
+	} catch (error) {
+		console.error(error)
+		res.status(500).json({ message: 'Internal server error' })
+	}
 }
 
 
@@ -39,9 +39,9 @@ export const verify = async (req: Request, res: Response) => {
 		const token = req.body.token
 		const payload = verifyToken(token)
 		if (payload) {
-		res.status(200).json({ message: 'Valid token' })
+			res.status(200).json({ message: 'Valid token' })
 		} else {
-		res.status(401).json({ message: 'Invalid token' })
+			res.status(401).json({ message: 'Invalid token' })
 		}
 	} catch (error) {
 		console.error(error)

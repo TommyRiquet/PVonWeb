@@ -4,28 +4,28 @@ import { Environment } from './Environment'
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number
+  	id: number
 
   @Column()
-  firstName: string
+  	firstName: string
 
   @Column()
-  lastName: string
+  	lastName: string
 
   @Column()
-  email: string
+  	email: string
 
   @Column()
-  password: string
+  	password: string
 
   @Column({default: 'user'})
-  role: string
+  	role: string
 
   @Column({nullable: true})
-  phoneNumber: string
+  	phoneNumber: string
 
 
   @ManyToOne(type => Environment, environment => environment.users)
-  environment: Environment
-  
+  	environment: Environment
+
 }

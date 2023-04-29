@@ -18,9 +18,9 @@ export const getUser = async (req: Request, res: Response) => {
 		const userRepository = AppDataSource.getRepository(User)
 
 		const user = await userRepository.createQueryBuilder('user')
-		.select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.phoneNumber', 'user.role'])
-		.where('user.id = :id', { id })
-		.getOne()
+			.select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.phoneNumber', 'user.role'])
+			.where('user.id = :id', { id })
+			.getOne()
 
 		res.json(user)
 	}
@@ -31,16 +31,16 @@ export const getUser = async (req: Request, res: Response) => {
 
 
 export const updateUser = async (req: Request, res: Response) => {
-	
+
 	try{
 		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
 
 		const userRepository = AppDataSource.getRepository(User)
 
 		const user = await userRepository.createQueryBuilder('user')
-		.select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.phoneNumber', 'user.role'])
-		.where('user.id = :id', { id })
-		.getOne()
+			.select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.phoneNumber', 'user.role'])
+			.where('user.id = :id', { id })
+			.getOne()
 
 		user.firstName = req.body.firstName
 		user.lastName = req.body.lastName
@@ -57,16 +57,16 @@ export const updateUser = async (req: Request, res: Response) => {
 }
 
 export const changePassword = async (req: Request, res: Response) => {
-	
+
 	try{
 		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
 
 		const userRepository = AppDataSource.getRepository(User)
 
 		const user = await userRepository.createQueryBuilder('user')
-		.select(['user.id', 'user.password'])
-		.where('user.id = :id', { id })
-		.getOne()
+			.select(['user.id', 'user.password'])
+			.where('user.id = :id', { id })
+			.getOne()
 
 		if (await argon2.verify(user.password, req.body.oldPassword) === false) {
 			res.status(401).json({ status: 401, message: 'Incorrect password' })
@@ -93,14 +93,14 @@ export const changePassword = async (req: Request, res: Response) => {
 }
 
 export const addUser = async (req: Request, res: Response) => {
-	
+
 	try{
 		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
 
 		const userRepository = AppDataSource.getRepository(User)
 		const environnementRepository = AppDataSource.getRepository(Environment)
 
-		const isEmailUsed = await userRepository.findOne({ where : { email : req.body.email }})
+		const isEmailUsed = await userRepository.findOne({ where: { email: req.body.email }})
 		if (isEmailUsed) {
 			res.status(401).json({ status: 401, message: 'User already invited' })
 			return
@@ -108,8 +108,8 @@ export const addUser = async (req: Request, res: Response) => {
 
 		const selfUser = await userRepository.findOne(
 			{
-				relations : ['environment'],
-				where : { id }
+				relations: ['environment'],
+				where: { id }
 			}
 		)
 
@@ -118,7 +118,7 @@ export const addUser = async (req: Request, res: Response) => {
 			return
 		}
 
-		const environment = await environnementRepository.findOne({ where : { id :selfUser.environment.id }})
+		const environment = await environnementRepository.findOne({ where: { id: selfUser.environment.id }})
 
 		const password = generateRandomPassword()
 
@@ -134,11 +134,11 @@ export const addUser = async (req: Request, res: Response) => {
 		await userRepository.save(user)
 
 		sendPasswordMail(user, password)
-		.then(() => {
-			res.status(200).json({ status: 200, message: 'User added' })
-		}).catch((error) => {
-			res.status(500).json({message: error})
-		})
+			.then(() => {
+				res.status(200).json({ status: 200, message: 'User added' })
+			}).catch((error) => {
+				res.status(500).json({message: error})
+			})
 
 	}
 	catch (error) {
