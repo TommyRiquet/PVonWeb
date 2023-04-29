@@ -23,7 +23,7 @@ interface WidgetInterface {
 const Widget: FC<WidgetInterface> = ({title, children, gridProps, headerComponent}) => {
 
 	return (
-		<Grid item {...gridProps}>
+		<Grid item {...gridProps} sx={{height: '100%'}}>
 			<Item variant='outlined' sx={{
 				height: '100%',
 				backgroundColor: 'white',
