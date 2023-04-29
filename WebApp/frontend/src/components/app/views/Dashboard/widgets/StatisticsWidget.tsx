@@ -28,20 +28,20 @@ const StatisticsWidget = () => {
 	return (
 		<Box display='flex' width='100%' flexDirection='column' alignItems='stretch' paddingX={5}>
 			<Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' paddingY={2}>
-				<Typography> Members </Typography>
-				<Typography> {statistics?.numberOfUsers} </Typography>
+				<Typography fontWeight='bold'> Members </Typography>
+				<Typography fontWeight='bold'> {statistics?.numberOfUsers} </Typography>
 			</Box>
 			<Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' paddingY={2}>
-				<Typography> Transcripts Created </Typography>
-				<Typography> {statistics?.numberOfTranscriptCreated} </Typography>
+				<Typography fontWeight='bold'> Transcripts Created </Typography>
+				<Typography fontWeight='bold'> {statistics?.numberOfTranscriptCreated} </Typography>
 			</Box>
 			<Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' paddingY={2}>
-				<Typography> Transcript Edited </Typography>
-				<Typography> 0 </Typography>
+				<Typography fontWeight='bold'> Transcript Edited </Typography>
+				<Typography fontWeight='bold'> 0 </Typography>
 			</Box>
 			<Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' paddingY={2}>
-				<Typography> Transcript Downloaded </Typography>
-				<Typography> 0 </Typography>
+				<Typography fontWeight='bold'> Transcript Downloaded </Typography>
+				<Typography fontWeight='bold'> 0 </Typography>
 			</Box>
 		</Box>
 	)
