@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 
 import { HistoryWidget, TranscriptWidget, TeamWidget, StatisticsWidget } from 'components/app/widgets'
@@ -15,10 +15,10 @@ const WidgetsList = {
 }
 
 const defaultLayout = [
-	{ i: WidgetsList.HistoryWidget, x: 0, y: 0, w: 4, h: 5 },
-	{ i: WidgetsList.TranscriptWidget, x: 4, y: 0, w: 4, h: 5 },
-	{ i: WidgetsList.TeamsWidget, x: 8, y: 0, w: 4, h: 2.5 },
-	{ i: WidgetsList.StatisticsWidget, x: 8, y: 4, w: 4, h: 2.5 }
+	{ i: WidgetsList.HistoryWidget, x: 0, y: 0, w: 1, h: 4 },
+	{ i: WidgetsList.TranscriptWidget, x: 1, y: 0, w: 1, h: 4 },
+	{ i: WidgetsList.TeamsWidget, x: 2, y: 0, w: 1, h: 2 },
+	{ i: WidgetsList.StatisticsWidget, x: 2, y: 1, w: 1, h: 2}
 ]
 
 
@@ -28,47 +28,39 @@ const DashboardView = () => {
 
 	return (
 		<Box flexGrow={1} padding={2}>
+			<Typography variant='h4' color={theme => theme.palette.primary.main} fontWeight='bold' paddingBottom={2}>Dashboard</Typography>
 			<ResponsiveReactGridLayout
-				verticalCompact={true}
-				preventCollision={false}
-				autoSize={true}
-				margin={{
-					lg: [20, 20],
-					md: [20, 20],
-					sm: [20, 20],
-					xs: [20, 20],
-					xxs: [20, 20]
-				}}
-				style={{
-					height: '100%'
-				}}
+				cols={{ lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 }}
 			>
-				{widgetArray?.map((widget, index) => {
-					return (
-						<Box
-							className='reactGridItem'
-							key={index}
-							data-grid={{
-								x: widget?.x,
-								y: widget?.y,
-								w: widget?.w,
-								h: widget?.h,
-								i: widget.i,
-								minW: 4,
-								maxW: 4,
-								minH: 2.5,
-								maxH: 5,
-								minX: 0,
-								maxX: 8,
-								minY: 0,
-								maxY: 8,
-								isDraggable: false,
-								isResizable: false,
-								isBounded: true
-							}}
-						>
-							{widget.i}
-						</Box>)})}
+				{
+					widgetArray?.map((widget, index) => {
+						return (
+							<Box
+								className='reactGridItem'
+								key={index}
+								data-grid={{
+									x: widget?.x,
+									y: widget?.y,
+									w: widget?.w,
+									h: widget?.h,
+									i: widget.i,
+									minW: 1,
+									maxW: 2,
+									minH: 1,
+									maxH: 2,
+									minX: 0,
+									maxX: 2,
+									minY: 0,
+									maxY: 2,
+									isDraggable: true,
+									isResizable: false,
+									isBounded: true
+								}}
+							>
+								{widget.i}
+							</Box>
+						)})
+				}
 			</ResponsiveReactGridLayout>
 		</Box>
 	)

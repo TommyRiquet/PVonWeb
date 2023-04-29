@@ -24,7 +24,14 @@ const Widget: FC<WidgetInterface> = ({title, children, gridProps, headerComponen
 
 	return (
 		<Grid item {...gridProps}>
-			<Item variant='outlined' sx={{height: '100%', borderLeft: '2px solid'}}>
+			<Item variant='outlined' sx={{
+				height: '100%',
+				backgroundColor: 'white',
+				boxShadow: 2,
+				border: '1px solid',
+				borderColor: 'divider',
+				color: theme => theme.palette.primary.main
+			}}>
 				<WidgetHeader title={title} >{headerComponent}</WidgetHeader>
 				{children}
 			</Item>

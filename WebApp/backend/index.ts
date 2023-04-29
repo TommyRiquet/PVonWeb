@@ -23,12 +23,14 @@ import authRouter from './routes/authRoutes'
 import transcriptRouter from './routes/transcriptRoutes'
 import teamRouter from './routes/teamRoutes'
 import userRouter from './routes/userRoutes'
+import environmentRouter from './routes/environmentRoutes'
 
 app.use('/api/health', (_, res) => res.send('OK'))
 app.use('/api/auth', authRouter)
 app.use('/api/transcript', transcriptRouter)
 app.use('/api/team', teamRouter)
 app.use('/api/user', userRouter)
+app.use('/api/environment', environmentRouter)
 
 app.use(express.static(__dirname + '/build'))
 app.get('/*', (_, res) => {
