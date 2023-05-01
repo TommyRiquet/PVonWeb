@@ -1,10 +1,14 @@
-import { Box, Typography } from '@mui/material'
-import { Responsive, WidthProvider } from 'react-grid-layout'
+import { useMemo } from 'react'
+
+import { Box } from '@mui/material'
+import { Responsive, WidthProvider, Layout  } from 'react-grid-layout'
 
 import { HistoryWidget, TranscriptWidget, TeamWidget, StatisticsWidget } from 'components/app/views/Dashboard/widgets'
 import { Widget } from 'components/common'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
+
+import useStorage from 'hooks/useStorage'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -27,37 +31,51 @@ const defaultLayout = [
 const DashboardView = () => {
 
 	const { isMobile } = useGlobalContext()
+
+	const { getStorageItem, setStorageItem } = useStorage()
+
 	const ResponsiveReactGridLayout = WidthProvider(Responsive)
 	const widgetArray = defaultLayout
 
+	const layouts = useMemo(() => {
+		return getStorageItem('layout')
+	}, [])
+
+	const onLayoutChange = (layout: Layout[]) => {
+		setStorageItem('layout', layout)
+	}
+
 	return (
 		<Box flexGrow={1} padding={2}>
-			<Typography variant='h4' color={theme => theme.palette.primary.main} fontWeight='bold' paddingBottom={2}>Dashboard</Typography>
 			<ResponsiveReactGridLayout
-				cols={{ lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 }}
+				className='layout'
+				breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
+				cols={{lg: 3, md: 3, sm: 2, xs: 1, xxs: 1}}
+				layouts={layouts !== undefined ? layouts : defaultLayout}
+				onLayoutChange={onLayoutChange}
 			>
 				{
-					widgetArray?.map((widget, index) => {
+					widgetArray.map((widget, index) => {
 						return (
 							<Box
 								className='reactGridItem'
 								key={index}
 								data-grid={{
-									x: widget?.x,
-									y: widget?.y,
-									w: widget?.w,
-									h: widget?.h,
-									i: widget.i,
+									x: layouts === null || layouts === undefined ? widget.x : layouts[index].x,
+									y: layouts === null || layouts === undefined ? widget.y : layouts[index].y,
+									w: layouts === null || layouts === undefined ? widget.w : layouts[index].w,
+									h: layouts === null || layouts === undefined ? widget.h : layouts[index].h,
+									i: layouts === null || layouts === undefined ? widget.i : layouts[index].i,
 									minW: 1,
-									maxW: 2,
+									maxW: 1,
 									minH: 1,
-									maxH: 2,
+									maxH: 4,
 									minX: 0,
 									maxX: 2,
 									minY: 0,
 									maxY: 2,
 									isDraggable: !isMobile,
-									isResizable: false,
+									isResizable: !isMobile,
 									isBounded: true
 								}}
 							>

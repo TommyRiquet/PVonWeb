@@ -44,7 +44,7 @@ const TeamWidget: React.FC = () => {
 			{
 				listMembers.map((member) => (
 					<Box
-						key={member.firstname+member.lastName}
+						key={member.id}
 						display='flex' flexDirection='row'
 						justifyContent='space-between'
 						alignItems='center'

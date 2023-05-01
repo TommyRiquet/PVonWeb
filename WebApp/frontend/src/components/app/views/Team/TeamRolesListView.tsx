@@ -57,8 +57,18 @@ const rows = [
 	},
 	{
 		id: 3,
+		role: 'Manager',
+		permissions: ['View', 'Edit', 'Export']
+	},
+	{
+		id: 4,
 		role: 'Member',
 		permissions: ['View', 'Export']
+	},
+	{
+		id: 5,
+		role: 'Guest',
+		permissions: ['View']
 	}
 ]
 

@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.194",
     "@types/luxon": "^3.3.0",
     "cypress": "^12.9.0",
     "eslint": "^8.33.0"
