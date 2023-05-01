@@ -27,7 +27,7 @@ const TranscriptWidget = () => {
 	if (listTranscript.length === 0)
 		return (
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='100%'>
-				<Typography variant='h5' sx={{paddingBottom: 2}}>No transcript</Typography>
+				<Typography variant='h6' sx={{paddingBottom: 2}}>No transcript</Typography>
 				<Typography variant='body2' sx={{paddingBottom: 1}}>Do you want to create one ?</Typography>
 				<Button variant='contained' color='primary' href='/transcript'>Create</Button>
 			</Box>
