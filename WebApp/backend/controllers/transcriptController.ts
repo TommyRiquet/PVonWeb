@@ -31,6 +31,8 @@ export const getTranscriptByEnvironment = async (req: Request, res: Response) =>
 
 		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
 
+		const number = req.query.limit || 500
+
 		const user = await userRepository.findOneBy({
 			id: id
 		})
@@ -38,6 +40,7 @@ export const getTranscriptByEnvironment = async (req: Request, res: Response) =>
 			users: user
 		})
 		const transcript = await transcriptRepository.find({
+			take: number,
 			where: {
 				environment: environment
 			}

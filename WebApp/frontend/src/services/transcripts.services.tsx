@@ -1,7 +1,7 @@
 import config from '../config.json'
 
 
-interface Transcript {
+export interface Transcript {
 	id: number
 	name: string
 	occurenceDate: string
@@ -11,8 +11,9 @@ interface Transcript {
 
 export const useTranscriptAPI = () => {
 
-	const getListTranscript = async (): Promise<Array<Transcript>> => {
-		return fetch(`${config.API_URL}transcript/`, {
+	const getListTranscript = async (numberOfTranscript?: number): Promise<Array<Transcript>> => {
+		const limit = numberOfTranscript ? `?limit=${numberOfTranscript}` : ''
+		return fetch(`${config.API_URL}transcript/${limit}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
