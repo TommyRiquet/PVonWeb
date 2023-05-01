@@ -6,6 +6,7 @@ import { Request, Response } from 'express'
 
 import { verifyToken } from '../services/authService'
 import { sendPasswordMail } from '../services/mailService'
+import { registerLog } from '../services/logService'
 
 import { generateRandomPassword } from '../utils/utils'
 
@@ -136,6 +137,7 @@ export const addUser = async (req: Request, res: Response) => {
 		sendPasswordMail(user, password)
 			.then(() => {
 				res.status(200).json({ status: 200, message: 'User added' })
+				registerLog(id, environment, 'create', {user: user})
 			}).catch((error) => {
 				res.status(500).json({message: error})
 			})

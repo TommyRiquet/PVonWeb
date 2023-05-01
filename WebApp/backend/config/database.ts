@@ -1,8 +1,6 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-import { User } from '../entity/User'
-import { Environment } from '../entity/Environment'
-import { Transcript } from '../entity/Transcript'
+import { User, Environment, Transcript, Log } from '../entity'
 
 import config from './config'
 
@@ -15,7 +13,7 @@ const AppDataSource = new DataSource({
 	username: dbConfig.username,
 	password: dbConfig.password,
 	database: dbConfig.database,
-	entities: [User, Environment, Transcript],
+	entities: [User, Environment, Transcript, Log],
 	synchronize: true,
 	logging: false
 })
