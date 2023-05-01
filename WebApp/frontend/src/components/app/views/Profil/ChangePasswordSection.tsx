@@ -10,6 +10,8 @@ import useCurrentUser from 'hooks/useCurrentUser'
 
 import { Loading } from 'components/common'
 
+import { useGlobalContext } from 'contexts/GlobalContext'
+
 const ProfileSchema = yup.object().shape({
 	oldPassword: yup.string().required('This field is required'),
 	newPassword1: yup.string().required('This field is required'),
@@ -17,6 +19,8 @@ const ProfileSchema = yup.object().shape({
 })
 
 const ChangePasswordSection: FC = () => {
+
+	const { isMobile } = useGlobalContext()
 
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
@@ -76,7 +80,7 @@ const ChangePasswordSection: FC = () => {
 						Your password has been updated!
 					</Alert>
 				</Snackbar>
-				<Stack alignItems='start' spacing={3} sx={{width: '35%', minWidth: '350px'}}>
+				<Stack alignItems='start' spacing={3} sx={{width: isMobile ? '100%' : '35%'}}>
 					<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Change Password</Typography>
 					<Controller
 						render={({ field }) => (

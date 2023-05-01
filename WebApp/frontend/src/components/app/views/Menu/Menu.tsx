@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 
-import { Box, List, Drawer } from '@mui/material'
+import { Box, List, Drawer, Paper } from '@mui/material'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import DescriptionIcon from '@mui/icons-material/Description'
 import GroupsIcon from '@mui/icons-material/Groups'
@@ -11,6 +11,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import MenuItem from './MenuItem'
 
 import { useAuth } from 'contexts/AuthContext'
+import { useGlobalContext } from 'contexts/GlobalContext'
 
 import logo from 'static/images/logo-white.png'
 
@@ -45,6 +46,7 @@ const MenuItems = [
 const Menu : FC = () => {
 	const [hovered, setHovered] = useState(false)
 	const { logout } = useAuth()
+	const { isMobile } = useGlobalContext()
 
 	const openDrawerWidth = 300
 	const closedDrawerWidth = 50
@@ -56,6 +58,32 @@ const Menu : FC = () => {
 
 	const handleMouseLeave = () => {
 		setHovered(false)
+	}
+
+	if (isMobile) {
+		return (
+			<Paper sx={{
+				display: 'flex',
+				height: '60px',
+				position: 'fixed',
+				bottom: 0,
+				left: 0,
+				right: 0,
+				zIndex: 10000,
+				background: 'linear-gradient(90deg, '+theme.palette.primary.light+' 0%, '+ theme.palette.primary.dark + ' 100%)',
+				justifyContent: 'space-around',
+				alignItems: 'center'
+			}} elevation={3}>
+				{
+					MenuItems.map((item) => (
+						<MenuItem key={item.text} text={item.text} icon={item.icon} link={item.link}/>
+					))
+				}
+
+				<MenuItem key={'settings'} text={'Settings'} icon={<SettingsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} link={'/settings'}/>
+				<MenuItem key={'deconnection'} text={'Deconnection'} icon={<LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} event={() => logout()}/>
+			</Paper>
+		)
 	}
 
 	return (

@@ -3,11 +3,15 @@ import { useMemo, useState } from 'react'
 import { Box, Typography, Button, Tooltip, TextField } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import EditIcon from '@mui/icons-material/Edit'
+import AddIcon from '@mui/icons-material/Add'
 
 import { ListView, Loading } from 'components/common'
 import TeamAddMemberDialog from './TeamAddMemberDialog'
 
+import { useGlobalContext } from 'contexts/GlobalContext'
+
 import { useTeamAPI } from 'services/teams.services'
+
 import useCurrentUser from 'hooks/useCurrentUser'
 
 
@@ -17,19 +21,22 @@ const columns = [
 		headerName: 'Name',
 		hideable: false,
 		flex: 1,
+		minWidth: 200,
 		valueGetter: (params: any) => `${params.row.firstName} ${params.row.lastName}`
 	},
 	{
 		field: 'email',
 		headerName: 'Email',
 		hideable: false,
-		flex: 1
+		flex: 1,
+		minWidth: 200
 	},
 	{
 		field: 'role',
 		headerName: 'Role',
 		hideable: false,
-		flex: 1
+		flex: 1,
+		minWidth: 100
 	},
 	{
 		field: 'buttons',
@@ -55,6 +62,8 @@ const columns = [
 
 
 const TeamMembersListView: React.FC = () => {
+
+	const { isMobile } = useGlobalContext()
 
 	const { getListMembers } = useTeamAPI()
 
@@ -107,7 +116,9 @@ const TeamMembersListView: React.FC = () => {
 					{
 						userProfile?.role === 'admin' &&
 						<Button variant='contained' color='primary' onClick={() => setOpenAddMemberDialog(true)}>
-							<Typography fontWeight='bold' >Add Member</Typography>
+							{
+								isMobile ? <AddIcon/> : <Typography fontWeight='bold'>Add Member</Typography>
+							}
 						</Button>
 					}
 				</Box>

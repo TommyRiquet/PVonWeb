@@ -11,8 +11,6 @@ const AppContext = React.createContext<AppContextType>(null!)
 
 export function AppContextProvider({ children }: { children: React.ReactNode }) {
 
-
-
 	const value: AppContextType = {
 		null: null
 	}
