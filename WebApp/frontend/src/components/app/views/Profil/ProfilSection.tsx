@@ -10,6 +10,8 @@ import useCurrentUser from 'hooks/useCurrentUser'
 
 import { Loading } from 'components/common'
 
+import { useGlobalContext } from 'contexts/GlobalContext'
+
 const ProfileSchema = yup.object().shape({
 	firstName: yup.string().required('This field is required').max(40, 'First Name must be at most 40 characters'),
 	lastName: yup.string().required('This field is required').max(40, 'Last Name must be at most 40 characters'),
@@ -18,6 +20,8 @@ const ProfileSchema = yup.object().shape({
 })
 
 const ProfileSection: FC = () => {
+
+	const { isMobile } = useGlobalContext()
 
 	const [updateError, setUpdateError] = useState(false)
 	const [updateSuccess, setUpdateSuccess] = useState(false)
@@ -75,7 +79,7 @@ const ProfileSection: FC = () => {
 						Your profile has been updated!
 					</Alert>
 				</Snackbar>
-				<Stack alignItems='start' spacing={3} sx={{width: '35%', minWidth: '350px'}}>
+				<Stack alignItems='start' spacing={3} sx={{width: isMobile ? '100%' : '35%'}}>
 					<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Informations</Typography>
 					<Box display='flex' flexDirection='row' width='100%'>
 						<Controller

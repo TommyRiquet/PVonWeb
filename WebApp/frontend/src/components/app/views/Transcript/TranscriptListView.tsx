@@ -2,7 +2,11 @@ import { useMemo, useState } from 'react'
 
 import { DateTime } from 'luxon'
 import { Box, Button, TextField, Typography } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+
 import { ListView } from 'components/common'
+
+import { useGlobalContext } from 'contexts/GlobalContext'
 
 import { useTranscriptAPI } from 'services/transcripts.services'
 
@@ -17,13 +21,15 @@ const columns = [
 		field: 'name',
 		headerName: 'Name',
 		hideable: false,
-		flex: 1
+		flex: 1,
+		minWidth: 200
 	},
 	{
 		field: 'occurenceDate',
 		headerName: 'Date',
 		hideable: false,
 		flex: 1,
+		minWidth: 150,
 		renderCell: (params: any) => {
 			return (
 				<Typography>
@@ -36,12 +42,16 @@ const columns = [
 		field: 'companyName',
 		headerName: 'Company',
 		hideable: false,
-		flex: 1
+		flex: 1,
+		minWidth: 200
 	}
 ]
 
 
 const TranscriptListView: React.FC = () => {
+
+	const { isMobile } = useGlobalContext()
+
 	const { getListTranscript } = useTranscriptAPI()
 	const [listTranscript, setListTranscript] = useState<Array<any>>([])
 	const [searchText, setSearchText] = useState<string | null>(null)
@@ -76,8 +86,10 @@ const TranscriptListView: React.FC = () => {
 						}}/>
 				</Box>
 				<Box>
-					<Button variant='contained' color='primary' onClick={() => console.log('/transcript/create')}>
-						<Typography fontWeight='bold'>Create</Typography>
+					<Button variant='contained' color='primary' onClick={() => console.log('create Transcript')}>
+						{
+							isMobile ? <AddIcon/> : <Typography fontWeight='bold'>Create</Typography>
+						}
 					</Button>
 				</Box>
 			</Box>

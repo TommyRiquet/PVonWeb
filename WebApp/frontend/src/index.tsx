@@ -7,6 +7,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material'
 import App from './components/App'
 
 import { AuthContextProvider } from 'contexts/AuthContext'
+import { GlobalContextProvider } from 'contexts/GlobalContext'
 
 import reportWebVitals from './controllers/reportWebVitals'
 
@@ -20,12 +21,14 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<AuthContextProvider>
-				<BrowserRouter>
-					<App />
-				</BrowserRouter>
-			</AuthContextProvider>
+			<GlobalContextProvider>
+				<CssBaseline />
+				<AuthContextProvider>
+					<BrowserRouter>
+						<App />
+					</BrowserRouter>
+				</AuthContextProvider>
+			</GlobalContextProvider>
 		</ThemeProvider>
 	</React.StrictMode>
 )

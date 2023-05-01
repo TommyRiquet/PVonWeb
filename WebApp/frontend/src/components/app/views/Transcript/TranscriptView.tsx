@@ -14,7 +14,7 @@ const TranscriptView: React.FC = () => {
 	], [])
 
 	return (
-		<Box display='flex' flexDirection='column' width='100%'>
+		<Box display='flex' flexDirection='column' width='100%' padding={2}>
 			<Typography variant='h4' color={theme => theme.palette.primary.main} fontWeight='bold' paddingBottom={2}>Transcript</Typography>
 			<TabsBox tabDataList={TabDataList}/>
 		</Box>

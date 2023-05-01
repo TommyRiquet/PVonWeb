@@ -4,6 +4,8 @@ import { Responsive, WidthProvider } from 'react-grid-layout'
 import { HistoryWidget, TranscriptWidget, TeamWidget, StatisticsWidget } from 'components/app/views/Dashboard/widgets'
 import { Widget } from 'components/common'
 
+import { useGlobalContext } from 'contexts/GlobalContext'
+
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
@@ -23,6 +25,8 @@ const defaultLayout = [
 
 
 const DashboardView = () => {
+
+	const { isMobile } = useGlobalContext()
 	const ResponsiveReactGridLayout = WidthProvider(Responsive)
 	const widgetArray = defaultLayout
 
@@ -52,7 +56,7 @@ const DashboardView = () => {
 									maxX: 2,
 									minY: 0,
 									maxY: 2,
-									isDraggable: true,
+									isDraggable: !isMobile,
 									isResizable: false,
 									isBounded: true
 								}}

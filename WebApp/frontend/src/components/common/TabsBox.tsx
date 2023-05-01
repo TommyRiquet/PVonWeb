@@ -2,6 +2,8 @@ import { FC, useState } from 'react'
 
 import { Box, Tabs, Tab, Typography } from '@mui/material'
 
+import { useGlobalContext } from 'contexts/GlobalContext'
+
 
 interface TabPanelProps {
     children?: React.ReactNode
@@ -41,6 +43,9 @@ function TabPanel({ children, value, index, ...other }: TabPanelProps) {
 
 
 const TabsBox :FC<TopTabsProps> = ({tabDataList}) => {
+
+	const { isMobile } = useGlobalContext()
+
 	const [selectedTab, setSelectedTab] = useState<number>(0)
 
 	const handleChange = (_: React.SyntheticEvent, newTab: number) => {
@@ -49,7 +54,7 @@ const TabsBox :FC<TopTabsProps> = ({tabDataList}) => {
 
 	return (
 		<Box display='flex' flexDirection='column' width='100%' height='100%'>
-			<Tabs value={selectedTab} onChange={handleChange} sx={{ ml: '2rem', height: '3rem' }} textColor='secondary' TabIndicatorProps={{style: {display: 'none'}}}>
+			<Tabs variant={isMobile ? 'scrollable' : 'standard'} scrollButtons={isMobile ? 'auto': undefined} value={selectedTab} onChange={handleChange} sx={{ ml: isMobile ? '' : '2rem', height: '3rem' }} textColor='secondary' TabIndicatorProps={{style: {display: 'none'}}}>
 				{
 					tabDataList.map((tabData, idx) => {
 						return (
