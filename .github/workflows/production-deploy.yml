@@ -41,5 +41,6 @@ jobs:
           EXCLUDE: ".vscode/, docs/, WebApp/frontend/, WebApp/backend/test/"
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
+            sudo docker system prune -f
             sudo docker compose build
             sudo docker compose up -d
