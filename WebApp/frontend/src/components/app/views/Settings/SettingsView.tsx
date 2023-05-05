@@ -3,12 +3,12 @@ import { useMemo } from 'react'
 import { Box, Typography } from '@mui/material'
 
 import { TabsBox } from 'components/common'
-
+import GeneralSettingsView from './GeneralSettings/GeneralSettingsView'
 
 const SettingsView: React.FC = () => {
 
 	const TabDataList = useMemo(() => [
-		{label: 'Generale', content: <Box>Generale</Box>, tab: 'generale'},
+		{label: 'General', content: <GeneralSettingsView/>, tab: 'general'},
 		{label: 'Automatisation', content: <Box>Automatisation</Box>, tab: 'automatisation'},
 		{label: 'Notifications', content: <Box>Notifications</Box>, tab: 'notifications'},
 		{label: 'Privacy', content: <Box>Privacy</Box>, tab: 'privacy'},

@@ -28,6 +28,27 @@ export interface Log {
 
 export const useEnvironmentAPI = () => {
 
+	const getEnvironment = async (): Promise<Environment> => {
+		return fetch(`${config.API_URL}environment/`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${localStorage.getItem('token')}`
+			}
+		}).then(res => res.json())
+	}
+
+	const updateEnvironment = async (data: any): Promise<Environment> => {
+		return fetch(`${config.API_URL}environment/`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${localStorage.getItem('token')}`
+			},
+			body: JSON.stringify(data)
+		}).then(res => res.json())
+	}
+
 	const getEnvironmentStatistics = async (): Promise<Statistics> => {
 		return fetch(`${config.API_URL}environment/statistics/`, {
 			method: 'GET',
@@ -49,6 +70,8 @@ export const useEnvironmentAPI = () => {
 	}
 
 	return {
+		getEnvironment,
+		updateEnvironment,
 		getEnvironmentStatistics,
 		getEnvironmentLogs
 	}
