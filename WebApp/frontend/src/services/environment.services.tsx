@@ -1,8 +1,8 @@
 import config from '../config.json'
 
 import { User } from './users.services'
-
 import { Transcript } from './transcripts.services'
+import { Tag } from './tags.services'
 
 export interface Statistics {
 	numberOfUsers: number
@@ -23,6 +23,7 @@ export interface Log {
 	targetUser?: User
 	targetEnvironment?: Environment
 	targetTranscript?: Transcript
+	targetTag?: Tag
 }
 
 

@@ -8,6 +8,7 @@ export const registerLog = async (user, environment, action, target) => {
 	const targetEnvironment = target?.environment
 	const targetTranscript = target?.transcript
 	const targetUser = target?.user
+	const targetTag = target?.tag
 
 	try {
 		const log = await logRepository.createQueryBuilder('log')
@@ -18,7 +19,8 @@ export const registerLog = async (user, environment, action, target) => {
 				action: action,
 				targetEnvironment: targetEnvironment,
 				targetTranscript: targetTranscript,
-				targetUser: targetUser
+				targetUser: targetUser,
+				targetTag: targetTag
 			})
 			.execute()
 		return log

@@ -1,7 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
-import { User } from './User'
-import { Environment } from './Environment'
-import { Transcript } from './Transcript'
+import { User, Environment, Transcript, Tag } from './'
 
 enum Action {
 	create = 'create',
@@ -35,5 +33,8 @@ export class Log {
 
 	@ManyToOne(type => User)
 		targetUser: User
+
+	@ManyToOne(type => Tag)
+		targetTag: Tag
 
 }

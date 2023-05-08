@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
+import { useQuery } from 'react-query'
 import { Box, Typography } from '@mui/material'
 
-import { Loading } from 'components/common'
+import { Loading, QueryError } from 'components/common'
 
 import { useTeamAPI } from 'services/teams.services'
 
@@ -13,13 +14,18 @@ const TeamWidget: React.FC = () => {
 
 	const [listMembers, setListMembers] = useState<Array<any>>([])
 
-	useMemo(() => {
-		getListMembers().then(res => setListMembers(res))
-	}, [])
+	const { isLoading, isError, error } = useQuery(['members'], () => getListMembers(), {
+		onSuccess: (data) => {
+			setListMembers(data)
+		}
+	})
 
-	if (listMembers.length === 0) {
+	if (isLoading || listMembers.length === 0)
 		return <Loading/>
-	}
+
+
+	if (isError)
+		return <QueryError error={error}/>
 
 	return (
 		<Box

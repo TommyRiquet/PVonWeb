@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { QueryClient, QueryClientProvider } from 'react-query'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider, CssBaseline } from '@mui/material'
@@ -15,6 +16,8 @@ import theme from './theme'
 
 import './index.css'
 
+const queryClient = new QueryClient()
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
@@ -24,9 +27,11 @@ root.render(
 			<GlobalContextProvider>
 				<CssBaseline />
 				<AuthContextProvider>
-					<BrowserRouter>
-						<App />
-					</BrowserRouter>
+					<QueryClientProvider client={queryClient}>
+						<BrowserRouter>
+							<App />
+						</BrowserRouter>
+					</QueryClientProvider>
 				</AuthContextProvider>
 			</GlobalContextProvider>
 		</ThemeProvider>

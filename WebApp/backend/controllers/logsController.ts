@@ -21,11 +21,11 @@ export const getLogs = async (req: Request, res: Response) => {
 			users: user
 		})
 		const logs = await logRepository.find({
-			select: ['id', 'action', 'timestamp', 'user', 'targetEnvironment', 'targetTranscript', 'targetUser'],
+			select: ['id', 'action', 'timestamp', 'user', 'targetEnvironment', 'targetTranscript', 'targetUser', 'targetTag'],
 			where: {
 				environment: environment
 			},
-			relations: ['user', 'targetEnvironment', 'targetTranscript', 'targetUser'],
+			relations: ['user', 'targetEnvironment', 'targetTranscript', 'targetUser', 'targetTag'],
 			order: {
 				timestamp: 'DESC'
 			}

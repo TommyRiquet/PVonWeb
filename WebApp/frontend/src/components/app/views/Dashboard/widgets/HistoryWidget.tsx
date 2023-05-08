@@ -1,8 +1,9 @@
 import { FC, useMemo, useState } from 'react'
 
+import { useQuery } from 'react-query'
 import { Box, Typography } from '@mui/material'
 
-import { Loading } from 'components/common'
+import { Loading, QueryError } from 'components/common'
 
 import { useEnvironmentAPI, Log } from 'services/environment.services'
 
@@ -25,8 +26,14 @@ const transcriptActions = {
 	'delete': 'deleted'
 }
 
+const tagActions = {
+	'create': 'created tag ',
+	'update': 'has made changes to tag ',
+	'delete': 'deleted tag '
+}
 
-const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targetTranscript}) => {
+
+const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targetTranscript, targetTag}) => {
 
 	const userAction = useMemo(() => {
 		if (targetUser)
@@ -35,6 +42,8 @@ const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targ
 			return environmentActions[action as keyof typeof environmentActions]
 		else if (targetTranscript)
 			return transcriptActions[action as keyof typeof transcriptActions]
+		else if (targetTag)
+			return tagActions[action as keyof typeof tagActions]
 	}, [targetUser, targetEnvironment, targetTranscript])
 
 	const target = useMemo(() => {
@@ -44,6 +53,8 @@ const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targ
 			return targetEnvironment.name
 		else if (targetTranscript)
 			return targetTranscript.name
+		else if (targetTag)
+			return targetTag.name
 	}, [targetUser, targetEnvironment, targetTranscript])
 
 	return (
@@ -71,19 +82,19 @@ const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targ
 const HistoryWidget = () => {
 
 	const [history, setHistory] = useState<any[]>([])
-	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const { getEnvironmentLogs } = useEnvironmentAPI()
 
-	useMemo(() => {
-		setIsLoading(true)
-		getEnvironmentLogs().then(res => {
-			setHistory(res)
-			setIsLoading(false)
-		})
-	}, [])
+	const { isLoading, isError, error } = useQuery(['logs'], () => getEnvironmentLogs(), {
+		onSuccess: (data) => {
+			setHistory(data)
+		}
+	})
 
 	if (isLoading)
 		return <Loading />
+
+	if (isError)
+		return <QueryError error={error} />
 
 	if (history.length === 0 || history.length === undefined)
 		return (
@@ -91,6 +102,7 @@ const HistoryWidget = () => {
 				<Typography variant='h6' sx={{paddingBottom: 2}}>Nothing to show yet :/</Typography>
 			</Box>
 		)
+	console.log(history)
 
 	return (
 		<Box
