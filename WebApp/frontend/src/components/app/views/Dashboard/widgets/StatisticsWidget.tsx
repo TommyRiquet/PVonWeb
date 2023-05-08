@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
+import { useQuery } from 'react-query'
 import { Box, Typography } from '@mui/material'
 
-import { Loading } from 'components/common'
+import { Loading, QueryError } from 'components/common'
 
 import { useEnvironmentAPI, Statistics} from 'services/environment.services'
 
@@ -11,18 +12,18 @@ const StatisticsWidget = () => {
 	const { getEnvironmentStatistics } = useEnvironmentAPI()
 
 	const [statistics, setStatistics] = useState<Statistics>()
-	const [isLoading, setIsLoading] = useState<boolean>(false)
 
-	useEffect(() => {
-		setIsLoading(true)
-		getEnvironmentStatistics().then((res) => {
-			setStatistics(res)
-			setIsLoading(false)
-		})
-	}, [])
+	const { isLoading, isError, error } = useQuery(['statistics'], () => getEnvironmentStatistics(), {
+		onSuccess: (data) => {
+			setStatistics(data)
+		}
+	})
 
 	if (isLoading)
 		return <Loading/>
+
+	if (isError)
+		return <QueryError error={error}/>
 
 
 	return (

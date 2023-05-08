@@ -8,7 +8,8 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-import { useUserAPI }  from 'services/users.services'
+import { useTagsAPI }  from 'services/tags.services'
+import { useQueryClient } from 'react-query'
 
 
 interface TeamAddMemberDialogProps {
@@ -18,43 +19,47 @@ interface TeamAddMemberDialogProps {
 
 
 const ProfileSchema = yup.object().shape({
-	firstName: yup.string().required('This field is required'),
-	lastName: yup.string().required('This field is required'),
-	email: yup.string().required('This field is required'),
-	phoneNumber: yup.string()
+	name: yup.string().required('This field is required'),
+	description: yup.string()
 })
 
 
-const DisplayEmailDialog: FC = () => {
+const DisplayTagSuccessDialog: FC = () => {
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				Email has been sent to the user
+				Tag has been created successfully !
 			</Typography>
 		</Box>
 	)
 }
 
-const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
+const TagsAddDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
 
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
 	const [updateSuccess, setUpdateSuccess] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	const [showEmailDialog, setShowEmailDialog] = useState(false)
+	const queryClient = useQueryClient()
 
-	const { addUser } = useUserAPI()
+	const [showSuccessDialog, setShowSuccessDialog] = useState(false)
+
+	const { createTag } = useTagsAPI()
 
 	const { handleSubmit, control, formState: { errors }} = useForm({ resolver: yupResolver(ProfileSchema) })
 
 	const handleAddMember = async (data: any) => {
 		setIsLoading(true)
-		const result = await addUser(data)
+		const result = await createTag(data)
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
-			setShowEmailDialog(true)
+			setShowSuccessDialog(true)
+		} else if (result.errno === 1062) {
+			setIsLoading(false)
+			setUpdateError(true)
+			setErrorMessage('Tag name already exists')
 		} else {
 			setIsLoading(false)
 			setUpdateError(true)
@@ -63,8 +68,9 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 	}
 
 	const handleCloseDialog = () => {
-		setShowEmailDialog(false)
+		setShowSuccessDialog(false)
 		handleClose()
+		queryClient.invalidateQueries(['tags'])
 	}
 
 	return (
@@ -88,88 +94,52 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 				autoHideDuration={2000}
 			>
 				<Alert>
-					User has been invited !
+					Tags has been created successfully !
 				</Alert>
 			</Snackbar>
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3}>
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
-				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Add Member</Typography>
+				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Add Tag</Typography>
 				{
-					showEmailDialog ?
-						<DisplayEmailDialog/>
+					showSuccessDialog ?
+						<DisplayTagSuccessDialog/>
 						:
 						<form onSubmit={handleSubmit((data) => handleAddMember(data))} >
-							<Box display='flex' width='100%' flexDirection='row'>
-								<Controller
-									render={({ field }) => (
-										<TextField
-											label='First Name'
-											fullWidth
-											margin='normal'
-											variant='outlined'
-											size='small'
-											error={!!errors.firstName}
-											helperText={errors.firstName?.message as string}
-											sx={{ marginRight: 1 }}
-											{...field}
-										/>
-									)}
-									name='firstName'
-									control={control}
-								/>
-								<Controller
-									render={({ field }) => (
-										<TextField
-											label='Last Name'
-											fullWidth
-											margin='normal'
-											variant='outlined'
-											size='small'
-											error={!!errors.lastName}
-											helperText={errors.lastName?.message as string}
-											sx={{ marginLeft: 1 }}
-											{...field}
-										/>
-									)}
-									name='lastName'
-									control={control}
-								/>
-							</Box>
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Email'
+										label='Tag Name'
 										fullWidth
 										margin='normal'
 										variant='outlined'
 										size='small'
-										type='email'
-										error={!!errors.email}
-										helperText={errors.email?.message as string}
+										error={!!errors.name}
+										helperText={errors.name?.message as string}
+										sx={{ marginRight: 1 }}
 										{...field}
 									/>
 								)}
-								name='email'
+								name='name'
 								control={control}
 							/>
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Phone Number'
+										label='Tag Description'
 										fullWidth
 										margin='normal'
 										variant='outlined'
 										size='small'
-										error={!!errors.phoneNumber}
-										helperText={errors.phoneNumber?.message as string}
+										error={!!errors.description}
+										helperText={errors.description?.message as string}
 										{...field}
 									/>
 								)}
-								name='phoneNumber'
+								name='description'
 								control={control}
 							/>
 							<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
-								{ isLoading ? <CircularProgress size={25} /> : 'Invite' }
+								{ isLoading ? <CircularProgress size={25} /> : 'Add Tag' }
 							</Button>
 						</form>
 				}
@@ -180,4 +150,4 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 
 
 
-export default TeamAddMemberDialog
+export default TagsAddDialog

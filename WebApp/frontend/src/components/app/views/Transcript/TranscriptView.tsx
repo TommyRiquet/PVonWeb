@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { Box, Typography } from '@mui/material'
 
 import TranscriptListView from './TranscriptListView'
+import TagsListView from './TagsListView'
 import { TabsBox } from 'components/common'
 
 
@@ -10,7 +11,8 @@ import { TabsBox } from 'components/common'
 const TranscriptView: React.FC = () => {
 
 	const TabDataList = useMemo(() => [
-		{label: 'Transcript', content: <TranscriptListView/>, tab: 'transcript'}
+		{label: 'Transcript', content: <TranscriptListView/>, tab: 'transcript'},
+		{label: 'Tags', content: <TagsListView/>, tab: 'tags'}
 	], [])
 
 	return (

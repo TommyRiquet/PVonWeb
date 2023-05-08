@@ -19,11 +19,11 @@ const ListView: FC<ListViewI & DataGridProps> = ({rows, columns, ...props}) => {
 	return (
 		<DataGrid
 			autoHeight
-			rows={rows}
+			rows={rows || []}
 			columns={columns}
 			disableSelectionOnClick
 			disableColumnMenu
-			hideFooter={rows.length < 10}
+			hideFooter={rows?.length < 10}
 			pageSize={10}
 			sx={{
 				border: '0px solid #000000',

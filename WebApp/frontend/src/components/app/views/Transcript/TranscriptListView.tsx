@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react'
 
+import { useQuery } from 'react-query'
 import { DateTime } from 'luxon'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 
-import { ListView } from 'components/common'
+import { ListView, Loading, QueryError } from 'components/common'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
 
@@ -69,9 +70,17 @@ const TranscriptListView: React.FC = () => {
 
 	}, [searchText, listTranscript])
 
-	useMemo(() => {
-		getListTranscript().then(res => setListTranscript(res))
-	}, [])
+	const { isLoading, isError, error } = useQuery(['transcripts'], () => getListTranscript(), {
+		onSuccess: (data) => {
+			setListTranscript(data)
+		}
+	})
+
+	if (isLoading)
+		return <Loading/>
+
+	if (isError)
+		return <QueryError error={error}/>
 
 	return (
 		<Box display='flex' flexDirection='column' alignItems='stretch' paddingX={5}>

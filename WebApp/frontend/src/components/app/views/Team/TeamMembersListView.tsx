@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react'
 
+import { useQuery } from 'react-query'
 import { Box, Typography, Button, Tooltip, TextField } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
 
-import { ListView, Loading } from 'components/common'
+import { ListView, Loading, QueryError } from 'components/common'
 import TeamAddMemberDialog from './TeamAddMemberDialog'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
@@ -87,21 +88,22 @@ const TeamMembersListView: React.FC = () => {
 
 	}, [searchText, listMembers])
 
-	const handleDialogClose = () => {
-		setOpenAddMemberDialog(false)
-	}
+	const { isLoading, isError, error } = useQuery(['members'], () => getListMembers(), {
+		onSuccess: (data) => {
+			setListMembers(data)
+		}
+	})
 
-	useMemo(() => {
-		getListMembers().then(res => setListMembers(res))
-	}, [])
 
-	if (listMembers.length === 0) {
+	if (isLoading || listMembers.length === 0)
 		return <Loading/>
-	}
+
+	if (isError)
+		return <QueryError error={error}/>
 
 	return (
 		<Box display='flex' flexDirection='column' width='100%' paddingX={5}>
-			<TeamAddMemberDialog open={openAddMemberDialog} handleClose={handleDialogClose}/>
+			<TeamAddMemberDialog open={openAddMemberDialog} handleClose={() => setOpenAddMemberDialog(false)}/>
 			<Box display='flex' justifyContent='space-between' paddingY={3}>
 				<Box>
 					<TextField

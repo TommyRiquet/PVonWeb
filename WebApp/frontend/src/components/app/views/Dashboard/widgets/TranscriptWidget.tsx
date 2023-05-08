@@ -1,8 +1,9 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 
+import { useQuery } from 'react-query'
 import { Box, Typography, Button } from '@mui/material'
 
-import { Loading } from 'components/common'
+import { Loading, QueryError } from 'components/common'
 
 import { useTranscriptAPI, Transcript } from 'services/transcripts.services'
 
@@ -10,19 +11,19 @@ import { useTranscriptAPI, Transcript } from 'services/transcripts.services'
 const TranscriptWidget = () => {
 
 	const [listTranscript, setListTranscript] = useState<Transcript[]>([])
-	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const { getListTranscript } = useTranscriptAPI()
 
-	useMemo(() => {
-		setIsLoading(true)
-		getListTranscript(20).then(res => {
-			setListTranscript(res)
-			setIsLoading(false)
-		})
-	}, [])
+	const { isLoading, isError, error } = useQuery(['transcripts'], () => getListTranscript(), {
+		onSuccess: (data) => {
+			setListTranscript(data)
+		}
+	})
 
 	if (isLoading)
 		return <Loading />
+
+	if (isError)
+		return <QueryError error={error} />
 
 	if (listTranscript.length === 0)
 		return (

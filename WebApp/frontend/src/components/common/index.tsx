@@ -5,5 +5,6 @@ import TabsBox from './TabsBox'
 import PasswordTextField from './PasswordTextField'
 import Widget from './Widget'
 import WidgetHeader from './WidgetHeader'
+import QueryError from './QueryError'
 
-export { CopyToClipboardButton, ListView, Loading, PasswordTextField, TabsBox, Widget, WidgetHeader }
+export { CopyToClipboardButton, ListView, Loading, PasswordTextField, TabsBox, Widget, WidgetHeader, QueryError }
