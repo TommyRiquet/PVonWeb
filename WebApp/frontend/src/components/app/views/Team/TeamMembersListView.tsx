@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
 
 import { ListView, Loading, QueryError } from 'components/common'
-import TeamAddMemberDialog from './TeamAddMemberDialog'
+import TeamAddMemberDialog from './Dialogs/TeamAddMemberDialog'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
 
@@ -53,9 +53,11 @@ const columns = [
 						<EditIcon/>
 					</Button>
 				</Tooltip>
-				<Button variant='contained' color='error'>
-					<LogoutIcon/>
-				</Button>
+				<Tooltip title='Kick user' placement='top' arrow>
+					<Button variant='outlined'>
+						<LogoutIcon/>
+					</Button>
+				</Tooltip>
 			</Box>
 		)
 	}

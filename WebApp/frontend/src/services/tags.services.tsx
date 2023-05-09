@@ -31,8 +31,20 @@ export const useTagsAPI = () => {
 		}).then(res => res.json())
 	}
 
+	const updateTag = async (data:any, tag: Tag): Promise<any> => {
+		return fetch(`${config.API_URL}transcript/tag/${tag.id}/`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${localStorage.getItem('token')}`
+			},
+			body: JSON.stringify(data)
+		}).then(res => res.json())
+	}
+
 	return {
 		getTags,
-		createTag
+		createTag,
+		updateTag
 	}
 }
