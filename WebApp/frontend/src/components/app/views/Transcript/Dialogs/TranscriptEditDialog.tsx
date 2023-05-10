@@ -1,5 +1,6 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
+import { useQueryClient } from 'react-query'
 import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -8,33 +9,36 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-import { useTagsAPI }  from 'services/tags.services'
-import { useQueryClient } from 'react-query'
+import { Transcript, useTranscriptAPI } from 'services/transcripts.services'
 
 
-interface TeamAddMemberDialogProps {
+interface TranscriptEditDialogProps {
 	open: boolean
+	transcript: Transcript
 	handleClose: () => void
 }
 
 
 const ProfileSchema = yup.object().shape({
 	name: yup.string().required('This field is required'),
-	description: yup.string()
+	companyName: yup.string().required('This field is required'),
+	adminName: yup.string().required('This field is required'),
+	scrutineerName: yup.string().required('This field is required'),
+	secretaryName: yup.string().required('This field is required')
 })
 
 
-const DisplayTagSuccessDialog: FC = () => {
+const DisplayTranscriptSuccessDialog: FC = () => {
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				Tag has been created successfully !
+				Transcript has been updated successfully !
 			</Typography>
 		</Box>
 	)
 }
 
-const TagsAddDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
+const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, handleClose}) => {
 
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
@@ -45,20 +49,17 @@ const TagsAddDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
 
 	const [showSuccessDialog, setShowSuccessDialog] = useState(false)
 
-	const { createTag } = useTagsAPI()
+	const { updateTranscript } = useTranscriptAPI()
 
 	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(ProfileSchema) })
 
 	const handleAddMember = async (data: any) => {
 		setIsLoading(true)
-		const result = await createTag(data)
+		const result = await updateTranscript(data, transcript)
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
 			setShowSuccessDialog(true)
-			setTimeout(() => {
-				handleCloseDialog()
-			}, 2000)
 		} else if (result.errno === 1062) {
 			setIsLoading(false)
 			setUpdateError(true)
@@ -70,12 +71,25 @@ const TagsAddDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
 		}
 	}
 
+	useEffect(() => {
+		if (transcript) {
+			setValue('name', transcript.name)
+			setValue('companyName', transcript.companyName)
+			setValue('adminName', transcript.adminName)
+			setValue('scrutineerName', transcript.scrutineerName)
+			setValue('secretaryName', transcript.secretaryName)
+		}
+	}, [transcript])
+
 	const handleCloseDialog = () => {
 		setShowSuccessDialog(false)
 		handleClose()
-		queryClient.invalidateQueries(['tags'])
-		setValue('name', '')
-		setValue('description', '')
+		queryClient.invalidateQueries(['transcripts'])
+		setValue('name', transcript.name)
+		setValue('companyName', transcript.companyName)
+		setValue('adminName', transcript.adminName)
+		setValue('scrutineerName', transcript.scrutineerName)
+		setValue('secretaryName', transcript.secretaryName)
 	}
 
 	return (
@@ -99,21 +113,21 @@ const TagsAddDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
 				autoHideDuration={2000}
 			>
 				<Alert>
-					Tags has been created successfully !
+					Transcript has been updated successfully !
 				</Alert>
 			</Snackbar>
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3}>
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
-				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Add Tag</Typography>
+				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Edit Transcript</Typography>
 				{
 					showSuccessDialog ?
-						<DisplayTagSuccessDialog/>
+						<DisplayTranscriptSuccessDialog/>
 						:
 						<form onSubmit={handleSubmit((data) => handleAddMember(data))} >
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Tag Name'
+										label='Transcript Name'
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -130,21 +144,69 @@ const TagsAddDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Tag Description'
+										label='Company Name'
 										fullWidth
 										margin='normal'
 										variant='outlined'
 										size='small'
-										error={!!errors.description}
-										helperText={errors.description?.message as string}
+										error={!!errors.companyName}
+										helperText={errors.companyName?.message as string}
 										{...field}
 									/>
 								)}
-								name='description'
+								name='companyName'
+								control={control}
+							/>
+							<Controller
+								render={({ field }) => (
+									<TextField
+										label='Transcript Admin'
+										fullWidth
+										margin='normal'
+										variant='outlined'
+										size='small'
+										error={!!errors.adminName}
+										helperText={errors.adminName?.message as string}
+										{...field}
+									/>
+								)}
+								name='adminName'
+								control={control}
+							/>
+							<Controller
+								render={({ field }) => (
+									<TextField
+										label='Transcript Scrutineer'
+										fullWidth
+										margin='normal'
+										variant='outlined'
+										size='small'
+										error={!!errors.scrutineerName}
+										helperText={errors.scrutineerName?.message as string}
+										{...field}
+									/>
+								)}
+								name='scrutineerName'
+								control={control}
+							/>
+							<Controller
+								render={({ field }) => (
+									<TextField
+										label='Transcript Secretary'
+										fullWidth
+										margin='normal'
+										variant='outlined'
+										size='small'
+										error={!!errors.secretaryName}
+										helperText={errors.secretaryName?.message as string}
+										{...field}
+									/>
+								)}
+								name='secretaryName'
 								control={control}
 							/>
 							<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
-								{ isLoading ? <CircularProgress size={25} /> : 'Add Tag' }
+								{ isLoading ? <CircularProgress size={25} /> : 'Save Transcript' }
 							</Button>
 						</form>
 				}
@@ -155,4 +217,4 @@ const TagsAddDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
 
 
 
-export default TagsAddDialog
+export default TranscriptEditDialog

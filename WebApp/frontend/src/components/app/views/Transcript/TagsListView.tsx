@@ -15,6 +15,7 @@ import { useGlobalContext } from 'contexts/GlobalContext'
 import useCurrentUser from 'hooks/useCurrentUser'
 
 import { Tag, useTagsAPI } from 'services/tags.services'
+import TagsDeleteDialog from './Dialogs/TagsDeleteDialog'
 
 
 const TagsListView: React.FC = () => {
@@ -26,11 +27,17 @@ const TagsListView: React.FC = () => {
 	const [listTags, setListTags] = useState<Array<Tag>>([])
 	const [openAddTagDialog, setOpenAddTagDialog] = useState<boolean>(false)
 	const [openEditTagDialog, setOpenEditTagDialog] = useState<boolean>(false)
+	const [openDeleteTagDialog, setOpenDeleteTagDialog] = useState<boolean>(false)
 	const [ selectedTag, setSelectedTag ] = useState<Tag>(listTags[0])
 
-	const handleActionClick = (tag: Tag) => {
+	const handleEditClick = (tag: Tag) => {
 		setSelectedTag(tag)
 		setOpenEditTagDialog(true)
+	}
+
+	const handleDeleteClick = async (tag: Tag) => {
+		setSelectedTag(tag)
+		setOpenDeleteTagDialog(true)
 	}
 
 	const columns = useMemo(() => {
@@ -56,12 +63,12 @@ const TagsListView: React.FC = () => {
 				renderCell: (value: any) => (
 					<Box display='flex' flexDirection='row' justifyContent='space-between'>
 						<Tooltip title='Edit tag' placement='top' arrow>
-							<Button onClick={() => handleActionClick(value.row)} variant='contained' color='primary' sx={{marginRight: 1}}>
+							<Button onClick={() => handleEditClick(value.row)} variant='contained' color='primary' sx={{marginRight: 1}}>
 								<EditIcon/>
 							</Button>
 						</Tooltip>
 						<Tooltip title='Delete tag' placement='top' arrow>
-							<Button variant='outlined'>
+							<Button variant='outlined' onClick={() => handleDeleteClick(value.row)}>
 								<DeleteIcon/>
 							</Button>
 						</Tooltip>
@@ -84,6 +91,7 @@ const TagsListView: React.FC = () => {
 		<Box display='flex' flexDirection='column' alignItems='stretch' paddingX={5}>
 			<TagsAddDialog open={openAddTagDialog} handleClose={() => setOpenAddTagDialog(false)}/>
 			<TagsEditDialog open={openEditTagDialog} handleClose={() => setOpenEditTagDialog(false)} tag={selectedTag}/>
+			<TagsDeleteDialog open={openDeleteTagDialog} handleClose={() => setOpenDeleteTagDialog(false)} tag={selectedTag}/>
 			<Box display='flex' justifyContent='end' paddingY={3}>
 				{
 					userProfile?.role === 'admin' &&

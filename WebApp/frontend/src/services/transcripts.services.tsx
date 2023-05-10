@@ -6,6 +6,9 @@ export interface Transcript {
 	name: string
 	occurenceDate: string
 	adminName: string
+	companyName: string
+	scrutineerName: string
+	secretaryName: string
 }
 
 
@@ -22,7 +25,19 @@ export const useTranscriptAPI = () => {
 		}).then(res => res.json())
 	}
 
+	const updateTranscript = async (data: any, transcript: Transcript): Promise<any> => {
+		return fetch(`${config.API_URL}transcript/${transcript.id}/`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${localStorage.getItem('token')}`
+			},
+			body: JSON.stringify(data)
+		}).then(res => res.json())
+	}
+
 	return {
-		getListTranscript
+		getListTranscript,
+		updateTranscript
 	}
 }

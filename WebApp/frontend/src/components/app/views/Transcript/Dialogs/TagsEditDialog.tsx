@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
+import { useQueryClient } from 'react-query'
 import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -9,7 +10,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 import { Tag, useTagsAPI }  from 'services/tags.services'
-import { useQueryClient } from 'react-query'
 
 
 interface TeamAddMemberDialogProps {
@@ -29,7 +29,7 @@ const DisplayTagSuccessDialog: FC = () => {
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				Tag has been created successfully !
+				Tag has been updated successfully !
 			</Typography>
 		</Box>
 	)
@@ -79,6 +79,8 @@ const TagsEditDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) 
 		setShowSuccessDialog(false)
 		handleClose()
 		queryClient.invalidateQueries(['tags'])
+		setValue('name', tag.name)
+		setValue('description', tag.description)
 	}
 
 	return (
