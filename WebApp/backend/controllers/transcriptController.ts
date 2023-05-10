@@ -5,6 +5,7 @@ import { AppDataSource } from '../config/database'
 import { Transcript, User, Environment } from '../entity'
 
 import { verifyToken } from '../services/authService'
+import { registerLog } from '../services/logService'
 
 
 export const getTranscriptById = async (req: Request, res: Response) => {
@@ -25,13 +26,41 @@ export const getTranscriptById = async (req: Request, res: Response) => {
 export const getTranscriptByEnvironment = async (req: Request, res: Response) => {
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
 	const userRepository = AppDataSource.getRepository(User)
+
+	try {
+
+		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
+		const number = req.query.limit || 500
+
+		const user = await userRepository.findOne({
+			where: { id: id },
+			relations: ['environment']
+		})
+		const environment = user.environment[0]
+
+		const transcripts = await transcriptRepository.find({
+			take: number,
+			where: { environment: environment },
+			relations: ['tags']
+		})
+
+		res.json(transcripts)
+	}
+	catch (error) {
+		res.status(500).json(error)
+	}
+
+}
+
+
+export const updateTranscript = async (req: Request, res: Response) => {
+	const transcriptRepository = AppDataSource.getRepository(Transcript)
+	const userRepository = AppDataSource.getRepository(User)
 	const environmentRepository = AppDataSource.getRepository(Environment)
 
 	try {
 
 		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
-
-		const number = req.query.limit || 500
 
 		const user = await userRepository.findOneBy({
 			id: id
@@ -39,16 +68,26 @@ export const getTranscriptByEnvironment = async (req: Request, res: Response) =>
 		const environment = await environmentRepository.findOneBy({
 			users: user
 		})
-		const transcript = await transcriptRepository.find({
-			take: number,
-			where: {
-				environment: environment
-			}
+
+		const transcript = await transcriptRepository.findOneBy({
+			id: req.params.id
 		})
-		res.json(transcript)
+
+		transcript.name = req.body.name
+		transcript.companyName = req.body.companyName
+		transcript.adminName = req.body.adminName
+		transcript.scrutineerName = req.body.scrutineerName
+		transcript.secretaryName = req.body.secretaryName
+		transcript.tags = req.body.tags
+
+		transcriptRepository.save(transcript)
+
+		registerLog(id, environment, 'update', {transcript: transcript})
+
+
+		res.json({status: 200, message: 'Transcript updated successfully'})
 	}
 	catch (error) {
 		res.status(500).json(error)
 	}
-
 }

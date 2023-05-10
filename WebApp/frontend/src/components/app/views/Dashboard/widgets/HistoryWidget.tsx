@@ -102,7 +102,6 @@ const HistoryWidget = () => {
 				<Typography variant='h6' sx={{paddingBottom: 2}}>Nothing to show yet :/</Typography>
 			</Box>
 		)
-	console.log(history)
 
 	return (
 		<Box

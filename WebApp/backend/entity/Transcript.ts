@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
-import { Environment } from './Environment'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinTable, ManyToMany } from 'typeorm'
+import { Environment, Tag } from './'
 
 @Entity()
 export class Transcript {
@@ -29,5 +29,9 @@ export class Transcript {
 
 	@ManyToOne(type => Environment, environment => environment.transcripts)
 		environment: Environment
+
+	@ManyToMany(type => Tag, { cascade: true })
+	@JoinTable()
+		tags: Tag[]
 
 }

@@ -42,9 +42,20 @@ export const useTagsAPI = () => {
 		}).then(res => res.json())
 	}
 
+	const deleteTag = async (tag: Tag): Promise<any> => {
+		return fetch(`${config.API_URL}transcript/tag/${tag.id}/`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${localStorage.getItem('token')}`
+			}
+		}).then(res => res.json())
+	}
+
 	return {
 		getTags,
 		createTag,
-		updateTag
+		updateTag,
+		deleteTag
 	}
 }

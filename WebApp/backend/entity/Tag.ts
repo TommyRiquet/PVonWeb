@@ -2,7 +2,6 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTabl
 import { Environment, Transcript } from './'
 
 @Entity()
-@Index(['name', 'environment'], { unique: true })
 export class Tag {
 	@PrimaryGeneratedColumn()
 		id: number
@@ -13,9 +12,8 @@ export class Tag {
 	@Column({ nullable: true})
 		description: string
 
-	@ManyToMany(type => Transcript)
-	@JoinTable()
-		transcripts: Transcript[]
+	@Column({ default: true })
+		isActive: boolean
 
 	@ManyToOne(type => Environment, environment => environment.transcripts)
 		environment: Environment
