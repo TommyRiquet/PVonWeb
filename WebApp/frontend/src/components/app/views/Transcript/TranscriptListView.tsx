@@ -82,7 +82,7 @@ const TranscriptListView: React.FC = () => {
 				sortable: false,
 				renderCell: (params: any) => {
 					return (
-						<Box display='flex' flexWrap='wrap'>
+						<Box display='flex' flexWrap='nowrap'>
 							{
 								params.row.tags.map((tag: Tag) => (
 									<Chip key={tag.id} label={tag.name} sx={{margin: 0.5}}/>

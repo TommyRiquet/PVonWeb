@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 
-import { useQueryClient } from 'react-query'
-import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
+import { useQuery, useQueryClient } from 'react-query'
+import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert, SelectChangeEvent } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
 import { useForm, Controller } from 'react-hook-form'
@@ -9,7 +9,10 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
+import { Loading, ChipSelect } from 'components/common'
+
 import { Transcript, useTranscriptAPI } from 'services/transcripts.services'
+import { Tag, useTagsAPI } from 'services/tags.services'
 
 
 interface TranscriptEditDialogProps {
@@ -44,22 +47,27 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 	const [errorMessage, setErrorMessage] = useState('')
 	const [updateSuccess, setUpdateSuccess] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
-
-	const queryClient = useQueryClient()
-
+	const [listTags, setListTags] = useState<Tag[]>([])
+	const [selectedTags, setSelectedTags] = useState<Tag[]>([])
 	const [showSuccessDialog, setShowSuccessDialog] = useState(false)
 
 	const { updateTranscript } = useTranscriptAPI()
+	const { getTags } = useTagsAPI()
+
+	const queryClient = useQueryClient()
 
 	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(ProfileSchema) })
 
 	const handleAddMember = async (data: any) => {
 		setIsLoading(true)
-		const result = await updateTranscript(data, transcript)
+		const result = await updateTranscript(data, transcript, selectedTags)
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
 			setShowSuccessDialog(true)
+			setTimeout(() => {
+				handleCloseDialog()
+			}, 2000)
 		} else if (result.errno === 1062) {
 			setIsLoading(false)
 			setUpdateError(true)
@@ -78,6 +86,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 			setValue('adminName', transcript.adminName)
 			setValue('scrutineerName', transcript.scrutineerName)
 			setValue('secretaryName', transcript.secretaryName)
+			setSelectedTags(transcript.tags)
 		}
 	}, [transcript])
 
@@ -90,13 +99,30 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 		setValue('adminName', transcript.adminName)
 		setValue('scrutineerName', transcript.scrutineerName)
 		setValue('secretaryName', transcript.secretaryName)
+		setSelectedTags(transcript.tags)
 	}
+
+	const handleSelectTags = (event: SelectChangeEvent<any>) => {
+		const { target: { value } } = event
+		const selectedTags = value.map((item: string) => listTags.find((tag) => tag.name === item))
+		setSelectedTags(selectedTags)
+	}
+
+	const { isLoading: isTagsLoading } = useQuery(['tags'], () => getTags(), {
+		onSuccess: (data) => {
+			setListTags(data)
+		}
+	})
+
+	if ( isTagsLoading )
+		return <Loading/>
 
 	return (
 		<Dialog
 			fullWidth={true}
 			open={open}
 			onClose={handleCloseDialog}
+			transitionDuration={0}
 		>
 			<Snackbar
 				open={updateError}
@@ -204,6 +230,12 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 								)}
 								name='secretaryName'
 								control={control}
+							/>
+							<ChipSelect
+								label='Tags'
+								allChips={listTags}
+								selectedChips={selectedTags}
+								handleChange={handleSelectTags}
 							/>
 							<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
 								{ isLoading ? <CircularProgress size={25} /> : 'Save Transcript' }

@@ -66,6 +66,7 @@ const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}
 			fullWidth={true}
 			open={open}
 			onClose={handleCloseDialog}
+			transitionDuration={0}
 		>
 			<Snackbar
 				open={updateError}
@@ -95,6 +96,9 @@ const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}
 						<>
 							<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold' sx={{marginTop: 2}}>
 								Are you sure you want to delete this tag ?
+							</Typography>
+							<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold' sx={{marginTop: 2}}>
+								This action is irreversible.
 							</Typography>
 							<Typography variant='body1' color={theme => theme.palette.primary.main} sx={{marginTop: 2}}>
 								{tag?.name}
