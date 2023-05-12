@@ -72,6 +72,7 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 			fullWidth={true}
 			open={open}
 			onClose={handleCloseDialog}
+			transitionDuration={0}
 		>
 			<Snackbar
 				open={updateError}

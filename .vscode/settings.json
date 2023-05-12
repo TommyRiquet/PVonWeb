@@ -1,7 +1,0 @@
-{
-    "appService.connections": [
-    
-    ],
-    "appService.deploySubpath": "backend",
-    "appService.defaultWebAppToDeploy": "/subscriptions/49926c57-85f3-4656-8469-ec39e88528eb/AppServices/subscriptions/49926c57-85f3-4656-8469-ec39e88528eb/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/PVonWeb",
-}

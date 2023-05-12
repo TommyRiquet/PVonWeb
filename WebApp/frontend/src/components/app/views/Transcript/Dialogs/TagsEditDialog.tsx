@@ -88,6 +88,7 @@ const TagsEditDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) 
 			fullWidth={true}
 			open={open}
 			onClose={handleCloseDialog}
+			transitionDuration={0}
 		>
 			<Snackbar
 				open={updateError}

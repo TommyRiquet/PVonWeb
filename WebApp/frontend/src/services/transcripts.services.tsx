@@ -1,5 +1,7 @@
 import config from '../config.json'
 
+import { Tag } from './tags.services'
+
 
 export interface Transcript {
 	id: number
@@ -9,6 +11,7 @@ export interface Transcript {
 	companyName: string
 	scrutineerName: string
 	secretaryName: string
+	tags: Tag[]
 }
 
 
@@ -25,14 +28,17 @@ export const useTranscriptAPI = () => {
 		}).then(res => res.json())
 	}
 
-	const updateTranscript = async (data: any, transcript: Transcript): Promise<any> => {
+	const updateTranscript = async (data: any, transcript: Transcript, selectedTags: Tag[]): Promise<any> => {
 		return fetch(`${config.API_URL}transcript/${transcript.id}/`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Token ${localStorage.getItem('token')}`
 			},
-			body: JSON.stringify(data)
+			body: JSON.stringify({
+				...data,
+				tags: selectedTags
+			})
 		}).then(res => res.json())
 	}
 
