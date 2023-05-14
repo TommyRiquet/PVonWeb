@@ -41,13 +41,18 @@ const ChipSelect: React.FC<ChipSelectI> = ({ label, allChips, selectedChips, han
 				)}
 			>
 				{
-					allChips.map((chip) => {
-						return (
-							<MenuItem key={chip.name} value={chip.name}>
-								{chip.name}
-							</MenuItem>
-						)
-					})
+					allChips.length > 0 ?
+						allChips.map((chip) => {
+							return (
+								<MenuItem key={chip.name} value={chip.name}>
+									{chip.name}
+								</MenuItem>
+							)
+						})
+						:
+						<MenuItem disabled>
+							{label} not found
+						</MenuItem>
 				}
 			</Select>
 		</FormControl>
