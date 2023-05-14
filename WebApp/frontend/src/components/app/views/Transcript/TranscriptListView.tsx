@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 import { ListView, Loading, QueryError } from 'components/common'
+import TranscriptAddDialog from './Dialogs/TranscriptAddDialog'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
 
@@ -22,10 +23,12 @@ const TranscriptListView: React.FC = () => {
 	const { isMobile } = useGlobalContext()
 
 	const { getListTranscript } = useTranscriptAPI()
+
 	const [listTranscript, setListTranscript] = useState<Array<any>>([])
 	const [searchText, setSearchText] = useState<string | null>(null)
 	const [openEditTranscriptDialog, setOpenEditTranscriptDialog] = useState<boolean>(false)
 	const [ selectedTranscript, setSelectedTranscript ] = useState<Transcript>(listTranscript[0])
+	const [openAddDialog, setOpenAddDialog] = useState(false)
 
 	const handleEditClick = (transcript: Transcript) => {
 		setSelectedTranscript(transcript)
@@ -40,28 +43,20 @@ const TranscriptListView: React.FC = () => {
 	const columns = useMemo(() => {
 		return [
 			{
-				field: 'id',
-				headerName: 'ID',
-				hideable: false,
-				width: 80
-			},
-			{
 				field: 'name',
 				headerName: 'Name',
-				hideable: false,
 				flex: 1,
 				minWidth: 200
 			},
 			{
 				field: 'occurenceDate',
 				headerName: 'Date',
-				hideable: false,
 				flex: 1,
 				minWidth: 150,
 				renderCell: (params: any) => {
 					return (
 						<Typography>
-							{DateTime.fromSQL(params.value).toLocaleString(DateTime.DATETIME_SHORT)}
+							{DateTime.fromISO(params.value).toLocaleString(DateTime.DATETIME_SHORT)}
 						</Typography>
 					)
 				}
@@ -69,14 +64,12 @@ const TranscriptListView: React.FC = () => {
 			{
 				field: 'companyName',
 				headerName: 'Company',
-				hideable: false,
 				flex: 1,
 				minWidth: 200
 			},
 			{
 				field: 'tags',
 				headerName: 'Tags',
-				hideable: false,
 				flex: 1,
 				minWidth: 200,
 				sortable: false,
@@ -143,6 +136,7 @@ const TranscriptListView: React.FC = () => {
 
 	return (
 		<Box display='flex' flexDirection='column' alignItems='stretch' paddingX={5}>
+			<TranscriptAddDialog open={openAddDialog} handleClose={() => setOpenAddDialog(false)}/>
 			<Box display='flex' justifyContent='space-between' paddingY={3}>
 				<TranscriptEditDialog open={openEditTranscriptDialog} handleClose={() => setOpenEditTranscriptDialog(false)} transcript={selectedTranscript}/>
 				<Box>
@@ -155,7 +149,7 @@ const TranscriptListView: React.FC = () => {
 						}}/>
 				</Box>
 				<Box>
-					<Button variant='contained' color='primary' onClick={() => console.log('create Transcript')}>
+					<Button variant='contained' color='primary' onClick={() => setOpenAddDialog(true)}>
 						{
 							isMobile ? <AddIcon/> : <Typography fontWeight='bold'>Create</Typography>
 						}
@@ -163,7 +157,15 @@ const TranscriptListView: React.FC = () => {
 				</Box>
 			</Box>
 
-			<ListView columns={columns} rows={filteredTranscripts}/>
+			<ListView
+				columns={columns}
+				rows={filteredTranscripts}
+				initialState={{
+					sorting: {
+						sortModel: [{ field: 'occurenceDate', sort: 'desc' }]
+					}
+				}}
+			/>
 		</Box>
 	)
 }

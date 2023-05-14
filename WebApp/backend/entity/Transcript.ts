@@ -21,11 +21,14 @@ export class Transcript {
 	@Column()
 		scrutineerName: string
 
-	@Column()
+	@Column({default: ''})
 		shareHolders: string
 
-	@Column()
+	@Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
 		occurenceDate: string
+
+	@Column({ default: true })
+		isActive: boolean
 
 	@ManyToOne(type => Environment, environment => environment.transcripts)
 		environment: Environment
