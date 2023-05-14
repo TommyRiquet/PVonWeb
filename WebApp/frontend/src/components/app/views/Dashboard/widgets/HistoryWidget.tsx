@@ -57,6 +57,9 @@ const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targ
 			return targetTag.name
 	}, [targetUser, targetEnvironment, targetTranscript])
 
+	if (userAction === undefined || target === undefined)
+		return null
+
 	return (
 		<Box
 			display='flex' flexDirection='row'

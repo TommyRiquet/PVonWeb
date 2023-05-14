@@ -22,7 +22,7 @@ interface TranscriptEditDialogProps {
 }
 
 
-const ProfileSchema = yup.object().shape({
+const TranscriptSchema = yup.object().shape({
 	name: yup.string().required('This field is required'),
 	companyName: yup.string().required('This field is required'),
 	adminName: yup.string().required('This field is required'),
@@ -56,7 +56,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 
 	const queryClient = useQueryClient()
 
-	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(ProfileSchema) })
+	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(TranscriptSchema) })
 
 	const handleAddMember = async (data: any) => {
 		setIsLoading(true)
@@ -100,6 +100,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 		setValue('scrutineerName', transcript.scrutineerName)
 		setValue('secretaryName', transcript.secretaryName)
 		setSelectedTags(transcript.tags)
+		setIsLoading(false)
 	}
 
 	const handleSelectTags = (event: SelectChangeEvent<any>) => {
