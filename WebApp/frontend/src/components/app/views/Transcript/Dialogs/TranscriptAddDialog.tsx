@@ -108,7 +108,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 	})
 
 
-	if ( isTagsLoading || isOrganizationsLoading )
+	if ( (isTagsLoading || isOrganizationsLoading) && open )
 		return <Loading/>
 
 	return (

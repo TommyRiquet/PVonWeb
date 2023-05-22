@@ -142,7 +142,7 @@ export const createTranscript = async (req: Request, res: Response) => {
 		transcript.tags = req.body.tags
 		transcript.environment = environment
 
-		transcriptRepository.save(transcript)
+		await transcriptRepository.save(transcript)
 
 		registerLog(id, environment, 'create', {transcript: transcript})
 

@@ -38,7 +38,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
-          EXCLUDE: ".vscode/, docs/, WebApp/frontend/, WebApp/backend/test/"
+          EXCLUDE: "test/"
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
             sudo docker system prune -f
