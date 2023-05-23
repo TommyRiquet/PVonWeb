@@ -113,11 +113,14 @@ const TranscriptListView: React.FC = () => {
 		if (!searchText) {
 			return listTranscript
 		}
+		let text = searchText
+		text = text.replace(/[\])}[{(]/g, '')
+		text = text.toLowerCase()
 
-		const regex = new RegExp(searchText, 'i')
+		const regex = new RegExp(text, 'gi')
 
 		return listTranscript.filter((transcript) => {
-			return regex.test(transcript.id) ||regex.test(transcript.name)
+			return regex.test(transcript.companyName) ||regex.test(transcript.name) || regex.test(transcript.tags.map((tag: Tag) => tag.name).join(' '))
 		}).sort((a, b) => a.name.localeCompare(b.name))
 
 	}, [searchText, listTranscript])
