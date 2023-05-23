@@ -41,6 +41,7 @@ jobs:
           EXCLUDE: "test/"
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
-            sudo docker system prune -f
             sudo docker compose build
             sudo docker compose up -d
+            sudo docker network connect internal-fake-api-network web
+            sudo docker system prune -f

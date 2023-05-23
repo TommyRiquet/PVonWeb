@@ -80,8 +80,11 @@ const TeamMembersListView: React.FC = () => {
 		if (!searchText) {
 			return listMembers
 		}
+		let text = searchText
+		text = text.replace(/[\])}[{(]/g, '')
+		text = text.toLowerCase()
 
-		const regex = new RegExp(searchText, 'i')
+		const regex = new RegExp(text, 'gi')
 
 		return listMembers.filter((member) => {
 			const name = `${member.firstName} ${member.lastName}`
