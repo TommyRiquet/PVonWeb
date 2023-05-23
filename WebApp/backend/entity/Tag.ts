@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Index } from 'typeorm'
-import { Environment, Transcript } from './'
+import { Environment } from './'
 
 @Entity()
 export class Tag {
@@ -12,8 +12,8 @@ export class Tag {
 	@Column({ nullable: true})
 		description: string
 
-	@Column({ default: true })
-		isActive: boolean
+	@Column({ default: false })
+		deleted: boolean
 
 	@ManyToOne(type => Environment, environment => environment.transcripts)
 		environment: Environment

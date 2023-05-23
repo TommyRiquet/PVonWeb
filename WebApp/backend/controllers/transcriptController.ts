@@ -17,7 +17,7 @@ export const getTranscriptById = async (req: Request, res: Response) => {
 	try {
 		const transcript = await transcriptRepository.findOneBy({
 			id: req.params.id,
-			isActive: true
+			deleted: false
 		})
 		res.json(transcript)
 	} catch (error) {
@@ -46,7 +46,7 @@ export const getTranscriptByEnvironment = async (req: Request, res: Response) =>
 			take: number,
 			where: {
 				environment: environment,
-				isActive: true
+				deleted: false
 			},
 			relations: ['tags']
 		})
@@ -78,7 +78,7 @@ export const updateTranscript = async (req: Request, res: Response) => {
 
 		const transcript = await transcriptRepository.findOneBy({
 			id: req.params.id,
-			isActive: true
+			deleted: false
 		})
 
 		transcript.name = req.body.name

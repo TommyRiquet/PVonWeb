@@ -34,7 +34,7 @@ export const getTagsByEnvironment = async (req: Request, res: Response) => {
 			take: number,
 			where: {
 				environment: environment,
-				isActive: true
+				deleted: false
 			}
 		})
 		res.json(tag)
@@ -71,7 +71,7 @@ export const createTag = async (req: Request, res: Response) => {
 		const tagExists = await tagRepository.findOneBy({
 			name: req.body.name,
 			environment: environment,
-			isActive: true
+			deleted: false
 		})
 
 		if (tagExists)
@@ -121,7 +121,7 @@ export const updateTag = async (req: Request, res: Response) => {
 		const tagExists = await tagRepository.findOneBy({
 			name: req.body.name,
 			environment: environment,
-			isActive: true
+			deleted: false
 		})
 
 
@@ -189,7 +189,7 @@ export const deleteTag = async (req: Request, res: Response) => {
 			transcript.tags = transcript.tags.filter(t => t.id !== tag.id)
 		})
 
-		tag.isActive = false
+		tag.deleted = true
 
 		await tagRepository.save(tag)
 		await transcriptRepository.save(transcripts)
