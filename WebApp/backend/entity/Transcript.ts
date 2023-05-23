@@ -27,8 +27,8 @@ export class Transcript {
 	@Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
 		occurenceDate: string
 
-	@Column({ default: true })
-		isActive: boolean
+	@Column({ default: false })
+		deleted: boolean
 
 	@ManyToOne(type => Environment, environment => environment.transcripts)
 		environment: Environment
