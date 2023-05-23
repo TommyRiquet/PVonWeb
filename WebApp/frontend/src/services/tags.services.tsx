@@ -1,5 +1,4 @@
-import config from '../config.json'
-
+import useAPI from './common.services'
 
 export interface Tag {
 	id: number
@@ -10,46 +9,22 @@ export interface Tag {
 
 export const useTagsAPI = () => {
 
+	const { API } = useAPI()
+
 	const getTags = async (): Promise<Array<Tag>> => {
-		return fetch(`${config.API_URL}transcript/tag/`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			}
-		}).then(res => res.json())
+		return API.get('transcript/tag/').then(res => res.data)
 	}
 
 	const createTag = async (tag: any): Promise<any> => {
-		return fetch(`${config.API_URL}transcript/tag/`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			},
-			body: JSON.stringify(tag)
-		}).then(res => res.json())
+		return API.post('transcript/tag/', tag).then(res => res.data)
 	}
 
 	const updateTag = async (data:any, tag: Tag): Promise<any> => {
-		return fetch(`${config.API_URL}transcript/tag/${tag.id}/`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			},
-			body: JSON.stringify(data)
-		}).then(res => res.json())
+		return API.patch(`transcript/tag/${tag.id}/`, data).then(res => res.data)
 	}
 
 	const deleteTag = async (tag: Tag): Promise<any> => {
-		return fetch(`${config.API_URL}transcript/tag/${tag.id}/`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			}
-		}).then(res => res.json())
+		return API.delete(`transcript/tag/${tag.id}/`).then(res => res.data)
 	}
 
 	return {

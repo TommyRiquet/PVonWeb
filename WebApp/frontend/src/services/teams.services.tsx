@@ -1,4 +1,4 @@
-import config from '../config.json'
+import useAPI from './common.services'
 
 
 interface User {
@@ -11,14 +11,10 @@ interface User {
 
 export const useTeamAPI = () => {
 
+	const { API } = useAPI()
+
 	const getListMembers = async (): Promise<Array<User>> => {
-		return fetch(`${config.API_URL}team/members/`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			}
-		}).then(res => res.json())
+		return API.get('team/members/').then(res => res.data)
 	}
 
 	return {

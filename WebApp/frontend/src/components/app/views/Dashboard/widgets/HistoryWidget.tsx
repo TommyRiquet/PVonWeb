@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material'
 
 import { Loading, QueryError } from 'components/common'
 
-import { useEnvironmentAPI, Log } from 'services/environment.services'
+import { useStatisticsAPI, Log } from 'services/statistics.services'
 
 
 const userActions = {
@@ -85,7 +85,7 @@ const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targ
 const HistoryWidget = () => {
 
 	const [history, setHistory] = useState<any[]>([])
-	const { getEnvironmentLogs } = useEnvironmentAPI()
+	const { getEnvironmentLogs } = useStatisticsAPI()
 
 	const { isLoading, isError, error } = useQuery(['logs'], () => getEnvironmentLogs(), {
 		onSuccess: (data) => {

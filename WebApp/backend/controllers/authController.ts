@@ -1,8 +1,13 @@
-import { User } from '../entity'
-import { AppDataSource } from '../config/database'
-import { Request, Response } from 'express'
-import { generateToken, verifyToken} from '../services/authService'
 const argon2 = require('argon2')
+
+import { User } from '../entity'
+
+import { AppDataSource } from '../config/database'
+
+import { Request, Response } from 'express'
+
+import { generateToken, verifyToken} from '../services/authService'
+
 
 export const login = async (req: Request, res: Response) => {
 	try {

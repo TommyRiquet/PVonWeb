@@ -5,11 +5,11 @@ import { Box, Typography } from '@mui/material'
 
 import { Loading, QueryError } from 'components/common'
 
-import { useEnvironmentAPI, Statistics} from 'services/environment.services'
+import { useStatisticsAPI, Statistics } from 'services/statistics.services'
 
 const StatisticsWidget = () => {
 
-	const { getEnvironmentStatistics } = useEnvironmentAPI()
+	const { getEnvironmentStatistics } = useStatisticsAPI()
 
 	const [statistics, setStatistics] = useState<Statistics>()
 

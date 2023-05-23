@@ -10,9 +10,7 @@ import { ListView, Loading } from 'components/common'
 import TagsAddDialog from './Dialogs/TagsAddDialog'
 import TagsEditDialog from './Dialogs/TagsEditDialog'
 
-import { useGlobalContext } from 'contexts/GlobalContext'
-
-import useCurrentUser from 'hooks/useCurrentUser'
+import { useGlobalContext, useAppContext } from 'contexts'
 
 import { Tag, useTagsAPI } from 'services/tags.services'
 import TagsDeleteDialog from './Dialogs/TagsDeleteDialog'
@@ -21,7 +19,7 @@ import TagsDeleteDialog from './Dialogs/TagsDeleteDialog'
 const TagsListView: React.FC = () => {
 
 	const { isMobile } = useGlobalContext()
-	const { userProfile } = useCurrentUser()
+	const { currentRole } = useAppContext()
 
 	const { getTags } = useTagsAPI()
 	const [listTags, setListTags] = useState<Array<Tag>>([])
@@ -94,7 +92,7 @@ const TagsListView: React.FC = () => {
 			<TagsDeleteDialog open={openDeleteTagDialog} handleClose={() => setOpenDeleteTagDialog(false)} tag={selectedTag}/>
 			<Box display='flex' justifyContent='end' paddingY={3}>
 				{
-					userProfile?.role === 'admin' &&
+					currentRole === 'admin' &&
 					<Button variant='contained' color='primary' onClick={() => setOpenAddTagDialog(true)}>
 						{
 							isMobile ? <AddIcon/> : <Typography fontWeight='bold'>Add Tag</Typography>

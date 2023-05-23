@@ -6,9 +6,10 @@ import { useUserAPI } from 'services/users.services'
 
 
 const useCurrentUser = () => {
+
 	const { getCurrentUser, updateUser, changePassword } = useUserAPI()
 
-	const [userProfile, setUserProfile] = useState<User>()
+	const [userProfile, setUserProfile] = useState<User | null>(null)
 
 	useEffect(() => {
 		getCurrentUser().then(res => setUserProfile(res))

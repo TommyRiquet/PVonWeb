@@ -9,11 +9,9 @@ import AddIcon from '@mui/icons-material/Add'
 import { ListView, Loading, QueryError } from 'components/common'
 import TeamAddMemberDialog from './Dialogs/TeamAddMemberDialog'
 
-import { useGlobalContext } from 'contexts/GlobalContext'
+import { useGlobalContext, useAppContext } from 'contexts'
 
 import { useTeamAPI } from 'services/teams.services'
-
-import useCurrentUser from 'hooks/useCurrentUser'
 
 
 const columns = [
@@ -70,7 +68,7 @@ const TeamMembersListView: React.FC = () => {
 
 	const { getListMembers } = useTeamAPI()
 
-	const { userProfile } = useCurrentUser()
+	const { currentRole } = useAppContext()
 
 	const [listMembers, setListMembers] = useState<Array<any>>([])
 	const [searchText, setSearchText] = useState<string | null>(null)
@@ -121,7 +119,7 @@ const TeamMembersListView: React.FC = () => {
 				</Box>
 				<Box>
 					{
-						userProfile?.role === 'admin' &&
+						currentRole === 'admin' &&
 						<Button variant='contained' color='primary' onClick={() => setOpenAddMemberDialog(true)}>
 							{
 								isMobile ? <AddIcon/> : <Typography fontWeight='bold'>Add Member</Typography>

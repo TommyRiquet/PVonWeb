@@ -6,23 +6,26 @@ import { User, Environment, Transcript } from '../entity'
 
 import { verifyToken } from '../services/authService'
 
+import { getUserAndEnvironment } from './commonController'
 
-export const getEnvironment = async (req: Request, res: Response) => {
+
+export const getEnvironments = async (req: Request, res: Response) => {
 	const userRepository = AppDataSource.getRepository(User)
-	const environmentRepository = AppDataSource.getRepository(Environment)
 
 	try {
-
 		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
 
-		const user = await userRepository.findOneBy({
-			id: id
-		})
-		const environments = await environmentRepository.findOne({
+		const user = await userRepository.findOne({
 			where: {
-				users: user
+				id: id
+			},
+			relations: {
+				userEnvironments: {
+					environment: true
+				}
 			}
 		})
+		const environments = user.userEnvironments.map(userEnv => userEnv.environment)
 
 		res.json(environments)
 	}
@@ -33,25 +36,16 @@ export const getEnvironment = async (req: Request, res: Response) => {
 
 export const updateEnvironment = async (req: Request, res: Response) => {
 	const environmentRepository = AppDataSource.getRepository(Environment)
-	const userRepository = AppDataSource.getRepository(User)
 
 	try {
 
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
+		const { error, role, environment } = await getUserAndEnvironment(req)
 
-		const user = await userRepository.findOneBy({
-			id: id
-		})
+		if (error)
+			return res.status(403).json({ message: error.message })
 
-		if(user.role !== 'admin') {
-			res.status(403).json({ message: 'You are not allowed to update this environment' })
-		}
-
-		const environment = await environmentRepository.findOne({
-			where: {
-				users: user
-			}
-		})
+		if (role !== 'admin')
+			return res.status(403).json({ message: 'You are not allowed to update this environment' })
 
 		environment.name = req.body.name
 		environment.description = req.body.description
@@ -70,22 +64,16 @@ export const updateEnvironment = async (req: Request, res: Response) => {
 
 export const getStatisticsByEnvironment = async (req: Request, res: Response) => {
 	const userRepository = AppDataSource.getRepository(User)
-	const environmentRepository = AppDataSource.getRepository(Environment)
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
 
 	try {
+		const { environment } = await getUserAndEnvironment(req)
 
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
-
-		const user = await userRepository.findOneBy({
-			id: id
-		})
-		const environment = await environmentRepository.findOneBy({
-			users: user
-		})
 		const teamMembersCount = await userRepository.count({
 			where: {
-				environment: environment
+				userEnvironments: {
+					environment: environment
+				}
 			}
 		})
 		const transcriptCount = await transcriptRepository.count({
