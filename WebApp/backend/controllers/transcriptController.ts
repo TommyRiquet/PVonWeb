@@ -2,12 +2,13 @@ import { Request, Response } from 'express'
 
 import { AppDataSource } from '../config/database'
 
-import { Transcript, User, Environment } from '../entity'
+import { Transcript, User } from '../entity'
 
 import { verifyToken } from '../services/authService'
 import { registerLog } from '../services/logService'
 
 import { fetchAPI } from '../services/externalApiService'
+import { getUserAndEnvironment } from './commonController'
 
 require('dotenv').config()
 
@@ -29,18 +30,11 @@ export const getTranscriptById = async (req: Request, res: Response) => {
 
 export const getTranscriptByEnvironment = async (req: Request, res: Response) => {
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
-	const userRepository = AppDataSource.getRepository(User)
 
 	try {
-
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
 		const number = req.query.limit || 500
 
-		const user = await userRepository.findOne({
-			where: { id: id },
-			relations: ['environment']
-		})
-		const environment = user.environment[0]
+		const { environment } = await getUserAndEnvironment(req)
 
 		const transcripts = await transcriptRepository.find({
 			take: number,
@@ -62,19 +56,10 @@ export const getTranscriptByEnvironment = async (req: Request, res: Response) =>
 
 export const updateTranscript = async (req: Request, res: Response) => {
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
-	const userRepository = AppDataSource.getRepository(User)
-	const environmentRepository = AppDataSource.getRepository(Environment)
 
 	try {
 
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
-
-		const user = await userRepository.findOneBy({
-			id: id
-		})
-		const environment = await environmentRepository.findOneBy({
-			users: user
-		})
+		const { user, environment } = await getUserAndEnvironment(req)
 
 		const transcript = await transcriptRepository.findOneBy({
 			id: req.params.id,
@@ -90,7 +75,7 @@ export const updateTranscript = async (req: Request, res: Response) => {
 
 		transcriptRepository.save(transcript)
 
-		registerLog(id, environment, 'update', {transcript: transcript})
+		registerLog(user.id, environment, 'update', {transcript: transcript})
 
 
 		res.json({status: 200, message: 'Transcript updated successfully'})
@@ -119,18 +104,10 @@ export const getAllOrganization = async (_: Request, res: Response) => {
 export const createTranscript = async (req: Request, res: Response) => {
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
 	const userRepository = AppDataSource.getRepository(User)
-	const environmentRepository = AppDataSource.getRepository(Environment)
 
 	try {
 
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
-
-		const user = await userRepository.findOneBy({
-			id: id
-		})
-		const environment = await environmentRepository.findOneBy({
-			users: user
-		})
+		const { user, environment } = await getUserAndEnvironment(req)
 
 		const transcript = new Transcript()
 
@@ -144,7 +121,7 @@ export const createTranscript = async (req: Request, res: Response) => {
 
 		await transcriptRepository.save(transcript)
 
-		registerLog(id, environment, 'create', {transcript: transcript})
+		registerLog(user.id, environment, 'create', {transcript: transcript})
 
 		res.json({status: 200, message: 'Transcript created successfully'})
 

@@ -1,14 +1,15 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 
+import { useQueryClient } from 'react-query'
 import { Button, Box, TextField, Snackbar, Alert, Typography, CircularProgress } from '@mui/material'
 import { useForm, Controller } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-import { Loading } from 'components/common'
+import { useAppContext } from 'contexts'
 
-import useCurrentUser from 'hooks/useCurrentUser'
+import useCurrentEnv from 'hooks/useCurrentEnv'
 
 import { useEnvironmentAPI } from 'services/environment.services'
 
@@ -19,38 +20,39 @@ const EnvironmentSchema = yup.object().shape({
 
 const GeneralEnvironmentSettings: FC = () => {
 
+	const queryClient = useQueryClient()
+
 	const [updateError, setUpdateError] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('Unknown error, please try again.')
 	const [updateSuccess, setUpdateSuccess] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
-	const { userProfile } = useCurrentUser()
-	const { getEnvironment, updateEnvironment } = useEnvironmentAPI()
+
+	const { updateEnvironment } = useEnvironmentAPI()
+	const { selectedEnvironment } = useCurrentEnv()
+	const { currentRole } = useAppContext()
 
 	const { handleSubmit, setValue, control, formState: { errors }} = useForm({ resolver: yupResolver(EnvironmentSchema) })
 
 	const handleChangeEnvName = async (data: any) => {
 		setIsLoading(true)
-		const result = await updateEnvironment(data)
-		if (result) {
+		const result = await updateEnvironment(data, String(selectedEnvironment?.id))
+		if ('id' in result) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
+			queryClient.invalidateQueries('environments')
 		} else {
 			setIsLoading(false)
 			setUpdateError(true)
+			setErrorMessage(result.message)
 		}
 	}
 
 	useEffect(() => {
-		getEnvironment().then(res => {
-			if (res) {
-				setValue('name', res.name)
-			}
-		})
-	}, [])
+		if (selectedEnvironment) {
+			setValue('name', selectedEnvironment.name)
+		}
+	}, [selectedEnvironment])
 
-
-	if (!userProfile) {
-		return <Loading/>
-	}
 
 	return (
 		<>
@@ -58,9 +60,10 @@ const GeneralEnvironmentSettings: FC = () => {
 				<Snackbar
 					open={updateError}
 					onClose={() => {setUpdateError(false)}}
+					autoHideDuration={2000}
 				>
-					<Alert>
-						Unknown error, please try again .
+					<Alert severity='error'>
+						{errorMessage}
 					</Alert>
 				</Snackbar>
 				<Snackbar
@@ -81,7 +84,7 @@ const GeneralEnvironmentSettings: FC = () => {
 								fullWidth
 								error={!!errors.name}
 								helperText={errors.name?.message as string}
-								disabled={ userProfile?.role !== 'admin'}
+								disabled={currentRole !== 'admin'}
 								sx={{ marginY: 2 }}
 								{...field}
 							/>
@@ -90,9 +93,12 @@ const GeneralEnvironmentSettings: FC = () => {
 						control={control}
 						defaultValue={''}
 					/>
-					<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%'}}>
-						{ isLoading ? <CircularProgress size={25} /> : 'Update' }
-					</Button>
+					{
+						currentRole === 'admin' &&
+						<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%'}}>
+							{ isLoading ? <CircularProgress size={25} /> : 'Update' }
+						</Button>
+					}
 				</Box>
 			</form>
 		</>

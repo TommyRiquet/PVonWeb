@@ -1,18 +1,56 @@
-import React from 'react'
+import { ReactNode, createContext, useContext, useMemo } from 'react'
+
+import useCurrentUser from 'hooks/useCurrentUser'
+import useCurrentEnv from 'hooks/useCurrentEnv'
+
+import { Environment } from 'services/environment.services'
+import { User } from 'services/users.services'
 
 
 export interface AppContextType {
-	null: null
+	isLoading: boolean
+	isError: boolean
+	error: any
+	isAppReady: boolean
+	selectedEnvironment: Environment | null
+	listEnvironment: Environment[]
+	userProfile: User | null
+	currentRole: string
+	changeSelectedEnvironment: (environment: Environment) => void
 }
 
 
-const AppContext = React.createContext<AppContextType>(null!)
+const AppContext = createContext<AppContextType>(null!)
 
 
-export function AppContextProvider({ children }: { children: React.ReactNode }) {
+export function AppContextProvider({ children }: { children: ReactNode }) {
+
+	const { userProfile } = useCurrentUser()
+
+	const { isLoading, isError, error, listEnvironment, selectedEnvironment, changeSelectedEnvironment } = useCurrentEnv()
+
+	const isAppReady = useMemo(() => {
+		return !!selectedEnvironment && !!userProfile
+	}, [selectedEnvironment, listEnvironment, userProfile])
+
+	const currentRole = useMemo(() => {
+		if (userProfile) {
+			const currentEnv = (userProfile as any).userEnvironments.find((env: any) => env.environmentId === selectedEnvironment?.id)
+			return currentEnv?.role
+		}
+		return 'user'
+	}, [userProfile, selectedEnvironment])
 
 	const value: AppContextType = {
-		null: null
+		isLoading,
+		isError,
+		error,
+		isAppReady,
+		selectedEnvironment,
+		listEnvironment,
+		userProfile,
+		currentRole,
+		changeSelectedEnvironment
 	}
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>
@@ -20,5 +58,5 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
 
 
 export function useAppContext() {
-	return React.useContext(AppContext)
+	return useContext(AppContext)
 }

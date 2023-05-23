@@ -1,4 +1,4 @@
-import { User, Environment, Transcript } from '../entity/'
+import { User, Environment, Transcript, UserEnvironment } from '../entity/'
 require('dotenv').config()
 
 
@@ -6,6 +6,7 @@ const createEnvironment = async (environmentRepository, name, description) => {
 	const environment = new Environment()
 	environment.name = name
 	environment.description = description
+
 	await environmentRepository.save(environment)
 	return environment
 }
@@ -21,18 +22,35 @@ const createTranscript = async (transcriptRepository, name, companyName, adminNa
 	transcript.shareHolders = shareHolders
 	transcript.occurenceDate = occurenceDate
 	transcript.environment = environment
+
 	await transcriptRepository.save(transcript)
 	return transcript
 }
 
-const createUser = async (userRepository, firstName, lastName, email, password, role, environment) => {
+
+const linkUserToEnvironment = async (userEnvironmentRepository, user, environment, role) => {
+	environment.map(async (env) => {
+
+		const userEnvironment = new UserEnvironment()
+		userEnvironment.user = user
+		userEnvironment.environment = env
+		userEnvironment.role = role
+		userEnvironment.userId = user.id
+		userEnvironment.environmentId = env.id
+
+		await userEnvironmentRepository.save(userEnvironment)
+
+	})
+}
+
+
+const createUser = async (userRepository, firstName, lastName, email, password) => {
 	const user = new User()
 	user.firstName = firstName
 	user.lastName = lastName
 	user.email = email
 	user.password = password
-	user.role = role
-	user.environment = environment
+
 	await userRepository.save(user)
 	return user
 }
@@ -42,6 +60,7 @@ export const loadDemoData = async (AppDataSource) => {
 	if (process.env.NODE_ENV !== 'development') return
 
 	const userRepository = AppDataSource.getRepository(User)
+	const userEnvironmentRepository = AppDataSource.getRepository(UserEnvironment)
 	const environmentRepository = AppDataSource.getRepository(Environment)
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
 
@@ -51,11 +70,15 @@ export const loadDemoData = async (AppDataSource) => {
 		return
 	}
 
-	const environment1 = await createEnvironment(environmentRepository, 'Demo Environment', 'Demo Environment')
+	const environment1 = await createEnvironment(environmentRepository, 'Environment 1', 'Demo Environment 1')
+	const environment2 = await createEnvironment(environmentRepository, 'Environment 2', 'Demo Environment 2')
+	const environment3 = await createEnvironment(environmentRepository, 'Environment 3', 'Demo Environment 3')
 
-	await createUser(userRepository, 'Admin', 'Admin', 'admin@pvonweb.com', process.env.DEMO_DATA_ADMIN_PASSWORD, 'admin', environment1)
+	const admin = await createUser(userRepository, 'Admin', 'Admin', 'admin@pvonweb.com', process.env.DEMO_DATA_ADMIN_PASSWORD)
+	await linkUserToEnvironment(userEnvironmentRepository, admin, [environment1, environment2, environment3], 'admin')
 
-	await createUser(userRepository, 'Demo', 'Demo', 'demo@pvonweb.com', process.env.DEMO_DATA_DEMO_PASSWORD, 'user', environment1)
+	const demoUser = await createUser(userRepository, 'Demo', 'Demo', 'demo@pvonweb.com', process.env.DEMO_DATA_DEMO_PASSWORD)
+	await linkUserToEnvironment(userEnvironmentRepository, demoUser, [environment1], 'user')
 
 	await createTranscript(transcriptRepository, 'Demo Transcript 1', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
 	await createTranscript(transcriptRepository, 'Demo Transcript 2', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)

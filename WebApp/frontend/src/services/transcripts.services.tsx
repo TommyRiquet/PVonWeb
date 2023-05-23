@@ -1,4 +1,4 @@
-import config from '../config.json'
+import useAPI from './common.services'
 
 import { Tag } from './tags.services'
 
@@ -38,54 +38,30 @@ export interface Organization {
 
 export const useTranscriptAPI = () => {
 
+	const { API } = useAPI()
+
 	const getListTranscript = async (numberOfTranscript?: number): Promise<Array<Transcript>> => {
 		const limit = numberOfTranscript ? `?limit=${numberOfTranscript}` : ''
-		return fetch(`${config.API_URL}transcript/${limit}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			}
-		}).then(res => res.json())
+		return API.get(`transcript/${limit}`).then(res => res.data)
 	}
 
 	const updateTranscript = async (data: any, transcript: Transcript, selectedTags: Tag[]): Promise<any> => {
-		return fetch(`${config.API_URL}transcript/${transcript.id}/`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			},
-			body: JSON.stringify({
-				...data,
-				tags: selectedTags
-			})
-		}).then(res => res.json())
+		return API.patch(`transcript/${transcript.id}/`, {
+			...data,
+			tags: selectedTags
+		}).then(res => res.data)
 	}
 
 	const getOrganizationOptions = async (): Promise<Array<Organization>> => {
-		return fetch(`${config.API_URL}transcript/organizations`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			}
-		}).then(res => res.json())
+		return API.get('transcript/organizations').then(res => res.data)
 	}
 
 	const createTranscript = async (data: any, selectedTags: Tag[], organization?: string): Promise<any> => {
-		return fetch(`${config.API_URL}transcript/`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			},
-			body: JSON.stringify({
-				...data,
-				companyName: organization,
-				tags: selectedTags
-			})
-		}).then(res => res.json())
+		return API.post('transcript/', {
+			...data,
+			companyName: organization,
+			tags: selectedTags
+		}).then(res => res.data)
 	}
 
 	return {

@@ -1,35 +1,16 @@
 import config from '../config.json'
 
-import { User } from './users.services'
-import { Transcript } from './transcripts.services'
-import { Tag } from './tags.services'
+import { AxiosResponse } from 'axios'
 
-export interface Statistics {
-	numberOfUsers: number
-	numberOfTranscriptCreated: number
-}
-
-interface Environment {
+export interface Environment {
 	id: number
 	name: string
 	description: string
 }
 
-export interface Log {
-	id: number
-	action : string
-	user: User
-	timestamp: string
-	targetUser?: User
-	targetEnvironment?: Environment
-	targetTranscript?: Transcript
-	targetTag?: Tag
-}
-
-
 export const useEnvironmentAPI = () => {
 
-	const getEnvironment = async (): Promise<Environment> => {
+	const getEnvironments = async (): Promise<AxiosResponse<Environment[]>> => {
 		return fetch(`${config.API_URL}environment/`, {
 			method: 'GET',
 			headers: {
@@ -39,41 +20,21 @@ export const useEnvironmentAPI = () => {
 		}).then(res => res.json())
 	}
 
-	const updateEnvironment = async (data: any): Promise<Environment> => {
+	const updateEnvironment = async (data: any, environmentId: string): Promise<any> => {
 		return fetch(`${config.API_URL}environment/`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
+				'Authorization': `Token ${localStorage.getItem('token')}`,
+				'X-Env-Id': environmentId
 			},
 			body: JSON.stringify(data)
 		}).then(res => res.json())
 	}
 
-	const getEnvironmentStatistics = async (): Promise<Statistics> => {
-		return fetch(`${config.API_URL}environment/statistics/`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			}
-		}).then(res => res.json())
-	}
-
-	const getEnvironmentLogs = async (): Promise<Log[]> => {
-		return fetch(`${config.API_URL}environment/history/`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
-			}
-		}).then(res => res.json())
-	}
 
 	return {
-		getEnvironment,
-		updateEnvironment,
-		getEnvironmentStatistics,
-		getEnvironmentLogs
+		getEnvironments,
+		updateEnvironment
 	}
 }

@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { getStatisticsByEnvironment, getEnvironment, updateEnvironment } = require('../controllers/environmentController')
+const { getStatisticsByEnvironment, getEnvironments, updateEnvironment } = require('../controllers/environmentController')
 const { getLogs } = require('../controllers/logsController')
 
-router.get('/', getEnvironment)
+router.get('/', getEnvironments)
 
 router.get('/statistics', getStatisticsByEnvironment)
 

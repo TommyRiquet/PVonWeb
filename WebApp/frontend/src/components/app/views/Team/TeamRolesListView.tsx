@@ -76,13 +76,6 @@ const TeamRolesListView: React.FC = () => {
 
 	return (
 		<Box display='flex' flexDirection='column' width='100%' paddingX={5}>
-			<Box display='flex' justifyContent='flex-end' paddingY={3}>
-				<Box>
-					<Button variant='contained' color='primary' onClick={() => console.log('/members/add')}>
-						<Typography fontWeight='bold' >Add Role</Typography>
-					</Button>
-				</Box>
-			</Box>
 			<ListView columns={columns} rows={rows}/>
 		</Box>
 	)

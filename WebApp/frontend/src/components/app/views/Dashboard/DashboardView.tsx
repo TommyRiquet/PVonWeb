@@ -1,10 +1,11 @@
 import { useMemo } from 'react'
 
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { Responsive, WidthProvider, Layout  } from 'react-grid-layout'
 
 import { HistoryWidget, TranscriptWidget, TeamWidget, StatisticsWidget } from 'components/app/views/Dashboard/widgets'
 import { Widget } from 'components/common'
+import EnvironmentSelect from './EnvironmentSelect'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
 
@@ -47,6 +48,10 @@ const DashboardView = () => {
 
 	return (
 		<Box flexGrow={1} padding={2}>
+			<Box display='flex' flexDirection='row' justifyContent='space-between' paddingRight={3}>
+				<Typography variant='h4' color={theme => theme.palette.primary.main} fontWeight='bold' paddingBottom={2}>Dashboard</Typography>
+				<EnvironmentSelect/>
+			</Box>
 			<ResponsiveReactGridLayout
 				className='layout'
 				breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
