@@ -2,13 +2,13 @@ import { Request, Response } from 'express'
 
 import { AppDataSource } from '../config/database'
 
-import { Transcript, User } from '../entity'
+import { Transcript } from '../entity'
 
-import { verifyToken } from '../services/authService'
-import { registerLog } from '../services/logService'
-
-import { fetchAPI } from '../services/externalApiService'
 import { getUserAndEnvironment } from './commonController'
+
+import { registerLog } from '../services/logService'
+import { fetchAPI } from '../services/externalApiService'
+import { generatePdf } from '../services/pdfGenerator'
 
 require('dotenv').config()
 
@@ -59,26 +59,40 @@ export const updateTranscript = async (req: Request, res: Response) => {
 
 	try {
 
-		const { user, environment } = await getUserAndEnvironment(req)
+		let organizations = await fetchAPI(process.env.FAKE_API_URL + '/organizations/')
 
-		const transcript = await transcriptRepository.findOneBy({
-			id: req.params.id,
-			deleted: false
-		})
+		if (organizations){
 
-		transcript.name = req.body.name
-		transcript.companyName = req.body.companyName
-		transcript.adminName = req.body.adminName
-		transcript.scrutineerName = req.body.scrutineerName
-		transcript.secretaryName = req.body.secretaryName
-		transcript.tags = req.body.tags
+			const { user, environment } = await getUserAndEnvironment(req)
 
-		transcriptRepository.save(transcript)
+			const transcript = await transcriptRepository.findOneBy({
+				id: req.params.id,
+				deleted: false
+			})
 
-		registerLog(user.id, environment, 'update', {transcript: transcript})
+			transcript.name = req.body.name
+			transcript.companyName = req.body.companyName
+			transcript.adminName = req.body.adminName
+			transcript.scrutineerName = req.body.scrutineerName
+			transcript.secretaryName = req.body.secretaryName
+			transcript.tags = req.body.tags
+
+			const organization = organizations.find((organization) => organization.name === transcript.companyName)
+
+			const link = await generatePdf(organization, transcript)
+
+			if ('filename' in link)
+				transcript.link = link.filename
+
+			await transcriptRepository.save(transcript)
+
+			registerLog(user.id, environment, 'update', {transcript: transcript})
 
 
-		res.json({status: 200, message: 'Transcript updated successfully'})
+			res.json({status: 200, message: 'Transcript updated successfully'})
+		}
+		else
+			res.status(500).json({status: 500, message: 'Generate pdf error'})
 	}
 	catch (error) {
 		res.status(500).json(error)
@@ -103,27 +117,41 @@ export const getAllOrganization = async (_: Request, res: Response) => {
 
 export const createTranscript = async (req: Request, res: Response) => {
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
-	const userRepository = AppDataSource.getRepository(User)
 
 	try {
 
 		const { user, environment } = await getUserAndEnvironment(req)
 
-		const transcript = new Transcript()
+		let organization = await fetchAPI(process.env.FAKE_API_URL + '/organizations/'+ parseInt(req.body.organization.id))
 
-		transcript.name = req.body.name
-		transcript.companyName = req.body.companyName
-		transcript.adminName = req.body.adminName
-		transcript.scrutineerName = req.body.scrutineerName
-		transcript.secretaryName = req.body.secretaryName
-		transcript.tags = req.body.tags
-		transcript.environment = environment
+		if (organization){
+			const transcript = new Transcript()
 
-		await transcriptRepository.save(transcript)
+			transcript.name = req.body.name
+			transcript.companyName = organization.name
+			transcript.adminName = req.body.adminName
+			transcript.scrutineerName = req.body.scrutineerName
+			transcript.secretaryName = req.body.secretaryName
+			transcript.tags = req.body.tags
+			transcript.environment = environment
 
-		registerLog(user.id, environment, 'create', {transcript: transcript})
+			await transcriptRepository.save(transcript)
 
-		res.json({status: 200, message: 'Transcript created successfully'})
+			const link = await generatePdf(organization, transcript)
+
+			if ('filename' in link)
+				transcript.link = link.filename
+
+			await transcriptRepository.save(transcript)
+
+			registerLog(user.id, environment, 'create', {transcript: transcript})
+
+			res.json({status: 200, message: 'Transcript created successfully', link: link})
+
+		}
+		else
+			res.status(500).json({status: 500, message: 'Organization not found'})
+
 
 	} catch (error) {
 		res.status(500).json(error)

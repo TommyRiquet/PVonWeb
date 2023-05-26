@@ -12,22 +12,6 @@ const createEnvironment = async (environmentRepository, name, description) => {
 }
 
 
-const createTranscript = async (transcriptRepository, name, companyName, adminName, secretaryName, scrutineerName, shareHolders, occurenceDate, environment) => {
-	const transcript = new Transcript()
-	transcript.name = name
-	transcript.companyName = companyName
-	transcript.adminName = adminName
-	transcript.secretaryName = secretaryName
-	transcript.scrutineerName = scrutineerName
-	transcript.shareHolders = shareHolders
-	transcript.occurenceDate = occurenceDate
-	transcript.environment = environment
-
-	await transcriptRepository.save(transcript)
-	return transcript
-}
-
-
 const linkUserToEnvironment = async (userEnvironmentRepository, user, environment, role) => {
 	environment.map(async (env) => {
 
@@ -62,7 +46,6 @@ export const loadDemoData = async (AppDataSource) => {
 	const userRepository = AppDataSource.getRepository(User)
 	const userEnvironmentRepository = AppDataSource.getRepository(UserEnvironment)
 	const environmentRepository = AppDataSource.getRepository(Environment)
-	const transcriptRepository = AppDataSource.getRepository(Transcript)
 
 	const userCount = await userRepository.count()
 	if (userCount > 0){
@@ -79,27 +62,6 @@ export const loadDemoData = async (AppDataSource) => {
 
 	const demoUser = await createUser(userRepository, 'Demo', 'Demo', 'demo@pvonweb.com', process.env.DEMO_DATA_DEMO_PASSWORD)
 	await linkUserToEnvironment(userEnvironmentRepository, demoUser, [environment1], 'user')
-
-	await createTranscript(transcriptRepository, 'Demo Transcript 1', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 2', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 3', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 4', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 5', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 6', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 7', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 8', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 9', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 10', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 11', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 12', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 13', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 14', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 15', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 16', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 17', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 18', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 19', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
-	await createTranscript(transcriptRepository, 'Demo Transcript 20', 'Demo Company', 'Admin', 'Secretary', 'Scrutineer', 'ShareHolder1, ShareHolder2', new Date(), environment1)
 
 	console.log('Demo data loaded')
 }

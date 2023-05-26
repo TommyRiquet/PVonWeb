@@ -12,6 +12,7 @@
 **/build
 
 # misc
+backend/media
 frontend/src/config.json
 .DS_Store
 .env.local

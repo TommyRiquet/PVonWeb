@@ -4,7 +4,7 @@ require('dotenv').config()
 
 import { User } from 'entity'
 
-import { passwordEmailTemplate } from './templates/passwordMailTemplate'
+import { passwordEmailTemplate } from './mailTemplate/passwordMailTemplate'
 
 export const sendPasswordMail = async (user: User, password: string) => {
 
