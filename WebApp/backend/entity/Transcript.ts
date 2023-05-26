@@ -27,6 +27,9 @@ export class Transcript {
 	@Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
 		occurenceDate: string
 
+	@Column({nullable: true})
+		link: string
+
 	@Column({ default: false })
 		deleted: boolean
 

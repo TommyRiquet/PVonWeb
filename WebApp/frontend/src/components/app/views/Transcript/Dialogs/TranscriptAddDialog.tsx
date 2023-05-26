@@ -32,12 +32,15 @@ const TranscriptSchema = yup.object().shape({
 
 
 
-const DisplaySuccessfullDialog: FC = () => {
+const DisplaySuccessfullDialog: FC<{link: string}> = ({link}) => {
 	const { t } = useTranslation()
 	return (
-		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
+		<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
 				{t('Transcript has been successfully added')}
+			</Typography>
+			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
+				<a href={link} target='_blank' rel='noreferrer'>Click here to download</a>
 			</Typography>
 		</Box>
 	)
@@ -59,6 +62,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 	const [organizationData, setOrganizationData] = useState<Organization[]>([])
 	const [selectedTags, setSelectedTags] = useState<Tag[]>([])
 	const [listTags, setListTags] = useState<Tag[]>([])
+	const [link, setLink] = useState('')
 
 	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(TranscriptSchema) })
 
@@ -78,14 +82,12 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 
 	const handleGenerateTranscript = async (data: any) => {
 		setIsLoading(true)
-		const result = await createTranscript(data, selectedTags, organization?.organisation_name)
+		const result = await createTranscript(data, selectedTags, organization!)
 		if (result.status === 200) {
+			setLink(result.link.filename)
 			setIsLoading(false)
 			queryClient.invalidateQueries(['transcripts'])
 			setShowSuccessDialog(true)
-			setTimeout(() => {
-				handleCloseDialog()
-			}, 2000)
 		} else {
 			setIsLoading(false)
 			setUpdateError(true)
@@ -134,18 +136,18 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
 				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Transcript')}</Typography>
 				{
-					showSuccessDialog ? <DisplaySuccessfullDialog/> :
+					showSuccessDialog ? <DisplaySuccessfullDialog link={link}/> :
 						<form onSubmit={handleSubmit((data) => handleGenerateTranscript(data))} style={{width: '100%'}}>
 							<Controller
 								render={() => (
 									<Autocomplete
 										disablePortal
-										options={_.isArray(organizationData) ? organizationData.map((item) => item.organisation_name) : []}
-										value={organization?.organisation_name ? organization.organisation_name : null}
-										inputValue={organization?.organisation_name ? organization.organisation_name : ''}
+										options={_.isArray(organizationData) ? organizationData.map((item) => item.name) : []}
+										value={organization?.name ? organization.name : null}
+										inputValue={organization?.name ? organization.name : ''}
 										onChange={
 											(_, value) => {
-												const selectedOrganization = organizationData.find((item) => item.organisation_name === value)
+												const selectedOrganization = organizationData.find((item) => item.name === value)
 												setOrganization(selectedOrganization)
 												setValue('adminName', `${selectedOrganization?.administrators[0]?.firstName} ${selectedOrganization?.administrators[0]?.lastName}`)
 											}

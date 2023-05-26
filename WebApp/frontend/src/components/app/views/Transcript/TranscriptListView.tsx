@@ -7,15 +7,16 @@ import { Box, Button, Chip, TextField, Tooltip, Typography } from '@mui/material
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import DownloadIcon from '@mui/icons-material/Download'
 
 import { ListView, Loading, QueryError } from 'components/common'
 import TranscriptAddDialog from './Dialogs/TranscriptAddDialog'
+import TranscriptEditDialog from './Dialogs/TranscriptEditDialog'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
 
 import { Transcript, useTranscriptAPI } from 'services/transcripts.services'
 import { Tag } from 'services/tags.services'
-import TranscriptEditDialog from './Dialogs/TranscriptEditDialog'
 
 
 
@@ -42,6 +43,7 @@ const TranscriptListView: React.FC = () => {
 		setSelectedTranscript(transcript)
 		setOpenEditTranscriptDialog(true)
 	}
+
 
 	const columns = useMemo(() => {
 		return [
@@ -94,15 +96,20 @@ const TranscriptListView: React.FC = () => {
 				hideable: false,
 				sortable: false,
 				editable: false,
-				width: 200,
+				width: 250,
 				renderCell: (value: any) => (
 					<Box display='flex' flexDirection='row' justifyContent='space-between'>
-						<Tooltip title={t('Edit transcript')} placement='top' arrow>
-							<Button onClick={() => handleEditClick(value.row)} variant='contained' color='primary' sx={{marginRight: 1}}>
+						<Tooltip title={'Download transcript'} placement='top' arrow disableInteractive>
+							<Button href={value.row.link} disabled={!value.row.link} variant='contained' color='primary' sx={{marginRight: 1}}>
+								<DownloadIcon/>
+							</Button>
+						</Tooltip>
+						<Tooltip title='Edit transcript' placement='top' arrow disableInteractive>
+							<Button onClick={() => handleEditClick(value.row)} variant='outlined' color='primary' sx={{marginRight: 1}}>
 								<EditIcon/>
 							</Button>
 						</Tooltip>
-						<Tooltip title={t('Delete transcript')} placement='top' arrow>
+						<Tooltip title='Delete transcript' placement='top' arrow disableInteractive>
 							<Button variant='outlined' onClick={() => handleDeleteClick(value.row)}>
 								<DeleteIcon/>
 							</Button>
@@ -143,8 +150,8 @@ const TranscriptListView: React.FC = () => {
 	return (
 		<Box display='flex' flexDirection='column' alignItems='stretch' paddingX={5}>
 			<TranscriptAddDialog open={openAddDialog} handleClose={() => setOpenAddDialog(false)}/>
+			<TranscriptEditDialog open={openEditTranscriptDialog} handleClose={() => setOpenEditTranscriptDialog(false)} transcript={selectedTranscript}/>
 			<Box display='flex' justifyContent='space-between' paddingY={3}>
-				<TranscriptEditDialog open={openEditTranscriptDialog} handleClose={() => setOpenEditTranscriptDialog(false)} transcript={selectedTranscript}/>
 				<Box>
 					<TextField
 						placeholder={t('Search') as string}

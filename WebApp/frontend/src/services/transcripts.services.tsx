@@ -21,12 +21,13 @@ export interface ExternalUser {
 	phoneNumber: string
 }
 export interface Organization {
-	organisation_name: string
-	organisation_address: string
-	organisation_localité: string
-	organisation_code_postal: string
-	organisation_phone: string
-	organisation_email: string
+	id: number
+	name: string
+	address: string
+	localité: string
+	code_postal: string
+	phone: string
+	email: string
 	registre_nationnal: string
 	num_tva: string
 	date_ago: string
@@ -56,10 +57,10 @@ export const useTranscriptAPI = () => {
 		return API.get('transcript/organizations').then(res => res.data)
 	}
 
-	const createTranscript = async (data: any, selectedTags: Tag[], organization?: string): Promise<any> => {
+	const createTranscript = async (data: any, selectedTags: Tag[], organization: Organization): Promise<any> => {
 		return API.post('transcript/', {
 			...data,
-			companyName: organization,
+			organization: organization,
 			tags: selectedTags
 		}).then(res => res.data)
 	}
