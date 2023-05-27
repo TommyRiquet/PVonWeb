@@ -35,6 +35,7 @@ export const getTeamMembersByEnvironment = async (req: Request, res: Response) =
 				lastName: teamMember.lastName,
 				email: teamMember.email,
 				phoneNumber: teamMember.phoneNumber,
+				language: teamMember.language,
 				password: undefined,
 				userEnvironments: undefined,
 				role: userEnvironment.role

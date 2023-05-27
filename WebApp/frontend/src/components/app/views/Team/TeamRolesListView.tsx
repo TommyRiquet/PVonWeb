@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+
+import { useTranslation } from 'react-i18next'
 import { Box, Typography, Button } from '@mui/material'
 
 import { ListView } from 'components/common'
@@ -10,38 +13,6 @@ const Permission = {
 	Export: 'Export',
 	Template: 'Template'
 }
-
-
-const columns = [
-	{
-		field: 'role',
-		headerName: 'Role',
-		hideable: false,
-		flex: 1
-	},
-	{
-		field: 'permissions',
-		headerName: 'Permissions',
-		hideable: false,
-		flex: 1,
-		sortable: false,
-		renderCell: (params: any) => {
-			return (
-				<Box display='flex' flexWrap='wrap'>
-					{
-						Object.keys(Permission).map((permission: string) => (
-							<Button key={permission}>
-								<Typography variant='body2' fontWeight='bold' color={params.row.permissions.includes(permission) ? 'primary.main' :'gray'}>
-									{permission}
-								</Typography>
-							</Button>
-						))
-					}
-				</Box>
-			)
-		}
-	}
-]
 
 const rows = [
 	{
@@ -73,6 +44,40 @@ const rows = [
 ]
 
 const TeamRolesListView: React.FC = () => {
+
+	const { t } = useTranslation()
+
+	const columns = useMemo(() => {
+		return [
+			{
+				field: 'role',
+				headerName: t('Role'),
+				hideable: false,
+				flex: 1
+			},
+			{
+				field: 'permissions',
+				headerName: t('Permissions'),
+				hideable: false,
+				flex: 1,
+				sortable: false,
+				renderCell: (params: any) => {
+					return (
+						<Box display='flex' flexWrap='wrap'>
+							{
+								Object.keys(Permission).map((permission: string) => (
+									<Button key={permission}>
+										<Typography variant='body2' fontWeight='bold' color={params.row.permissions.includes(permission) ? 'primary.main' :'gray'}>
+											{permission}
+										</Typography>
+									</Button>
+								))
+							}
+						</Box>
+					)
+				}
+			}
+		]}, [])
 
 	return (
 		<Box display='flex' flexDirection='column' width='100%' paddingX={5}>

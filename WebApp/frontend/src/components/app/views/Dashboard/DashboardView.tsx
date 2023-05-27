@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
 import { Responsive, WidthProvider, Layout  } from 'react-grid-layout'
 
@@ -14,11 +15,12 @@ import useStorage from 'hooks/useStorage'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
+
 const WidgetsList = {
-	'HistoryWidget': <Widget title={'History'}><HistoryWidget/></Widget>,
-	'TranscriptWidget': <Widget title={'Trancripts'}><TranscriptWidget/></Widget>,
-	'TeamsWidget': <Widget title={'Team'}><TeamWidget/></Widget>,
-	'StatisticsWidget': <Widget title={'Statistics'}><StatisticsWidget/></Widget>
+	'HistoryWidget': <Widget title='History'><HistoryWidget/></Widget>,
+	'TranscriptWidget': <Widget title='Transcripts'><TranscriptWidget/></Widget>,
+	'TeamsWidget': <Widget title='Team'><TeamWidget/></Widget>,
+	'StatisticsWidget': <Widget title='Statistics'><StatisticsWidget/></Widget>
 }
 
 const defaultLayout = [
@@ -28,12 +30,15 @@ const defaultLayout = [
 	{ i: WidgetsList.StatisticsWidget, x: 2, y: 1, w: 1, h: 2}
 ]
 
-
 const DashboardView = () => {
 
 	const { isMobile } = useGlobalContext()
 
+	const { t } = useTranslation()
+
 	const { getStorageItem, setStorageItem } = useStorage()
+
+
 
 	const ResponsiveReactGridLayout = WidthProvider(Responsive)
 	const widgetArray = defaultLayout
@@ -49,7 +54,7 @@ const DashboardView = () => {
 	return (
 		<Box flexGrow={1} padding={2}>
 			<Box display='flex' flexDirection='row' justifyContent='space-between' paddingRight={3}>
-				<Typography variant='h4' color={theme => theme.palette.primary.main} fontWeight='bold' paddingBottom={2}>Dashboard</Typography>
+				<Typography variant='h4' color={theme => theme.palette.primary.main} fontWeight='bold' paddingBottom={2}>{t('Dashboard')}</Typography>
 				<EnvironmentSelect/>
 			</Box>
 			<ResponsiveReactGridLayout

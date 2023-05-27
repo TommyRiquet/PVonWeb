@@ -1,11 +1,18 @@
 import config from '../config.json'
 
+
+export const Language = {
+	'en': 'English',
+	'fr': 'Français'
+}
+
 export interface User {
 	id: number
 	email: string
 	firstName: string
 	lastName: string
 	phoneNumber: string
+	language: string
 }
 
 
@@ -58,10 +65,24 @@ export const useUserAPI = () => {
 		}).then(res => res.json())
 	}
 
+	const changeLanguage = async (language: string): Promise<any> => {
+		return fetch(`${config.API_URL}user/`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${localStorage.getItem('token')}`
+			},
+			body: JSON.stringify({
+				language: language
+			})
+		}).then(res => res.json())
+	}
+
 	return {
 		getCurrentUser,
 		updateUser,
 		changePassword,
-		addUser
+		addUser,
+		changeLanguage
 	}
 }

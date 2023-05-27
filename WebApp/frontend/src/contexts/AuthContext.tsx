@@ -65,6 +65,7 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
 	const logout = () => {
 		setToken('')
 		localStorage.removeItem('token')
+		localStorage.removeItem('selectedEnvironmentId')
 	}
 
 

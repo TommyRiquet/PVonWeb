@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import i18n from 'i18next'
+
 import { User } from 'services/users.services'
 
 import { useUserAPI } from 'services/users.services'
+import { useQuery } from 'react-query'
 
 
 const useCurrentUser = () => {
@@ -11,9 +14,16 @@ const useCurrentUser = () => {
 
 	const [userProfile, setUserProfile] = useState<User | null>(null)
 
-	useEffect(() => {
-		getCurrentUser().then(res => setUserProfile(res))
-	}, [])
+	useQuery(['userProfile'], () => getCurrentUser(), {
+		onSuccess: (res) => {
+			updateLanguage(res.language)
+			setUserProfile(res)
+		}
+	})
+
+	const updateLanguage = (language: string) => {
+		i18n.changeLanguage(language)
+	}
 
 	const updateCurrentUser = (user: any) => {
 		return updateUser(user)
@@ -28,7 +38,8 @@ const useCurrentUser = () => {
 	return {
 		userProfile,
 		updateCurrentUser,
-		changePassword
+		changePassword,
+		updateLanguage
 	}
 }
 

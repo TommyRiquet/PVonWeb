@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useQueryClient } from 'react-query'
 import { useForm, Controller } from 'react-hook-form'
 import { useQuery } from 'react-query'
@@ -32,16 +33,19 @@ const TranscriptSchema = yup.object().shape({
 
 
 const DisplaySuccessfullDialog: FC = () => {
+	const { t } = useTranslation()
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				Transcript has been successfully added
+				{t('Transcript has been successfully added')}
 			</Typography>
 		</Box>
 	)
 }
 
 const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => {
+
+	const { t } = useTranslation()
 
 	const { getOrganizationOptions, createTranscript } = useTranscriptAPI()
 	const { getTags } = useTagsAPI()
@@ -128,7 +132,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 			</Snackbar>
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3} >
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
-				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Transcript</Typography>
+				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Transcript')}</Typography>
 				{
 					showSuccessDialog ? <DisplaySuccessfullDialog/> :
 						<form onSubmit={handleSubmit((data) => handleGenerateTranscript(data))} style={{width: '100%'}}>
@@ -149,7 +153,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 										size='small'
 										renderInput={
 											(params) => <TextField
-												label='Company'
+												label={t('Company')}
 												variant='outlined'
 												{...params}
 											/>
@@ -162,7 +166,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label='Transcript Name'
+											label={t('Transcript Name')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -178,7 +182,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label='Administrator'
+											label={t('Administrator')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -195,7 +199,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label='Secretary'
+											label={t('Secretary')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -212,7 +216,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label='Scrutineer'
+											label={t('Scrutineer')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -228,14 +232,14 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 								/>
 								<Box marginTop={1}>
 									<ChipSelect
-										label='Tags'
+										label={t('Tags')}
 										allChips={listTags}
 										selectedChips={selectedTags}
 										handleChange={handleSelectTags}
 									/>
 								</Box>
 								<Button type='submit' variant='contained' disabled={isLoading} sx={{ height: 45, width: '100%', marginTop: 2 }}>
-									{ isLoading ? <CircularProgress size={25} /> : 'Generate Transcript' }
+									{ isLoading ? <CircularProgress size={25} /> : t('Generate Transcript') }
 								</Button>
 							</Box>
 						</form>

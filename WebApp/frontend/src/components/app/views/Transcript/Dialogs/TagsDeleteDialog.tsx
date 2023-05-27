@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { Box, Dialog, Typography, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -15,16 +16,19 @@ interface TeamAddMemberDialogProps {
 
 
 const DisplayTagSuccessDialog: FC = () => {
+	const { t } = useTranslation()
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				Tag has been deleted successfully !
+				{t('Tag has been deleted successfully !')}
 			</Typography>
 		</Box>
 	)
 }
 
 const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) => {
+
+	const { t } = useTranslation()
 
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
@@ -83,22 +87,22 @@ const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}
 				autoHideDuration={2000}
 			>
 				<Alert>
-					Tags has been deleted successfully !
+					{t('Tag has been deleted successfully !')}
 				</Alert>
 			</Snackbar>
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3}>
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
-				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Delete Tag</Typography>
+				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Delete Tag')}</Typography>
 				{
 					showSuccessDialog ?
 						<DisplayTagSuccessDialog/>
 						:
 						<>
 							<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold' sx={{marginTop: 2}}>
-								Are you sure you want to delete this tag ?
+								{t('Are you sure you want to delete this tag ?')}
 							</Typography>
 							<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold' sx={{marginTop: 2}}>
-								This action is irreversible.
+								{t('This action is irreversible.')}
 							</Typography>
 							<Typography variant='body1' color={theme => theme.palette.primary.main} sx={{marginTop: 2}}>
 								{tag?.name}

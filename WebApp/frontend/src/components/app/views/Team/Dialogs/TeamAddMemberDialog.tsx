@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -26,10 +27,11 @@ const ProfileSchema = yup.object().shape({
 
 
 const DisplayEmailDialog: FC = () => {
+	const { t } = useTranslation()
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				Email has been sent to the user
+				{t('Email has been sent to the user.')}
 			</Typography>
 		</Box>
 	)
@@ -37,11 +39,12 @@ const DisplayEmailDialog: FC = () => {
 
 const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) => {
 
+	const { t } = useTranslation()
+
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
 	const [updateSuccess, setUpdateSuccess] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
-
 	const [showEmailDialog, setShowEmailDialog] = useState(false)
 
 	const { addUser } = useUserAPI()
@@ -89,12 +92,12 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 				autoHideDuration={2000}
 			>
 				<Alert>
-					User has been invited !
+					{t('User has been invited !')}
 				</Alert>
 			</Snackbar>
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3}>
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
-				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Add Member</Typography>
+				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Add Member')}</Typography>
 				{
 					showEmailDialog ?
 						<DisplayEmailDialog/>
@@ -104,7 +107,7 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label='First Name'
+											label={t('First Name')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -121,7 +124,7 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label='Last Name'
+											label={t('Last Name')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -139,7 +142,7 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Email'
+										label={t('Email')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -156,7 +159,7 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Phone Number'
+										label={t('Phone Number')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -170,7 +173,7 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 								control={control}
 							/>
 							<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
-								{ isLoading ? <CircularProgress size={25} /> : 'Invite' }
+								{ isLoading ? <CircularProgress size={25} /> : t('Invite') }
 							</Button>
 						</form>
 				}

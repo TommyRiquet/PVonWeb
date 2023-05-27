@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useQueryClient } from 'react-query'
 import { Button, Box, TextField, Snackbar, Alert, Typography, CircularProgress } from '@mui/material'
 import { useForm, Controller } from 'react-hook-form'
@@ -21,6 +22,8 @@ const EnvironmentSchema = yup.object().shape({
 const GeneralEnvironmentSettings: FC = () => {
 
 	const queryClient = useQueryClient()
+
+	const { t } = useTranslation()
 
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('Unknown error, please try again.')
@@ -72,7 +75,7 @@ const GeneralEnvironmentSettings: FC = () => {
 					autoHideDuration={2000}
 				>
 					<Alert>
-						Your environment has been updated.
+						{t('Your environment has been updated.')}
 					</Alert>
 				</Snackbar>
 				<Box display='flex' flexDirection='column' width='100%' padding={2}>
@@ -80,7 +83,7 @@ const GeneralEnvironmentSettings: FC = () => {
 					<Controller
 						render={({ field }) => (
 							<TextField
-								label='Environment name'
+								label={t('Environment name')}
 								fullWidth
 								error={!!errors.name}
 								helperText={errors.name?.message as string}
@@ -96,7 +99,7 @@ const GeneralEnvironmentSettings: FC = () => {
 					{
 						currentRole === 'admin' &&
 						<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%'}}>
-							{ isLoading ? <CircularProgress size={25} /> : 'Update' }
+							{ isLoading ? <CircularProgress size={25} /> : t('Update') }
 						</Button>
 					}
 				</Box>

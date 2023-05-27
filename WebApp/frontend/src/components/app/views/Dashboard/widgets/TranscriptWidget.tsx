@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Box, Typography, Button } from '@mui/material'
 
@@ -12,6 +13,8 @@ const TranscriptWidget = () => {
 
 	const [listTranscript, setListTranscript] = useState<Transcript[]>([])
 	const { getListTranscript } = useTranscriptAPI()
+
+	const { t } = useTranslation()
 
 	const { isLoading, isError, error } = useQuery(['transcripts'], () => getListTranscript(), {
 		onSuccess: (data) => {
@@ -28,9 +31,9 @@ const TranscriptWidget = () => {
 	if (listTranscript.length === 0)
 		return (
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='100%'>
-				<Typography variant='h6' sx={{paddingBottom: 2}}>No transcript</Typography>
-				<Typography variant='body2' sx={{paddingBottom: 1}}>Do you want to create one ?</Typography>
-				<Button variant='contained' color='primary' href='/transcript'>Create</Button>
+				<Typography variant='h6' sx={{paddingBottom: 2}}>{t('No transcript')}</Typography>
+				<Typography variant='body2' sx={{paddingBottom: 1}}>{t('Do you want to create one ?')}</Typography>
+				<Button variant='contained' color='primary' href='/transcript'>{t('Create')}</Button>
 			</Box>
 		)
 

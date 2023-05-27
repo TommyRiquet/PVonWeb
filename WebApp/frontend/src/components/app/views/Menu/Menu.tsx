@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { Box, List, Drawer, Paper } from '@mui/material'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import DescriptionIcon from '@mui/icons-material/Description'
@@ -30,7 +31,7 @@ const MenuItems = [
 		link: '/transcript'
 	},
 	{
-		text: 'Teams',
+		text: 'Team',
 		icon: <GroupsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>,
 		link: '/team'
 	},
@@ -47,6 +48,7 @@ const Menu : FC = () => {
 	const [hovered, setHovered] = useState(false)
 	const { logout } = useAuth()
 	const { isMobile } = useGlobalContext()
+	const { t } = useTranslation()
 
 	const openDrawerWidth = 300
 	const closedDrawerWidth = 50
@@ -76,12 +78,12 @@ const Menu : FC = () => {
 			}} elevation={3}>
 				{
 					MenuItems.map((item) => (
-						<MenuItem key={item.text} text={item.text} icon={item.icon} link={item.link}/>
+						<MenuItem key={item.text} text={t(item.text)} icon={item.icon} link={item.link}/>
 					))
 				}
 
-				<MenuItem key={'settings'} text={'Settings'} icon={<SettingsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} link={'/settings'}/>
-				<MenuItem key={'deconnection'} text={'Deconnection'} icon={<LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} event={() => logout()}/>
+				<MenuItem key={'settings'} text={t('Settings')} icon={<SettingsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} link={'/settings'}/>
+				<MenuItem key={'deconnection'} text={t('Logout')} icon={<LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} event={() => logout()}/>
 			</Paper>
 		)
 	}
@@ -121,14 +123,14 @@ const Menu : FC = () => {
 
 					{
 						MenuItems.map((item) => (
-							<MenuItem key={item.text} text={item.text} icon={item.icon} link={item.link}/>
+							<MenuItem key={item.text} text={t(item.text)} icon={item.icon} link={item.link}/>
 						))
 					}
 
 				</List>
 				<List component='nav' sx={{ width: '100%'}}>
-					<MenuItem key={'settings'} text={'Settings'} icon={<SettingsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} link={'/settings'}/>
-					<MenuItem key={'deconnection'} text={'Deconnection'} icon={<LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} event={() => logout()}/>
+					<MenuItem key={'settings'} text={t('Settings')} icon={<SettingsIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} link={'/settings'}/>
+					<MenuItem key={'deconnection'} text={t('Logout')} icon={<LogoutIcon sx={{color: theme => theme.palette.primary.contrastText}}/>} event={() => logout()}/>
 				</List>
 			</Box>
 		</Drawer>

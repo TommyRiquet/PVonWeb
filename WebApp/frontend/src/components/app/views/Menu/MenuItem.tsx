@@ -47,7 +47,7 @@ const MenuItem: FC<MenuItemProps> = ({ icon, text, link, event }) => {
 			</ListItemIcon>
 			<ListItemText>
 				{
-					!isMobile ? <Typography sx={{color: theme => theme.palette.primary.contrastText}}>
+					!isMobile ? <Typography noWrap sx={{color: theme => theme.palette.primary.contrastText}}>
 						{text}
 					</Typography>
 						:

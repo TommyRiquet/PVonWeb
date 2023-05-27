@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from 'react-query'
 import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert, SelectChangeEvent } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -32,16 +33,19 @@ const TranscriptSchema = yup.object().shape({
 
 
 const DisplayTranscriptSuccessDialog: FC = () => {
+	const { t } = useTranslation()
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				Transcript has been updated successfully !
+				{t('Transcript has been updated successfully !')}
 			</Typography>
 		</Box>
 	)
 }
 
 const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, handleClose}) => {
+
+	const { t } = useTranslation()
 
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
@@ -71,7 +75,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 		} else if (result.errno === 1062) {
 			setIsLoading(false)
 			setUpdateError(true)
-			setErrorMessage('Tag name already exists')
+			setErrorMessage(t('Tag name already exists.') as string)
 		} else {
 			setIsLoading(false)
 			setUpdateError(true)
@@ -140,12 +144,12 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 				autoHideDuration={2000}
 			>
 				<Alert>
-					Transcript has been updated successfully !
+					{t('Transcript has been updated successfully !')}
 				</Alert>
 			</Snackbar>
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3}>
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
-				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Edit Transcript</Typography>
+				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Edit Transcript')}</Typography>
 				{
 					showSuccessDialog ?
 						<DisplayTranscriptSuccessDialog/>
@@ -154,7 +158,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Transcript Name'
+										label={t('Transcript Name')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -171,7 +175,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Company Name'
+										label={t('Company Name')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -187,7 +191,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Transcript Admin'
+										label={t('Transcript Admin')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -203,7 +207,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Transcript Scrutineer'
+										label={t('Transcript Scrutineer')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -219,7 +223,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Transcript Secretary'
+										label={t('Transcript Secretary')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -233,13 +237,13 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 								control={control}
 							/>
 							<ChipSelect
-								label='Tags'
+								label={t('Tags')}
 								allChips={listTags}
 								selectedChips={selectedTags}
 								handleChange={handleSelectTags}
 							/>
 							<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
-								{ isLoading ? <CircularProgress size={25} /> : 'Save Transcript' }
+								{ isLoading ? <CircularProgress size={25} /> : t('Save Transcript') }
 							</Button>
 						</form>
 				}

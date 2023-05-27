@@ -14,6 +14,7 @@ import reportWebVitals from './controllers/reportWebVitals'
 
 import theme from './theme'
 
+import './i18n'
 import './index.css'
 
 const queryClient = new QueryClient()

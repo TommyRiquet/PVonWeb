@@ -2,6 +2,11 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 
 import { UserEnvironment } from './'
 
+export enum Language {
+	EN = 'en',
+	FR = 'fr'
+}
+
 @Entity()
 export class User {
 	@PrimaryGeneratedColumn()
@@ -19,6 +24,12 @@ export class User {
 	@Column()
 		password: string
 
+	@Column({
+		type: 'enum',
+		enum: Language,
+		default: Language.EN
+	})
+		language: Language
 
 	@Column({nullable: true})
 		phoneNumber: string
