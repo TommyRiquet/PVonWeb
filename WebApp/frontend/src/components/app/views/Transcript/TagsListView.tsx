@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Box, Button, Tooltip, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
@@ -20,6 +21,7 @@ const TagsListView: React.FC = () => {
 
 	const { isMobile } = useGlobalContext()
 	const { currentRole } = useAppContext()
+	const { t } = useTranslation()
 
 	const { getTags } = useTagsAPI()
 	const [listTags, setListTags] = useState<Array<Tag>>([])
@@ -42,12 +44,12 @@ const TagsListView: React.FC = () => {
 		return [
 			{
 				field: 'name',
-				headerName: 'Name',
+				headerName: t('Name'),
 				width: 200
 			},
 			{
 				field: 'description',
-				headerName: 'Description',
+				headerName: t('Description'),
 				flex: 1,
 				minWidth: 150
 			},
@@ -60,12 +62,12 @@ const TagsListView: React.FC = () => {
 				width: 200,
 				renderCell: (value: any) => (
 					<Box display='flex' flexDirection='row' justifyContent='space-between'>
-						<Tooltip title='Edit tag' placement='top' arrow>
+						<Tooltip title={t('Edit tag')} placement='top' arrow>
 							<Button onClick={() => handleEditClick(value.row)} variant='contained' color='primary' sx={{marginRight: 1}}>
 								<EditIcon/>
 							</Button>
 						</Tooltip>
-						<Tooltip title='Delete tag' placement='top' arrow>
+						<Tooltip title={t('Delete tag')} placement='top' arrow>
 							<Button variant='outlined' onClick={() => handleDeleteClick(value.row)}>
 								<DeleteIcon/>
 							</Button>
@@ -95,7 +97,7 @@ const TagsListView: React.FC = () => {
 					currentRole === 'admin' &&
 					<Button variant='contained' color='primary' onClick={() => setOpenAddTagDialog(true)}>
 						{
-							isMobile ? <AddIcon/> : <Typography fontWeight='bold'>Add Tag</Typography>
+							isMobile ? <AddIcon/> : <Typography fontWeight='bold'>{t('Add Tag')}</Typography>
 						}
 					</Button>
 				}

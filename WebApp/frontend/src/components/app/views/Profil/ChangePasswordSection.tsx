@@ -1,5 +1,6 @@
 import { FC, useState, useEffect } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { Button, TextField, Stack, Snackbar, Alert, Typography, CircularProgress } from '@mui/material'
 import { useForm, Controller } from 'react-hook-form'
 
@@ -21,6 +22,8 @@ const ProfileSchema = yup.object().shape({
 const ChangePasswordSection: FC = () => {
 
 	const { isMobile } = useGlobalContext()
+
+	const { t } = useTranslation()
 
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
@@ -77,7 +80,7 @@ const ChangePasswordSection: FC = () => {
 					autoHideDuration={2000}
 				>
 					<Alert>
-						Your password has been updated!
+						{t('Your password has been updated!')}
 					</Alert>
 				</Snackbar>
 				<Stack alignItems='start' spacing={3} sx={{width: isMobile ? '100%' : '35%'}}>
@@ -85,7 +88,7 @@ const ChangePasswordSection: FC = () => {
 					<Controller
 						render={({ field }) => (
 							<TextField
-								label='Old Password'
+								label={t('Old Password')}
 								fullWidth
 								sx={{marginRight: '10px'}}
 								error={!!errors.oldPassword}
@@ -100,7 +103,7 @@ const ChangePasswordSection: FC = () => {
 					<Controller
 						render={({ field }) => (
 							<TextField
-								label='New Password'
+								label={t('New Password')}
 								fullWidth
 								error={!!errors.newPassword1}
 								helperText={errors.newPassword1?.message as string}
@@ -114,7 +117,7 @@ const ChangePasswordSection: FC = () => {
 					<Controller
 						render={({ field }) => (
 							<TextField
-								label='Confirm New Password'
+								label={t('Confirm New Password')}
 								fullWidth
 								error={!!errors.newPassword2}
 								helperText={errors.newPassword2?.message as string}
@@ -126,7 +129,7 @@ const ChangePasswordSection: FC = () => {
 						control={control}
 					/>
 					<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%'}}>
-						{ isLoading ? <CircularProgress size={25} /> : 'Change Password' }
+						{ isLoading ? <CircularProgress size={25} /> : t('Change Password') }
 					</Button>
 
 				</Stack>

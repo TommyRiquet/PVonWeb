@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { DateTime } from 'luxon'
 import { Box, Button, Chip, TextField, Tooltip, Typography } from '@mui/material'
@@ -21,6 +22,8 @@ import TranscriptEditDialog from './Dialogs/TranscriptEditDialog'
 const TranscriptListView: React.FC = () => {
 
 	const { isMobile } = useGlobalContext()
+
+	const { t } = useTranslation()
 
 	const { getListTranscript } = useTranscriptAPI()
 
@@ -44,13 +47,13 @@ const TranscriptListView: React.FC = () => {
 		return [
 			{
 				field: 'name',
-				headerName: 'Name',
+				headerName: t('Name'),
 				flex: 1,
 				minWidth: 200
 			},
 			{
 				field: 'occurenceDate',
-				headerName: 'Date',
+				headerName: t('Date'),
 				flex: 1,
 				minWidth: 150,
 				renderCell: (params: any) => {
@@ -63,13 +66,13 @@ const TranscriptListView: React.FC = () => {
 			},
 			{
 				field: 'companyName',
-				headerName: 'Company',
+				headerName: t('Company'),
 				flex: 1,
 				minWidth: 200
 			},
 			{
 				field: 'tags',
-				headerName: 'Tags',
+				headerName: t('Tags'),
 				flex: 1,
 				minWidth: 200,
 				sortable: false,
@@ -94,12 +97,12 @@ const TranscriptListView: React.FC = () => {
 				width: 200,
 				renderCell: (value: any) => (
 					<Box display='flex' flexDirection='row' justifyContent='space-between'>
-						<Tooltip title='Edit transcript' placement='top' arrow>
+						<Tooltip title={t('Edit transcript')} placement='top' arrow>
 							<Button onClick={() => handleEditClick(value.row)} variant='contained' color='primary' sx={{marginRight: 1}}>
 								<EditIcon/>
 							</Button>
 						</Tooltip>
-						<Tooltip title='Delete transcript' placement='top' arrow>
+						<Tooltip title={t('Delete transcript')} placement='top' arrow>
 							<Button variant='outlined' onClick={() => handleDeleteClick(value.row)}>
 								<DeleteIcon/>
 							</Button>
@@ -144,7 +147,7 @@ const TranscriptListView: React.FC = () => {
 				<TranscriptEditDialog open={openEditTranscriptDialog} handleClose={() => setOpenEditTranscriptDialog(false)} transcript={selectedTranscript}/>
 				<Box>
 					<TextField
-						placeholder='Search'
+						placeholder={t('Search') as string}
 						size='small'
 						autoComplete='off'
 						onChange={(event: any) => {
@@ -154,7 +157,7 @@ const TranscriptListView: React.FC = () => {
 				<Box>
 					<Button variant='contained' color='primary' onClick={() => setOpenAddDialog(true)}>
 						{
-							isMobile ? <AddIcon/> : <Typography fontWeight='bold'>Create</Typography>
+							isMobile ? <AddIcon/> : <Typography fontWeight='bold'>{t('Create')}</Typography>
 						}
 					</Button>
 				</Box>

@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { Box, Select, MenuItem, SelectChangeEvent, Chip, InputLabel, FormControl } from '@mui/material'
 
 interface Chip {
@@ -14,6 +15,8 @@ interface ChipSelectI {
 
 
 const ChipSelect: React.FC<ChipSelectI> = ({ label, allChips, selectedChips, handleChange }) => {
+
+	const { t } = useTranslation()
 
 	return (
 		<FormControl fullWidth>
@@ -51,7 +54,7 @@ const ChipSelect: React.FC<ChipSelectI> = ({ label, allChips, selectedChips, han
 						})
 						:
 						<MenuItem disabled>
-							{label} not found
+							{t(`${label} not found.`)}
 						</MenuItem>
 				}
 			</Select>

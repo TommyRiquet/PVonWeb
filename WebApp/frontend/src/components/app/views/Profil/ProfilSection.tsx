@@ -1,5 +1,6 @@
 import { FC, useState, useEffect } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { Box, Button, TextField, Stack, Snackbar, Alert, Typography, CircularProgress } from '@mui/material'
 import { useForm, Controller } from 'react-hook-form'
 
@@ -22,6 +23,8 @@ const ProfileSchema = yup.object().shape({
 const ProfileSection: FC = () => {
 
 	const { isMobile } = useGlobalContext()
+
+	const { t } = useTranslation()
 
 	const [updateError, setUpdateError] = useState(false)
 	const [updateSuccess, setUpdateSuccess] = useState(false)
@@ -67,7 +70,7 @@ const ProfileSection: FC = () => {
 					onClose={() => {setUpdateError(false)}}
 				>
 					<Alert>
-						Unknown error, please try again later.
+						{t('Unknown error, please try again later.')}
 					</Alert>
 				</Snackbar>
 				<Snackbar
@@ -76,16 +79,16 @@ const ProfileSection: FC = () => {
 					autoHideDuration={2000}
 				>
 					<Alert>
-						Your profile has been updated!
+						{t('Your profile has been updated!')}
 					</Alert>
 				</Snackbar>
 				<Stack alignItems='start' spacing={3} sx={{width: isMobile ? '100%' : '35%'}}>
-					<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Informations</Typography>
+					<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Informations')}</Typography>
 					<Box display='flex' flexDirection='row' width='100%'>
 						<Controller
 							render={({ field }) => (
 								<TextField
-									label='Fist Name'
+									label={t('First Name')}
 									fullWidth
 									sx={{marginRight: '10px'}}
 									error={!!errors.firstName}
@@ -100,7 +103,7 @@ const ProfileSection: FC = () => {
 						<Controller
 							render={({ field }) => (
 								<TextField
-									label='Last Name'
+									label={t('Last Name')}
 									fullWidth
 									error={!!errors.lastName}
 									helperText={errors.lastName?.message as string}
@@ -115,7 +118,7 @@ const ProfileSection: FC = () => {
 					<Controller
 						render={({ field }) => (
 							<TextField
-								label='Email'
+								label={t('Email')}
 								type='email'
 								fullWidth
 								error={!!errors.email}
@@ -130,7 +133,7 @@ const ProfileSection: FC = () => {
 					<Controller
 						render={({ field }) => (
 							<TextField
-								label='Phone Number'
+								label={t('Phone Number')}
 								fullWidth
 								error={!!errors.phoneNumber}
 								helperText={errors.phoneNumber?.message as string}
@@ -142,7 +145,7 @@ const ProfileSection: FC = () => {
 						defaultValue={userProfile?.phoneNumber}
 					/>
 					<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%'}}>
-						{ isLoading ? <CircularProgress size={25} /> : 'Update Profile' }
+						{ isLoading ? <CircularProgress size={25} /> : t('Update Profile') }
 					</Button>
 
 				</Stack>

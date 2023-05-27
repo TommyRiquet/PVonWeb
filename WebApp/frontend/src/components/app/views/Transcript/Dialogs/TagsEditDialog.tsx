@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useQueryClient } from 'react-query'
 import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -26,16 +27,19 @@ const ProfileSchema = yup.object().shape({
 
 
 const DisplayTagSuccessDialog: FC = () => {
+	const { t } = useTranslation()
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				Tag has been updated successfully !
+				{t('Tag has been updated successfully !')}
 			</Typography>
 		</Box>
 	)
 }
 
 const TagsEditDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) => {
+
+	const { t } = useTranslation()
 
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
@@ -60,7 +64,7 @@ const TagsEditDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) 
 		} else if (result.errno === 1062) {
 			setIsLoading(false)
 			setUpdateError(true)
-			setErrorMessage('Tag name already exists')
+			setErrorMessage(t('Tag name already exists') as string)
 		} else {
 			setIsLoading(false)
 			setUpdateError(true)
@@ -105,12 +109,12 @@ const TagsEditDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) 
 				autoHideDuration={2000}
 			>
 				<Alert>
-					Tags has been created successfully !
+					{t('Tag has been updated successfully !')}
 				</Alert>
 			</Snackbar>
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3}>
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
-				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Edit Tag</Typography>
+				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Edit Tag')}</Typography>
 				{
 					showSuccessDialog ?
 						<DisplayTagSuccessDialog/>
@@ -119,7 +123,7 @@ const TagsEditDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Tag Name'
+										label={t('Tag Name')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -136,7 +140,7 @@ const TagsEditDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label='Tag Description'
+										label={t('Tag Description')}
 										fullWidth
 										margin='normal'
 										variant='outlined'
@@ -150,7 +154,7 @@ const TagsEditDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) 
 								control={control}
 							/>
 							<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
-								{ isLoading ? <CircularProgress size={25} /> : 'Save Tag' }
+								{ isLoading ? <CircularProgress size={25} /> : t('Save Tag') }
 							</Button>
 						</form>
 				}

@@ -52,6 +52,7 @@ export const updateUser = async (req: Request, res: Response) => {
 		user.lastName = req.body.lastName
 		user.email = req.body.email
 		user.phoneNumber = req.body.phoneNumber
+		user.language = req.body.language
 
 		await userRepository.save(user)
 

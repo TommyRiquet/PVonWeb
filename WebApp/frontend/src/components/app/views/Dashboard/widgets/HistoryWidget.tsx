@@ -1,5 +1,6 @@
 import { FC, useMemo, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Box, Typography } from '@mui/material'
 
@@ -27,13 +28,15 @@ const transcriptActions = {
 }
 
 const tagActions = {
-	'create': 'created tag ',
-	'update': 'has made changes to tag ',
-	'delete': 'deleted tag '
+	'create': 'created tag',
+	'update': 'has made changes to tag',
+	'delete': 'deleted tag'
 }
 
 
 const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targetTranscript, targetTag}) => {
+
+	const { t } = useTranslation()
 
 	const userAction = useMemo(() => {
 		if (targetUser)
@@ -71,7 +74,7 @@ const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targ
 				<Typography display='inline-block' variant='body1' fontWeight='bold'>
 					{`${user.firstName} `}
 					<span style={{color: 'gray'}}>
-						{`${userAction} `}
+						{`${t(userAction)} `}
 					</span>
 					{target}
 				</Typography>
