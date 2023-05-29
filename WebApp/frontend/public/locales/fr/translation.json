@@ -82,6 +82,9 @@
 	"Permissions": "Permissions",
 	"Copy to clipboard": "Copier dans le presse-papier",
 	"Copied": "Copié",
+	"Page not found": "Page Introuvable",
+	"It seems like you are trying to access a page that does not exist.": "Il semble que vous essayez d'accéder à une page qui n'existe pas.",
+	"Go back to dashboard": "Retourner au tableau de bord",
 
 	"Unknown error, please try again later.": "Erreur inconnue, veuillez réessayer plus tard.",
 	"Your profile has been updated!": "Votre profil a été mis à jour !",
