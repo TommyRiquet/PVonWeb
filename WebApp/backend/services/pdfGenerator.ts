@@ -24,6 +24,11 @@ export const generatePdf = async (organization, transcript) => {
 			contents: {
 				default: '<br/><div style="text-align: center;">{{page}}</div>'
 			}
+		},
+		childProcessOptions: {
+				env: {
+						OPENSSL_CONF: '/dev/null'
+				}
 		}
 	}
 
@@ -39,12 +44,10 @@ export const generatePdf = async (organization, transcript) => {
 
 	return pdf.create(document, options)
 		.then((res) => {
-			console.log(res)
 			return res
 		}
 		)
 		.catch((error) => {
-			console.error(error)
 			return error
 		}
 		)
