@@ -39,9 +39,11 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           EXCLUDE: "test/"
+          SCRIPT_BEFORE: |
+            cd /home/ubuntu/pvonweb
+            sudo rm -rf build
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
-            sudo docker system prune -f
             sudo docker compose build
             sudo docker compose up -d
             sudo docker network connect internal-fake-api-network web

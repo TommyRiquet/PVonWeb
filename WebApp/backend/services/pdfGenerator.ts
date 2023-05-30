@@ -39,10 +39,12 @@ export const generatePdf = async (organization, transcript) => {
 
 	return pdf.create(document, options)
 		.then((res) => {
+			console.log(res)
 			return res
 		}
 		)
 		.catch((error) => {
+			console.error(error)
 			return error
 		}
 		)

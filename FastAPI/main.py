@@ -12,7 +12,8 @@ def read_item():
 @app.get("/organizations/{org_id}")
 def read_item(org_id: int):
 	data = load(open('data.json'))
-	org = data[org_id]
-	if org:
-		return org
+	# get the organization with the id passed in the url
+	for org in data:
+		if org["id"] == org_id:
+			return org
 	return {"error": "Organization not found"}
