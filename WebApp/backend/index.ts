@@ -32,7 +32,9 @@ app.use('/api/team', teamRouter)
 app.use('/api/user', userRouter)
 app.use('/api/environment', environmentRouter)
 
-app.use('/media', express.static(__dirname + '/media'))
+app.get('/media/:id', (req, res) => {
+	res.sendFile(path.join(__dirname + `/media/${req.params.id}`))
+})
 
 app.use(express.static(__dirname + '/build'))
 app.get('/*', (_, res) => {
