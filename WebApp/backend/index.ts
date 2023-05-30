@@ -32,6 +32,8 @@ app.use('/api/team', teamRouter)
 app.use('/api/user', userRouter)
 app.use('/api/environment', environmentRouter)
 
+app.use('/media', express.static(__dirname + '/media'))
+
 app.use(express.static(__dirname + '/build'))
 app.get('/*', (_, res) => {
 	res.sendFile(path.join(__dirname + '/build/index.html'))
