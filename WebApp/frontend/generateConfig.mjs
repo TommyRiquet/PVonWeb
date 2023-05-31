@@ -8,8 +8,8 @@ const generateConfig = () => {
 	const routes = {
 		'--dev': 'http://localhost:3001/api/',
 		'--test': 'http://localhost:3001/api/',
-		'--prod': 'http://13.36.67.201/api/',
-		'--staging': 'http://13.36.67.201/api/'
+		'--prod': 'https://pvonweb.be/api/',
+		'--staging': 'https://pvonweb.be/api/'
 	}
 
 	const config = {
