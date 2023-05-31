@@ -12,6 +12,7 @@ import DownloadIcon from '@mui/icons-material/Download'
 import { ListView, Loading, QueryError } from 'components/common'
 import TranscriptAddDialog from './Dialogs/TranscriptAddDialog'
 import TranscriptEditDialog from './Dialogs/TranscriptEditDialog'
+import TranscriptDeleteDialog from './Dialogs/TranscriptDeleteDialog'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
 
@@ -31,6 +32,7 @@ const TranscriptListView: React.FC = () => {
 	const [listTranscript, setListTranscript] = useState<Array<any>>([])
 	const [searchText, setSearchText] = useState<string | null>(null)
 	const [openEditTranscriptDialog, setOpenEditTranscriptDialog] = useState<boolean>(false)
+	const [openDeleteTranscriptDialog, setOpenDeleteTranscriptDialog] = useState<boolean>(false)
 	const [ selectedTranscript, setSelectedTranscript ] = useState<Transcript>(listTranscript[0])
 	const [openAddDialog, setOpenAddDialog] = useState(false)
 
@@ -41,7 +43,7 @@ const TranscriptListView: React.FC = () => {
 
 	const handleDeleteClick = async (transcript: Transcript) => {
 		setSelectedTranscript(transcript)
-		setOpenEditTranscriptDialog(true)
+		setOpenDeleteTranscriptDialog(true)
 	}
 
 
@@ -151,6 +153,7 @@ const TranscriptListView: React.FC = () => {
 		<Box display='flex' flexDirection='column' alignItems='stretch' paddingX={5}>
 			<TranscriptAddDialog open={openAddDialog} handleClose={() => setOpenAddDialog(false)}/>
 			<TranscriptEditDialog open={openEditTranscriptDialog} handleClose={() => setOpenEditTranscriptDialog(false)} transcript={selectedTranscript}/>
+			<TranscriptDeleteDialog open={openDeleteTranscriptDialog} handleClose={() => setOpenDeleteTranscriptDialog(false)} transcript={selectedTranscript}/>
 			<Box display='flex' justifyContent='space-between' paddingY={3}>
 				<Box>
 					<TextField

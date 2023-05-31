@@ -1,32 +1,31 @@
 import { FC, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
+import { useQueryClient } from 'react-query'
 import { Box, Dialog, Typography, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-import { Tag, useTagsAPI }  from 'services/tags.services'
-import { useQueryClient } from 'react-query'
+import { Transcript, useTranscriptAPI } from 'services/transcripts.services'
 
 
-interface TeamAddMemberDialogProps {
+interface TranscriptEditDialogProps {
 	open: boolean
-	tag: Tag
+	transcript: Transcript
 	handleClose: () => void
 }
 
-
-const DisplayTagSuccessDialog: FC = () => {
+const DisplayTranscriptSuccessDialog: FC = () => {
 	const { t } = useTranslation()
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				{t('Tag has been deleted successfully !')}
+				{t('Transcript has been deleted successfully !')}
 			</Typography>
 		</Box>
 	)
 }
 
-const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}) => {
+const TranscriptDeleteDialog: FC<TranscriptEditDialogProps> = ({open, transcript, handleClose}) => {
 
 	const { t } = useTranslation()
 
@@ -34,17 +33,16 @@ const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}
 	const [errorMessage, setErrorMessage] = useState('')
 	const [updateSuccess, setUpdateSuccess] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [showSuccessDialog, setShowSuccessDialog] = useState(false)
+
+	const { deleteTranscript } = useTranscriptAPI()
 
 	const queryClient = useQueryClient()
 
-	const [showSuccessDialog, setShowSuccessDialog] = useState(false)
 
-	const { deleteTag } = useTagsAPI()
-
-
-	const handleDeleteTag = async () => {
+	const handleDeleteTranscript = async () => {
 		setIsLoading(true)
-		const result = await deleteTag(tag)
+		const result = await deleteTranscript(transcript)
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
@@ -62,7 +60,8 @@ const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}
 	const handleCloseDialog = () => {
 		setShowSuccessDialog(false)
 		handleClose()
-		queryClient.invalidateQueries(['tags'])
+		queryClient.invalidateQueries(['transcripts'])
+		setIsLoading(false)
 	}
 
 	return (
@@ -87,27 +86,27 @@ const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}
 				autoHideDuration={2000}
 			>
 				<Alert>
-					{t('Tag has been deleted successfully !')}
+					{t('Transcript has been deleted successfully !')}
 				</Alert>
 			</Snackbar>
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' margin={3}>
 				<CloseIcon fontSize='large' color='disabled' onClick={handleCloseDialog} sx={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer' }}/>
-				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Delete Tag')}</Typography>
+				<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Delete Transcript')}</Typography>
 				{
 					showSuccessDialog ?
-						<DisplayTagSuccessDialog/>
+						<DisplayTranscriptSuccessDialog/>
 						:
 						<>
 							<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold' sx={{marginTop: 2}}>
-								{t('Are you sure you want to delete this tag ?')}
+								{t('Are you sure you want to delete this transcript ?')}
 							</Typography>
 							<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold' sx={{marginTop: 2}}>
 								{t('This action is irreversible.')}
 							</Typography>
 							<Typography variant='body1' color={theme => theme.palette.primary.main} sx={{marginTop: 2}}>
-								{tag?.name}
+								{transcript?.name}
 							</Typography>
-							<Button onClick={handleDeleteTag} variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
+							<Button onClick={handleDeleteTranscript} variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
 								{ isLoading ? <CircularProgress size={25} /> : t('I\'m sure') }
 							</Button>
 						</>
@@ -119,4 +118,4 @@ const TagsDeleteDialog: FC<TeamAddMemberDialogProps> = ({open, tag, handleClose}
 
 
 
-export default TagsDeleteDialog
+export default TranscriptDeleteDialog

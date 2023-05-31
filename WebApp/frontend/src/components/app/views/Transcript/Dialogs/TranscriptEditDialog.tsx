@@ -180,6 +180,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 										margin='normal'
 										variant='outlined'
 										size='small'
+										disabled
 										error={!!errors.companyName}
 										helperText={errors.companyName?.message as string}
 										{...field}

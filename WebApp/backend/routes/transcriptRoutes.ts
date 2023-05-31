@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getTranscriptByEnvironment, getTranscriptById, updateTranscript, createTranscript, getAllOrganization } = require('../controllers/transcriptController')
+const { getTranscriptByEnvironment, getTranscriptById, updateTranscript, createTranscript, getAllOrganization, deleteTranscript } = require('../controllers/transcriptController')
 const { getTagsByEnvironment, createTag, updateTag, deleteTag } = require('../controllers/tagController')
 
 
@@ -16,6 +16,7 @@ router.get('/organizations', getAllOrganization)
 
 router.get('/:id', getTranscriptById)
 router.patch('/:id', updateTranscript)
+router.delete('/:id', deleteTranscript)
 
 
 export default router
