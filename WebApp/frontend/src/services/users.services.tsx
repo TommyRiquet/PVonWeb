@@ -1,5 +1,7 @@
 import config from '../config.json'
 
+import { Environment } from './environment.services'
+
 
 export const Language = {
 	'en': 'English',
@@ -54,12 +56,13 @@ export const useUserAPI = () => {
 		}).then(res => res.json())
 	}
 
-	const addUser = async (user: any): Promise<any> => {
+	const addUser = async (user: any, environment: Environment): Promise<any> => {
 		return fetch(`${config.API_URL}user/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`
+				'Authorization': `Token ${localStorage.getItem('token')}`,
+				'X-Env-Id': String(environment.id)
 			},
 			body: JSON.stringify(user)
 		}).then(res => res.json())

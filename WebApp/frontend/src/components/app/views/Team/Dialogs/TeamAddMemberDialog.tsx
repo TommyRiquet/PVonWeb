@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 
+import { useQueryClient } from 'react-query'
 import { useTranslation } from 'react-i18next'
 import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -8,6 +9,8 @@ import { useForm, Controller } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+
+import { useAppContext } from 'contexts'
 
 import { useUserAPI }  from 'services/users.services'
 
@@ -41,6 +44,10 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 
 	const { t } = useTranslation()
 
+	const { selectedEnvironment } = useAppContext()
+
+	const queryClient = useQueryClient()
+
 	const [updateError, setUpdateError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
 	const [updateSuccess, setUpdateSuccess] = useState(false)
@@ -49,15 +56,16 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 
 	const { addUser } = useUserAPI()
 
-	const { handleSubmit, control, formState: { errors }} = useForm({ resolver: yupResolver(ProfileSchema) })
+	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(ProfileSchema) })
 
 	const handleAddMember = async (data: any) => {
 		setIsLoading(true)
-		const result = await addUser(data)
+		const result = await addUser(data, selectedEnvironment!)
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
 			setShowEmailDialog(true)
+			queryClient.invalidateQueries('members')
 		} else {
 			setIsLoading(false)
 			setUpdateError(true)
@@ -67,6 +75,13 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 
 	const handleCloseDialog = () => {
 		setShowEmailDialog(false)
+		setIsLoading(false)
+		setUpdateError(false)
+		setUpdateSuccess(false)
+		setValue('firstName', '')
+		setValue('lastName', '')
+		setValue('email', '')
+		setValue('phoneNumber', '')
 		handleClose()
 	}
 
