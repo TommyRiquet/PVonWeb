@@ -11,7 +11,7 @@ export const passwordEmailTemplate = (user: any, password: string) => {
 					Please click on the link below to login.
 				<br>
 				<br>
-					<a href="http://13.36.67.201/login">Login</a>
+					<a href="https://pvonweb.be">Login</a>
 				<br>
 				<br>
 					Your email is: <code>${user.email}</code>
