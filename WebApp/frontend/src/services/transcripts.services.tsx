@@ -65,10 +65,15 @@ export const useTranscriptAPI = () => {
 		}).then(res => res.data)
 	}
 
+	const deleteTranscript = async (transcript: Transcript): Promise<any> => {
+		return API.delete(`transcript/${transcript.id}/`).then(res => res.data)
+	}
+
 	return {
 		getListTranscript,
 		updateTranscript,
 		getOrganizationOptions,
-		createTranscript
+		createTranscript,
+		deleteTranscript
 	}
 }

@@ -157,3 +157,33 @@ export const createTranscript = async (req: Request, res: Response) => {
 		res.status(500).json(error)
 	}
 }
+
+
+export const deleteTranscript = async (req: Request, res: Response) => {
+	const transcriptRepository = AppDataSource.getRepository(Transcript)
+
+	try {
+
+		const { user, role, environment } = await getUserAndEnvironment(req)
+
+		if (role !== 'admin')
+			return res.status(401).json({ status: 401, message: 'Unauthorized' })
+
+		const transcript = await transcriptRepository.findOneBy({
+			id: req.params.id
+		})
+
+		transcript.deleted = true
+
+		await transcriptRepository.save(transcript)
+
+		registerLog(user.id, environment, 'delete', {transcript: transcript})
+
+		res.json({ status: 200, message: 'Transcript deleted' })
+
+	}
+	catch (error) {
+		res.status(500).json(error)
+	}
+
+}
