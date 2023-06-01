@@ -95,7 +95,7 @@
 	"Your password has been updated!": "Votre mot de passe a été mis à jour !",
 	"Your environment has been updated.": "Votre environnement a été mis à jour.",
 	"Your language has been updated.": "Votre langue a été mise à jour.",
-	"Email has been sent to the user.": "Un email a été envoyé à l'utilisateur.",
+	"User has been added to the Environment": "L'utilisateur a été ajouté à l'environnement",
 	"User has been invited !": "L'utilisateur a été invité !",
 	"Tag has been created successfully !": "Le tag a été créé avec succès !",
 	"Tag name already exists.": "Le nom du tag existe déjà.",
@@ -107,5 +107,7 @@
 	"Transcript has been successfully added": "Le procès-verbal a été ajouté avec succès",
 	"Transcript has been updated successfully !": "Le procès-verbal a été mis à jour avec succès !",
 	"Tags not found.": "Aucun tag disponible.",
-	"Are you sure you want to delete this transcript ?": "Êtes-vous sûr de vouloir supprimer ce procès-verbal ?"
+	"Are you sure you want to delete this transcript ?": "Êtes-vous sûr de vouloir supprimer ce procès-verbal ?",
+	"Are you sure you want to kick this user ?": "Êtes-vous sûr de vouloir expulser cet utilisateur ?",
+	"User has been kick successfully !": "L'utilisateur a été expulsé avec succès !"
 }

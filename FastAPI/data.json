@@ -1,45 +1,33 @@
 [
 	{
 		"id": 1,
-		"name": "Test Organisation 1",
-		"address": "Test Address 1",
-		"locality": "Perwez",
-		"code_postal": "1360",
+		"name": "Valhalla capital Holding",
+		"address": "Rue Capouillet 9",
+		"locality": "Saint-Gilles",
+		"code_postal": "1060",
 		"phoneNumber": "1234567890",
 		"email": "Org1@gmail.com",
 		"registre_nationnal": "1234567890",
-		"num_tva": "1234567890",
+		"num_bce": "0762.508.684",
 		"date-ago": "16/06/2019",
 		"administrators": [
 			{
-				"id": 1,
-				"firstName": "Firstname1",
-				"lastName": "Lastname1",
-				"phoneNumber": "1234567890",
-				"email": "admin1@gmail.com"
-			},
-			{
 				"id": 2,
-				"firstName": "Firstname2",
-				"lastName": "Lastname2",
-				"phoneNumber": "1234567890",
-				"email": "admin2@gmail.com"
+				"firstName": "Alban",
+				"lastName": "Dejardin Verkinder",
+				"email": "g.dejardin@gmail.com",
+				"address":"Rue Capouillet 9",
+				"parts": 99
 			}
 		],
 		"share_holders": [
 			{
 				"id": 1,
-				"firstName": "Firstname1",
-				"lastName": "Lastname1",
-				"phoneNumber": "1234567890",
-				"email": "shareHolders1@gmail.com"
-			},
-			{
-				"id": 2,
-				"firstName": "Firstname2",
-				"lastName": "Lastname2",
-				"phoneNumber": "1234567890",
-				"email": "shareHolders2@gmail.com"
+				"firstName": "Gerard",
+				"lastName": "Dejardin Verkinder",
+				"email": "g.dejardin@gmail.com",
+				"address":"Rue Capouillet 9",
+				"parts": 1
 			}
 		]
 	},

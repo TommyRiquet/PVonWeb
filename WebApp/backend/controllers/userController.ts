@@ -1,15 +1,11 @@
 const argon2 = require('argon2')
 
-import { User, Environment, UserEnvironment } from '../entity'
+import { User } from '../entity'
 import { AppDataSource } from '../config/database'
 import { Request, Response } from 'express'
 
 import { verifyToken } from '../services/authService'
-import { sendPasswordMail } from '../services/mailService'
-import { registerLog } from '../services/logService'
 
-import { generateRandomPassword } from '../utils/utils'
-import { getUserAndEnvironment } from './commonController'
 
 
 export const getUser = async (req: Request, res: Response) => {
@@ -96,78 +92,5 @@ export const changePassword = async (req: Request, res: Response) => {
 	}
 	catch (error) {
 		res.status(500).json({message: error})
-	}
-}
-
-export const addUser = async (req: Request, res: Response) => {
-	const userRepository = AppDataSource.getRepository(User)
-	const userEnvRepository = AppDataSource.getRepository(UserEnvironment)
-
-	try{
-
-		const { user, role, environment } = await getUserAndEnvironment(req)
-
-		if (role !== 'admin') {
-			res.status(401).json({ status: 401, message: 'Unauthorized' })
-			return
-		}
-
-		const existingUserInCurrentEnvironment = await userRepository.createQueryBuilder('user')
-			.innerJoin('user.userEnvironments', 'userEnvironments')
-			.where('userEnvironments.environmentId = :environmentId', { environmentId: environment.id })
-			.andWhere('user.email = :email', { email: req.body.email })
-			.getOne()
-
-		if (existingUserInCurrentEnvironment) {
-			res.status(401).json({ status: 401, message: 'User already exists in this environment' })
-			return
-		}
-
-		const existingUser = await userRepository.findOne({ where: { email: req.body.email }})
-
-		if (existingUser) {
-			const userEnv = new UserEnvironment()
-			userEnv.environmentId = environment.id
-			userEnv.environment = environment
-			userEnv.userId = existingUser.id
-			userEnv.user = existingUser
-			userEnv.role = 'user'
-
-			await userEnvRepository.save(userEnv)
-			res.status(200).json({ status: 200, message: 'User added' })
-			return
-		}
-
-		const password = generateRandomPassword()
-
-		const newUser = new User()
-		newUser.firstName = req.body.firstName
-		newUser.lastName = req.body.lastName
-		newUser.email = req.body.email
-		newUser.phoneNumber = req.body.phoneNumber
-		newUser.password = await argon2.hash(password)
-
-		const createdUser = await userRepository.save(newUser)
-
-		const userEnv = new UserEnvironment()
-		userEnv.environmentId = environment.id
-		userEnv.environment = environment
-		userEnv.userId = createdUser.id
-		userEnv.user = createdUser
-		userEnv.role = 'user'
-
-		await userEnvRepository.save(userEnv)
-
-		sendPasswordMail(newUser, password)
-			.then(() => {
-				res.status(200).json({ status: 200, message: 'User added' })
-				registerLog(user.id, environment, 'create', {user: newUser})
-			}).catch((error) => {
-				res.status(500).json({message: error})
-			})
-
-	}
-	catch (error) {
-		res.status(500).json(error)
 	}
 }

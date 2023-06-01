@@ -1,8 +1,5 @@
 import config from '../config.json'
 
-import { Environment } from './environment.services'
-
-
 export const Language = {
 	'en': 'English',
 	'fr': 'Français'
@@ -56,18 +53,6 @@ export const useUserAPI = () => {
 		}).then(res => res.json())
 	}
 
-	const addUser = async (user: any, environment: Environment): Promise<any> => {
-		return fetch(`${config.API_URL}user/`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Token ${localStorage.getItem('token')}`,
-				'X-Env-Id': String(environment.id)
-			},
-			body: JSON.stringify(user)
-		}).then(res => res.json())
-	}
-
 	const changeLanguage = async (language: string): Promise<any> => {
 		return fetch(`${config.API_URL}user/`, {
 			method: 'PATCH',
@@ -85,7 +70,6 @@ export const useUserAPI = () => {
 		getCurrentUser,
 		updateUser,
 		changePassword,
-		addUser,
 		changeLanguage
 	}
 }

@@ -10,9 +10,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-import { useAppContext } from 'contexts'
-
-import { useUserAPI }  from 'services/users.services'
+import { useTeamAPI } from 'services/teams.services'
 
 
 interface TeamAddMemberDialogProps {
@@ -25,6 +23,7 @@ const ProfileSchema = yup.object().shape({
 	firstName: yup.string().required('This field is required'),
 	lastName: yup.string().required('This field is required'),
 	email: yup.string().required('This field is required'),
+	password: yup.string().required('This field is required').min(6, 'Password must be at least 6 characters long'),
 	phoneNumber: yup.string()
 })
 
@@ -34,7 +33,7 @@ const DisplayEmailDialog: FC = () => {
 	return (
 		<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' margin={3}>
 			<Typography variant='body1' color={theme => theme.palette.primary.main} fontWeight='bold'>
-				{t('Email has been sent to the user.')}
+				{t('User has been added to the Environment.')}
 			</Typography>
 		</Box>
 	)
@@ -44,8 +43,6 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 
 	const { t } = useTranslation()
 
-	const { selectedEnvironment } = useAppContext()
-
 	const queryClient = useQueryClient()
 
 	const [updateError, setUpdateError] = useState(false)
@@ -54,13 +51,13 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 	const [isLoading, setIsLoading] = useState(false)
 	const [showEmailDialog, setShowEmailDialog] = useState(false)
 
-	const { addUser } = useUserAPI()
+	const { addUser } = useTeamAPI()
 
 	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(ProfileSchema) })
 
 	const handleAddMember = async (data: any) => {
 		setIsLoading(true)
-		const result = await addUser(data, selectedEnvironment!)
+		const result = await addUser(data)
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
@@ -82,6 +79,7 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 		setValue('lastName', '')
 		setValue('email', '')
 		setValue('phoneNumber', '')
+		setValue('password', '')
 		handleClose()
 	}
 
@@ -185,6 +183,23 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 									/>
 								)}
 								name='phoneNumber'
+								control={control}
+							/>
+							<Controller
+								render={({ field }) => (
+									<TextField
+										label={t('Password')}
+										fullWidth
+										margin='normal'
+										variant='outlined'
+										size='small'
+										type='password'
+										error={!!errors.password}
+										helperText={errors.password?.message as string}
+										{...field}
+									/>
+								)}
+								name='password'
 								control={control}
 							/>
 							<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>

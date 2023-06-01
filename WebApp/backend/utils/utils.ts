@@ -1,6 +1,6 @@
 export const generateRandomPassword = () => {
 
-	var chars = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+	var chars = '0123456789abcdefghijklmnopqrstuvwxyz!@$ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	var passwordLength = 12
 	var password = ''
 
