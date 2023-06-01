@@ -12,6 +12,7 @@ export interface AppContextType {
 	isError: boolean
 	error: any
 	isAppReady: boolean
+	noEnvironments: boolean
 	selectedEnvironment: Environment | null
 	listEnvironment: Environment[]
 	userProfile: User | null
@@ -27,10 +28,10 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
 
 	const { userProfile } = useCurrentUser()
 
-	const { isLoading, isError, error, listEnvironment, selectedEnvironment, changeSelectedEnvironment } = useCurrentEnv()
+	const { isLoading, isError, error, listEnvironment, selectedEnvironment, changeSelectedEnvironment, noEnvironments } = useCurrentEnv()
 
 	const isAppReady = useMemo(() => {
-		return !!selectedEnvironment && !!userProfile
+		return (!!selectedEnvironment || noEnvironments ) && !!userProfile
 	}, [selectedEnvironment, listEnvironment, userProfile])
 
 	const currentRole = useMemo(() => {
@@ -46,6 +47,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
 		isError,
 		error,
 		isAppReady,
+		noEnvironments,
 		selectedEnvironment,
 		listEnvironment,
 		userProfile,

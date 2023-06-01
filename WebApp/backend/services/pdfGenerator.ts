@@ -12,8 +12,8 @@ export const generatePdf = async (organization, transcript) => {
 		header: {
 			height: '45mm',
 			contents: `<div style="text-align: center;display: flex;flex-direction: column; border-bottom: 1px solid gray">
-			<div>${organization.registre_nationnal} SRL</div>
-			<div>${organization.num_tva}</div>
+			<div>${organization.name} SRL</div>
+			<div>${organization.num_bce}</div>
 			<div>${organization.address}</div>
 			<div>${organization.locality}</div>
 			<br/>
@@ -26,9 +26,9 @@ export const generatePdf = async (organization, transcript) => {
 			}
 		},
 		childProcessOptions: {
-				env: {
-						OPENSSL_CONF: '/dev/null'
-				}
+			env: {
+				OPENSSL_CONF: '/dev/null'
+			}
 		}
 	}
 

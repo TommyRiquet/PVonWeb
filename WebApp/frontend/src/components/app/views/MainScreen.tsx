@@ -1,9 +1,11 @@
 import { Outlet } from 'react-router-dom'
 
-import { Box, CircularProgress } from '@mui/material'
+import { Box, Button, CircularProgress, Typography } from '@mui/material'
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied'
 
 import Menu from './Menu/Menu'
 
+import { useAuth } from 'contexts/AuthContext'
 import { useGlobalContext, useAppContext } from 'contexts'
 
 import { QueryError } from 'components/common'
@@ -13,12 +15,27 @@ import { closedDrawerWidth } from 'theme'
 const MainScreen = () => {
 
 	const { isMobile } = useGlobalContext()
-	const { isLoading, isError, error, isAppReady } = useAppContext()
+	const { isLoading, isError, error, isAppReady, noEnvironments } = useAppContext()
+	const { logout } = useAuth()
 
 	if (isLoading || isError || !isAppReady){
 		return (
 			<Box display='flex' justifyContent='center' height='100%' alignItems='center' sx={{background: 'linear-gradient(to left top, #347571, #449342)'}}>
 				{isError ? <QueryError error={error}/> : <CircularProgress color='secondary'/>}
+			</Box>
+		)
+	}
+
+	if (noEnvironments){
+		return (
+			<Box display='flex' justifyContent='center' flexDirection='column' height='100%' alignItems='center' sx={{background: 'linear-gradient(to left top, #347571, #449342)'}}>
+				<SentimentVeryDissatisfiedIcon sx={{color: 'white', fontSize: '80px'}}/>
+				<Typography variant='h6' color='white' sx={{marginLeft: 1}}>
+					No environments found
+				</Typography>
+				<Button variant='contained' color='primary' sx={{marginTop: 2}} onClick={logout}>
+					Logout
+				</Button>
 			</Box>
 		)
 	}

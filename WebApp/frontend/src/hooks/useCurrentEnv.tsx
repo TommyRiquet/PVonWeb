@@ -12,6 +12,7 @@ const useCurrentEnv = () => {
 
 	const [ listEnvironment, setListEnvironment ] = useState<Environment[]>([])
 	const [ selectedEnvironment, setSelectedEnvironment ] = useState<Environment | null>(null)
+	const [ noEnvironments, setNoEnvironments ] = useState<boolean>(false)
 
 	const handleSelectedEnvironment = (data: any) => {
 		setListEnvironment(data)
@@ -29,6 +30,10 @@ const useCurrentEnv = () => {
 				setSelectedEnvironment(data[0])
 				setStorageItem('selectedEnvironmentId', data[0].id)
 			}
+		}
+		else {
+			setSelectedEnvironment(null)
+			setNoEnvironments(true)
 		}
 	}
 
@@ -59,6 +64,7 @@ const useCurrentEnv = () => {
 		isLoading,
 		isError,
 		error,
+		noEnvironments,
 		selectedEnvironment,
 		listEnvironment,
 		changeSelectedEnvironment
