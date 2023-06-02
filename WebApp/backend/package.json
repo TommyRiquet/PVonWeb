@@ -23,7 +23,7 @@
     "nodemailer": "^6.9.1",
     "pdf-creator-node": "^2.3.5",
     "ts-node": "^10.9.1",
-    "typeorm": "^0.3.12"
+    "typeorm": "^0.3.16"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
