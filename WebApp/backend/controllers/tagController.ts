@@ -36,7 +36,12 @@ export const createTag = async (req: Request, res: Response) => {
 
 	try {
 
-		const { user, environment } = await getUserAndEnvironment(req)
+		const { user, role, environment } = await getUserAndEnvironment(req)
+
+		if (role !== 'admin' && role !== 'owner') {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
 
 		const tagExists = await tagRepository.findOneBy({
 			name: req.body.name,
@@ -70,7 +75,12 @@ export const updateTag = async (req: Request, res: Response) => {
 
 	try {
 
-		const { user, environment } = await getUserAndEnvironment(req)
+		const { user, role, environment } = await getUserAndEnvironment(req)
+
+		if (role !== 'admin' && role !== 'owner') {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
 
 		const tagExists = await tagRepository.findOneBy({
 			name: req.body.name,
@@ -109,7 +119,12 @@ export const deleteTag = async (req: Request, res: Response) => {
 
 	try {
 
-		const { user, environment } = await getUserAndEnvironment(req)
+		const { user, role, environment } = await getUserAndEnvironment(req)
+
+		if (role !== 'admin' && role !== 'owner') {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
 
 		const tag = await tagRepository.findOneBy({
 			id: req.params.id

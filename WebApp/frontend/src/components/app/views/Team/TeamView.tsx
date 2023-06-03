@@ -6,15 +6,13 @@ import { Box, Typography } from '@mui/material'
 import { TabsBox } from 'components/common'
 
 import TeamMembersListView from './TeamMembersListView'
-import TeamRolesListView from './TeamRolesListView'
 
 const TeamView: React.FC = () => {
 
 	const { t } = useTranslation()
 
 	const TabDataList = useMemo(() => [
-		{label: t('Members'), content: <TeamMembersListView/>, tab: 'members'},
-		{label: t('Roles'), content: <TeamRolesListView/>, tab: 'roles'}
+		{label: t('Members'), content: <TeamMembersListView/>, tab: 'members'}
 	], [])
 
 	return (

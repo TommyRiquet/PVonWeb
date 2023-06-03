@@ -12,6 +12,7 @@ export interface User {
 	lastName: string
 	phoneNumber: string
 	language: string
+	role: string
 }
 
 

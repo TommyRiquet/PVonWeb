@@ -9,7 +9,6 @@ import { User, UserEnvironment  } from '../entity'
 import { sendPasswordMail } from '../services/mailService'
 import { registerLog } from '../services/logService'
 
-import { generateRandomPassword } from '../utils/utils'
 import { getUserAndEnvironment } from './commonController'
 
 export const getTeamMembersByEnvironment = async (req: Request, res: Response) => {
@@ -55,6 +54,7 @@ export const getTeamMembersByEnvironment = async (req: Request, res: Response) =
 
 }
 
+
 export const addUser = async (req: Request, res: Response) => {
 	const userRepository = AppDataSource.getRepository(User)
 	const userEnvRepository = AppDataSource.getRepository(UserEnvironment)
@@ -63,7 +63,7 @@ export const addUser = async (req: Request, res: Response) => {
 
 		const { user, role, environment } = await getUserAndEnvironment(req)
 
-		if (role !== 'admin') {
+		if (role !== 'admin' && role !== 'owner') {
 			res.status(401).json({ status: 401, message: 'Unauthorized' })
 			return
 		}
@@ -141,7 +141,7 @@ export const kickUserFromEnvironment = async (req: Request, res: Response) => {
 
 		const { user, role, environment } = await getUserAndEnvironment(req)
 
-		if (role !== 'admin') {
+		if (role !== 'admin' && role !== 'owner') {
 			res.status(401).json({ status: 401, message: 'Unauthorized' })
 			return
 		}
@@ -159,6 +159,21 @@ export const kickUserFromEnvironment = async (req: Request, res: Response) => {
 			}
 		})
 
+		if (!userToDelete) {
+			res.status(404).json({ status: 404, message: 'User not found' })
+			return
+		}
+
+		if (userToDelete.id === user.id) {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
+
+		if (userEnv.role === 'admin' && role !== 'owner') {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
+
 		if (!userEnv) {
 			res.status(404).json({ status: 404, message: 'User not found in this environment' })
 			return
@@ -169,6 +184,72 @@ export const kickUserFromEnvironment = async (req: Request, res: Response) => {
 		await userEnvRepository.remove(userEnv)
 
 		res.status(200).json({ status: 200, message: 'User removed' })
+
+	}
+	catch (error) {
+		res.status(500).json(error)
+	}
+}
+
+export const editUserRole = async (req: Request, res: Response) => {
+
+	const userRepository = AppDataSource.getRepository(User)
+	const userEnvRepository = AppDataSource.getRepository(UserEnvironment)
+
+	try{
+
+		const { user, role, environment } = await getUserAndEnvironment(req)
+
+		if (role !== 'admin' && role !== 'owner') {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
+
+		const userEnv = await userEnvRepository.findOne({
+			where: {
+				userId: req.params.id,
+				environmentId: environment.id
+			}
+		})
+
+		const userToEdit = await userRepository.findOne({
+			where: {
+				id: req.params.id
+			}
+		})
+
+		if (!userToEdit) {
+			res.status(404).json({ status: 404, message: 'User not found' })
+			return
+		}
+
+		if (userToEdit.id === user.id) {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
+
+		if (role !== 'owner') {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
+
+		if (!userEnv) {
+			res.status(404).json({ status: 404, message: 'User not found in this environment' })
+			return
+		}
+
+		if (req.body.role !== 'user' && req.body.role !== 'admin') {
+			res.status(400).json({ status: 400, message: 'Invalid role' })
+			return
+		}
+
+		userEnv.role = req.body.role
+
+		await userEnvRepository.save(userEnv)
+
+		registerLog(user.id, environment, 'update', {user: userToEdit})
+
+		res.status(200).json({ status: 200, message: 'User edited' })
 
 	}
 	catch (error) {

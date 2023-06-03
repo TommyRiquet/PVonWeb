@@ -70,6 +70,11 @@ export const updateTranscript = async (req: Request, res: Response) => {
 				deleted: false
 			})
 
+			if (transcript.environment !== environment) {
+				res.status(401).json({ status: 401, message: 'Unauthorized' })
+				return
+			}
+
 			transcript.name = req.body.name
 			transcript.companyName = req.body.companyName
 			transcript.adminName = req.body.adminName
@@ -164,14 +169,16 @@ export const deleteTranscript = async (req: Request, res: Response) => {
 
 	try {
 
-		const { user, role, environment } = await getUserAndEnvironment(req)
-
-		if (role !== 'admin')
-			return res.status(401).json({ status: 401, message: 'Unauthorized' })
+		const { user, environment } = await getUserAndEnvironment(req)
 
 		const transcript = await transcriptRepository.findOneBy({
 			id: req.params.id
 		})
+
+		if (transcript.environment !== environment) {
+			res.status(401).json({status: 401, message: 'Unauthorized'})
+			return
+		}
 
 		transcript.deleted = true
 
