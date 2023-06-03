@@ -10,6 +10,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { ListView, Loading, QueryError } from 'components/common'
 import TeamAddMemberDialog from './Dialogs/TeamAddMemberDialog'
 import TeamKickMemberDialog from './Dialogs/TeamKickMemberDialog'
+import TeamEditMemberDialog from './Dialogs/TeamEditMemberDialog'
 
 import { useGlobalContext, useAppContext } from 'contexts'
 
@@ -31,10 +32,16 @@ const TeamMembersListView: React.FC = () => {
 	const [selectedUser, setSelectedUser] = useState<any>(null)
 	const [openAddMemberDialog, setOpenAddMemberDialog] = useState<boolean>(false)
 	const [openKickMemberDialog, setOpenKickMemberDialog] = useState<boolean>(false)
+	const [openEditMemberDialog, setOpenEditMemberDialog] = useState<boolean>(false)
 
 	const handleKickUser = (user: any) => {
 		setSelectedUser(user)
 		setOpenKickMemberDialog(true)
+	}
+
+	const handleEditUser = (user: any) => {
+		setSelectedUser(user)
+		setOpenEditMemberDialog(true)
 	}
 
 
@@ -60,7 +67,14 @@ const TeamMembersListView: React.FC = () => {
 				headerName: t('Role'),
 				hideable: false,
 				flex: 1,
-				minWidth: 100
+				minWidth: 100,
+				sortComparator: (v1: any, v2: any) => {
+					const roleOrder: { [key: string]: number } = { 'owner': 0, 'admin': 1, 'user': 2 }
+					const role1 = v1.toLowerCase()
+					const role2 = v2.toLowerCase()
+
+					return roleOrder[role1] - roleOrder[role2]
+				}
 			},
 			{
 				field: 'buttons',
@@ -70,19 +84,25 @@ const TeamMembersListView: React.FC = () => {
 				editable: false,
 				width: 200,
 				renderCell: (value: any) => {
-					if (currentRole === 'admin' && value.row.id !== userProfile?.id) {
+					if (value.row.id !== userProfile?.id) {
 						return (
 							<Box display='flex' flexDirection='row' justifyContent='space-between'>
-								<Tooltip title={t('Edit role')} placement='top' arrow>
-									<Button variant='contained' color='primary' sx={{marginRight: 1}}>
-										<EditIcon/>
-									</Button>
-								</Tooltip>
-								<Tooltip title={t('Kick user')} placement='top' arrow>
-									<Button variant='outlined' onClick={() => handleKickUser(value.row)}>
-										<LogoutIcon/>
-									</Button>
-								</Tooltip>
+								{
+									currentRole === 'owner' &&
+									<Tooltip title={t('Edit role')} placement='top' arrow>
+										<Button variant='contained' color='primary' sx={{marginRight: 1}} onClick={() => handleEditUser(value.row)}>
+											<EditIcon/>
+										</Button>
+									</Tooltip>
+								}
+								{
+									(( currentRole === 'admin' || currentRole === 'owner' ) && value.row.role !== 'owner' && value.row.role !== 'admin' ) &&
+									<Tooltip title={t('Kick user')} placement='top' arrow>
+										<Button variant='outlined' onClick={() => handleKickUser(value.row)}>
+											<LogoutIcon/>
+										</Button>
+									</Tooltip>
+								}
 							</Box>
 						)}
 					return null
@@ -124,6 +144,7 @@ const TeamMembersListView: React.FC = () => {
 		<Box display='flex' flexDirection='column' width='100%' paddingX={5}>
 			<TeamAddMemberDialog open={openAddMemberDialog} handleClose={() => setOpenAddMemberDialog(false)}/>
 			<TeamKickMemberDialog open={openKickMemberDialog} handleClose={() => setOpenKickMemberDialog(false)} user={selectedUser}/>
+			<TeamEditMemberDialog open={openEditMemberDialog} handleClose={() => setOpenEditMemberDialog(false)} user={selectedUser}/>
 			<Box display='flex' justifyContent='space-between' paddingY={3}>
 				<Box>
 					<TextField
@@ -136,7 +157,7 @@ const TeamMembersListView: React.FC = () => {
 				</Box>
 				<Box>
 					{
-						currentRole === 'admin' &&
+						( currentRole === 'admin' || currentRole === 'owner' ) &&
 						<Button variant='contained' color='primary' onClick={() => setOpenAddMemberDialog(true)}>
 							{
 								isMobile ? <AddIcon/> : <Typography fontWeight='bold'>{t('Add Member')}</Typography>

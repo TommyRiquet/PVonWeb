@@ -1,13 +1,6 @@
 import useAPI from './common.services'
 
-
-interface User {
-	id: number
-	firstname: string
-	lastname: string
-	email: string
-	role: string
-}
+import { User } from './users.services'
 
 export const useTeamAPI = () => {
 
@@ -25,9 +18,14 @@ export const useTeamAPI = () => {
 		return API.delete(`team/${user.id}/`).then(res => res.data)
 	}
 
+	const editUser = async (user: User, data: any): Promise<any> => {
+		return API.put(`team/${user.id}/`, data).then(res => res.data)
+	}
+
 	return {
 		getListMembers,
 		addUser,
-		kickUser
+		kickUser,
+		editUser
 	}
 }

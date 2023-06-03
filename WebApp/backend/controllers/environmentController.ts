@@ -44,7 +44,7 @@ export const updateEnvironment = async (req: Request, res: Response) => {
 		if (error)
 			return res.status(403).json({ message: error.message })
 
-		if (role !== 'admin')
+		if (role !== 'admin' && role !== 'owner')
 			return res.status(403).json({ message: 'You are not allowed to update this environment' })
 
 		environment.name = req.body.name

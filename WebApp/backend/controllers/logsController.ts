@@ -21,7 +21,8 @@ export const getLogs = async (req: Request, res: Response) => {
 			relations: ['user', 'targetEnvironment', 'targetTranscript', 'targetUser', 'targetTag'],
 			order: {
 				timestamp: 'DESC'
-			}
+			},
+			take: 30
 		})
 		logs.forEach(log => {
 			if (log.user && log.user.password)

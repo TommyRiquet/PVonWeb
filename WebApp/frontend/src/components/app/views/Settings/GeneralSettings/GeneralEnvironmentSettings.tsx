@@ -79,7 +79,7 @@ const GeneralEnvironmentSettings: FC = () => {
 					</Alert>
 				</Snackbar>
 				<Box display='flex' flexDirection='column' width='100%' padding={2}>
-					<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>Environment</Typography>
+					<Typography variant='h6' color={theme => theme.palette.primary.main} fontWeight='bold'>{t('Environment')}</Typography>
 					<Controller
 						render={({ field }) => (
 							<TextField
@@ -87,7 +87,7 @@ const GeneralEnvironmentSettings: FC = () => {
 								fullWidth
 								error={!!errors.name}
 								helperText={errors.name?.message as string}
-								disabled={currentRole !== 'admin'}
+								disabled={currentRole !== 'admin' && currentRole !== 'owner'}
 								sx={{ marginY: 2 }}
 								{...field}
 							/>
@@ -97,7 +97,7 @@ const GeneralEnvironmentSettings: FC = () => {
 						defaultValue={''}
 					/>
 					{
-						currentRole === 'admin' &&
+						( currentRole === 'admin' || currentRole === 'owner' ) &&
 						<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%'}}>
 							{ isLoading ? <CircularProgress size={25} /> : t('Update') }
 						</Button>

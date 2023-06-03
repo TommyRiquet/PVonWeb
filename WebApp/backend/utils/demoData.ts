@@ -73,6 +73,8 @@ export const loadDemoData = async (AppDataSource) => {
 	await createTag(tagRepository, 'Tag 2', 'Demo Tag 2', environment1)
 	await createTag(tagRepository, 'Tag 3', 'Demo Tag 3', environment1)
 
+	const owner = await createUser(userRepository, 'Owner', 'Owner', 'owner@pvonweb.com', process.env.DEMO_DATA_ADMIN_PASSWORD)
+	await linkUserToEnvironment(userEnvironmentRepository, owner, [environment1, environment2, environment3], 'owner')
 
 	const admin = await createUser(userRepository, 'Admin', 'Admin', 'admin@pvonweb.com', process.env.DEMO_DATA_ADMIN_PASSWORD)
 	await linkUserToEnvironment(userEnvironmentRepository, admin, [environment1, environment2, environment3], 'admin')
