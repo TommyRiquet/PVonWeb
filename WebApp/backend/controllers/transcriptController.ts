@@ -65,13 +65,18 @@ export const updateTranscript = async (req: Request, res: Response) => {
 
 			const { user, environment } = await getUserAndEnvironment(req)
 
-			const transcript = await transcriptRepository.findOneBy({
-				id: req.params.id,
-				deleted: false
+			const Listtranscript = await transcriptRepository.find({
+				where: {
+					id: req.params.id,
+					deleted: false
+				},
+				relations: ['environment']
 			})
 
-			if (transcript.environment !== environment) {
-				res.status(401).json({ status: 401, message: 'Unauthorized' })
+			const transcript = Listtranscript[0]
+
+			if (transcript.environment.id !== environment.id) {
+				res.status(401).json({status: 401, message: 'Unauthorized'})
 				return
 			}
 
