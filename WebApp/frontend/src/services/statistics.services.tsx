@@ -7,6 +7,7 @@ import { Environment } from './environment.services'
 export interface Statistics {
 	numberOfUsers: number
 	numberOfTranscriptCreated: number
+	numberOfTranscriptDeleted: number
 }
 
 export interface Log {

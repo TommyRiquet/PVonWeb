@@ -13,11 +13,11 @@ export const getEnvironments = async (req: Request, res: Response) => {
 	const userRepository = AppDataSource.getRepository(User)
 
 	try {
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
+		const email = verifyToken(req.headers.authorization.split(' ')[1]).email
 
 		const user = await userRepository.findOne({
 			where: {
-				id: id
+				email: email
 			},
 			relations: {
 				userEnvironments: {
@@ -78,13 +78,21 @@ export const getStatisticsByEnvironment = async (req: Request, res: Response) =>
 		})
 		const transcriptCount = await transcriptRepository.count({
 			where: {
-				environment: environment
+				environment: environment,
+				deleted: false
+			}
+		})
+		const deletedTranscriptCount = await transcriptRepository.count({
+			where: {
+				environment: environment,
+				deleted: true
 			}
 		})
 
 		const statistics = {
 			numberOfUsers: teamMembersCount,
-			numberOfTranscriptCreated: transcriptCount
+			numberOfTranscriptCreated: transcriptCount,
+			numberOfTranscriptDeleted: deletedTranscriptCount
 		}
 
 		res.json(statistics)

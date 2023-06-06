@@ -7,7 +7,7 @@ import { Box, Button, Chip, TextField, Tooltip, Typography } from '@mui/material
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import DownloadIcon from '@mui/icons-material/Download'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
 import { ListView, Loading, QueryError } from 'components/common'
 import TranscriptAddDialog from './Dialogs/TranscriptAddDialog'
@@ -101,17 +101,17 @@ const TranscriptListView: React.FC = () => {
 				width: 250,
 				renderCell: (value: any) => (
 					<Box display='flex' flexDirection='row' justifyContent='space-between'>
-						<Tooltip title={'Download transcript'} placement='top' arrow disableInteractive>
-							<Button href={value.row.link} disabled={!value.row.link} variant='contained' color='primary' sx={{marginRight: 1}}>
-								<DownloadIcon/>
+						<Tooltip title={t('View Transcript')} placement='top' arrow disableInteractive>
+							<Button href={value.row.link} disabled={!value.row.link} target='_blank' variant='contained' color='primary' sx={{marginRight: 1}}>
+								<VisibilityIcon/>
 							</Button>
 						</Tooltip>
-						<Tooltip title='Edit transcript' placement='top' arrow disableInteractive>
+						<Tooltip title={t('Edit Transcript')} placement='top' arrow disableInteractive>
 							<Button onClick={() => handleEditClick(value.row)} variant='outlined' color='primary' sx={{marginRight: 1}}>
 								<EditIcon/>
 							</Button>
 						</Tooltip>
-						<Tooltip title='Delete transcript' placement='top' arrow disableInteractive>
+						<Tooltip title={t('Delete Transcript')} placement='top' arrow disableInteractive>
 							<Button variant='outlined' onClick={() => handleDeleteClick(value.row)}>
 								<DeleteIcon/>
 							</Button>

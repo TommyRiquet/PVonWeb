@@ -11,12 +11,12 @@ export const getUserAndEnvironment = async (req: Request) => {
 	const userRepository = AppDataSource.getRepository(User)
 
 	try {
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
+		const email = verifyToken(req.headers.authorization.split(' ')[1]).email
 
 		const envId = parseInt(req.headers['x-env-id'])
 
 		const user = await userRepository.findOne({
-			where: { id: id },
+			where: { email: email },
 			relations: {
 				userEnvironments: {
 					environment: true

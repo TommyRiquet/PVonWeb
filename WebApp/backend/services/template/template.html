@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <title>Procès-verbal</title>
 	<style>
+		html {
+			zoom: 0.7;
+		}
 		li {
 			padding-bottom: 2rem;
 			border-bottom: 1px solid gray;
@@ -275,7 +278,7 @@
 					<td>{{this.firstName}} {{this.lastName}}</td>
 					<td>{{this.address}}</td>
 					<td>/</td>
-					<td></td>
+					<td>{{this.parts}}</td>
 					<td></td>
 				</tr>
 			{{/each}}
@@ -284,7 +287,7 @@
 					<td>{{this.firstName}} {{this.lastName}}</td>
 					<td>{{this.address}}</td>
 					<td>/</td>
-					<td></td>
+					<td>{{this.parts}}</td>
 					<td></td>
 				</tr>
 			{{/each}}

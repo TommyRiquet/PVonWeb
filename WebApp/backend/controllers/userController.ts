@@ -11,12 +11,12 @@ import { verifyToken } from '../services/authService'
 export const getUser = async (req: Request, res: Response) => {
 
 	try{
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
+		const email = verifyToken(req.headers.authorization.split(' ')[1]).email
 
 		const userRepository = AppDataSource.getRepository(User)
 
 		const user = await userRepository.findOne({
-			where: { id: id },
+			where: { email: email },
 			relations: {
 				userEnvironments: {
 					environment: true
@@ -35,13 +35,13 @@ export const getUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
 
 	try{
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
+		const email = verifyToken(req.headers.authorization.split(' ')[1]).email
 
 		const userRepository = AppDataSource.getRepository(User)
 
 		const user = await userRepository.createQueryBuilder('user')
 			.select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.phoneNumber'])
-			.where('user.id = :id', { id })
+			.where('user.email = :email', { email })
 			.getOne()
 
 		user.firstName = req.body.firstName
@@ -62,13 +62,13 @@ export const updateUser = async (req: Request, res: Response) => {
 export const changePassword = async (req: Request, res: Response) => {
 
 	try{
-		const id = verifyToken(req.headers.authorization.split(' ')[1]).id
+		const email = verifyToken(req.headers.authorization.split(' ')[1]).email
 
 		const userRepository = AppDataSource.getRepository(User)
 
 		const user = await userRepository.createQueryBuilder('user')
 			.select(['user.id', 'user.password'])
-			.where('user.id = :id', { id })
+			.where('user.email = :email', { email })
 			.getOne()
 
 		if (await argon2.verify(user.password, req.body.oldPassword) === false) {

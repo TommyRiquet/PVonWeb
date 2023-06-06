@@ -2,16 +2,16 @@ const jwt = require('jsonwebtoken')
 
 const secret = process.env.JWT_SECRET as string
 
-function generateToken(id: number): string {
+function generateToken(email: string): string {
 	const payload = {
-		id: id
+		email: email
 	}
 
-	return jwt.sign(payload, secret, { expiresIn: '24h' })
+	return jwt.sign(payload, secret, { expiresIn: '10h' })
 }
 
-function verifyToken(token: string): { id: number } {
-	return jwt.verify(token, secret) as { id: number }
+function verifyToken(token: string): { email: string } {
+	return jwt.verify(token, secret) as { email: string }
 }
 
 export {

@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  
   mysqldb:
     container_name: db
     image: mysql:5.7
@@ -13,6 +14,10 @@ services:
       - $DB_PORT:$DB_PORT
     volumes:
       - db:/var/lib/mysql
+    networks:
+      network:
+        ipv4_address: 172.24.0.3
+
   app:
     container_name: web
     depends_on:
@@ -30,9 +35,35 @@ services:
       - DB_PORT=$DB_PORT
     stdin_open: true
     tty: true
+    networks:
+      network:
+        ipv4_address: 172.24.0.2
+
+  uptime-kuma:
+    container_name: uptime-kuma
+    image: louislam/uptime-kuma:1
+    restart: unless-stopped
+    ports:
+      - 3002:3002
+    environment:
+      - UPTIME_KUMA_PORT=3002
+      - HOST=172.24.0.4
+    volumes:
+      - uptime-kuma:/app/data
+    networks:
+      network:
+        ipv4_address: 172.24.0.4
 
 volumes:
   db:
+  uptime-kuma:
 
+networks:
+  network:
+    driver: bridge
+    ipam:
+     config:
+      - subnet: 172.24.0.0/16
+        gateway: 172.24.0.1
 
 

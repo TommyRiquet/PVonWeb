@@ -40,8 +40,8 @@ const StatisticsWidget = () => {
 				<Typography fontWeight='bold'> {statistics?.numberOfTranscriptCreated} </Typography>
 			</Box>
 			<Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' paddingY={2}>
-				<Typography fontWeight='bold'> {t('Transcripts Edited')} </Typography>
-				<Typography fontWeight='bold'> 0 </Typography>
+				<Typography fontWeight='bold'> {t('Transcripts Deleted')} </Typography>
+				<Typography fontWeight='bold'> {statistics?.numberOfTranscriptDeleted} </Typography>
 			</Box>
 			<Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' paddingY={2}>
 				<Typography fontWeight='bold'> {t('Transcripts Downloaded')} </Typography>
