@@ -35,6 +35,8 @@ services:
       - DB_PORT=$DB_PORT
     stdin_open: true
     tty: true
+    volumes:
+      - web:/media
     networks:
       network:
         ipv4_address: 172.24.0.2
@@ -65,6 +67,7 @@ services:
         ipv4_address: 172.24.0.4
 
 volumes:
+  web:
   db:
   uptime-kuma:
 

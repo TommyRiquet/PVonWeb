@@ -41,7 +41,5 @@ jobs:
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
             sudo docker compose build
-            sudo docker cp web:/media /home/ubuntu/pvonweb/media
             sudo docker compose up -d
-            sudo docker cp /home/ubuntu/pvonweb/media web:/
             sudo docker system prune -f

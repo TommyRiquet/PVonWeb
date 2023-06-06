@@ -95,7 +95,7 @@ const TagsListView: React.FC = () => {
 			<TagsDeleteDialog open={openDeleteTagDialog} handleClose={() => setOpenDeleteTagDialog(false)} tag={selectedTag}/>
 			<Box display='flex' justifyContent='end' paddingY={3}>
 				{
-					currentRole === 'admin' &&
+					( currentRole === 'admin' || currentRole === 'owner' ) &&
 					<Button variant='contained' color='primary' onClick={() => setOpenAddTagDialog(true)}>
 						{
 							isMobile ? <AddIcon/> : <Typography fontWeight='bold'>{t('Add Tag')}</Typography>
