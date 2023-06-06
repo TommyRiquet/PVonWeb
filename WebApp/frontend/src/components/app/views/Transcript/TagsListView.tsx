@@ -61,6 +61,7 @@ const TagsListView: React.FC = () => {
 				editable: false,
 				width: 200,
 				renderCell: (value: any) => (
+					(currentRole === 'admin' || currentRole === 'owner') &&
 					<Box display='flex' flexDirection='row' justifyContent='space-between'>
 						<Tooltip title={t('Edit tag')} placement='top' arrow>
 							<Button onClick={() => handleEditClick(value.row)} variant='contained' color='primary' sx={{marginRight: 1}}>

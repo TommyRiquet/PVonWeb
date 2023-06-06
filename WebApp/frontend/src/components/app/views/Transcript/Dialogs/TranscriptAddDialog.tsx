@@ -143,8 +143,6 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 									<Autocomplete
 										disablePortal
 										options={_.isArray(organizationData) ? organizationData.map((item) => item.name) : []}
-										value={organization?.name ? organization.name : null}
-										inputValue={organization?.name ? organization.name : ''}
 										onChange={
 											(_, value) => {
 												const selectedOrganization = organizationData.find((item) => item.name === value)

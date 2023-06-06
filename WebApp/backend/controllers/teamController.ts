@@ -117,7 +117,7 @@ export const addUser = async (req: Request, res: Response) => {
 
 		await userEnvRepository.save(userEnv)
 
-		sendPasswordMail(newUser, password)
+		sendPasswordMail(newUser, req.body.password)
 			.then(() => {
 				res.status(200).json({ status: 200, message: 'User added' })
 				registerLog(user.id, environment, 'create', {user: newUser})
