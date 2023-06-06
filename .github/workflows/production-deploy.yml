@@ -34,19 +34,14 @@ jobs:
       env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i"
-          SOURCE: "WebApp/backend/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
-          EXCLUDE: "test/"
-          SCRIPT_BEFORE: |
-            cd /home/ubuntu/pvonweb
-            sudo rm -rf build
+          EXCLUDE: WebApp/backend/test/, WebApp/frontend/, .github, docs, LICENCE.txt, README.md
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
             sudo docker compose build
             sudo docker cp web:/media /home/ubuntu/pvonweb/media
             sudo docker compose up -d
             sudo docker cp /home/ubuntu/pvonweb/media web:/
-            sudo docker network connect internal-fake-api-network web
             sudo docker system prune -f
