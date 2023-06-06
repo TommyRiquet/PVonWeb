@@ -203,11 +203,11 @@ const TeamEditMemberDialog: FC<TeamEditMemberDialogProps> = ({open, handleClose,
 							<Controller
 								render={({ field }) => (
 									<Select
-										label={t('Role')}
 										fullWidth
 										variant='outlined'
 										size='small'
 										error={!!errors.role}
+										sx={{ marginTop: 2 }}
 										{...field}
 									>
 										<MenuItem key='admin' value='admin'>Admin</MenuItem>
