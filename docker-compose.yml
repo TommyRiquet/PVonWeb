@@ -22,7 +22,7 @@ services:
     container_name: web
     depends_on:
       - mysqldb
-    build: ./
+    build: ./WebApp/backend
     restart: unless-stopped
     env_file: .env
     ports:
@@ -38,6 +38,16 @@ services:
     networks:
       network:
         ipv4_address: 172.24.0.2
+  
+  fake-api:
+    container_name: fake-api
+    build: ./FastAPI/
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    networks:
+      network:
+        ipv4_address: 172.24.0.5
 
   uptime-kuma:
     container_name: uptime-kuma
