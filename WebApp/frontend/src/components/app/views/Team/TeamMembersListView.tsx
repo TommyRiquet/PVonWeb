@@ -96,7 +96,7 @@ const TeamMembersListView: React.FC = () => {
 									</Tooltip>
 								}
 								{
-									(( currentRole === 'admin' || currentRole === 'owner' ) && value.row.role !== 'owner' && value.row.role !== 'admin' ) &&
+									(( currentRole === 'admin' || currentRole === 'owner' ) && value.row.role !== 'owner' && ( currentRole === 'owner' ? true : value.row.role !== 'admin' ) ) &&
 									<Tooltip title={t('Kick user')} placement='top' arrow>
 										<Button variant='outlined' onClick={() => handleKickUser(value.row)}>
 											<LogoutIcon/>
