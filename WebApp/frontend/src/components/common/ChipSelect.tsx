@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Select, MenuItem, SelectChangeEvent, Chip, InputLabel, FormControl } from '@mui/material'
 
-interface Chip {
+export interface Chip {
 	name: string
 }
 interface ChipSelectI {
