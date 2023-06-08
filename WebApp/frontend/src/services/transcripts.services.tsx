@@ -11,6 +11,7 @@ export interface Transcript {
 	companyName: string
 	scrutineerName: string
 	secretaryName: string
+	link: string
 	tags: Tag[]
 }
 
