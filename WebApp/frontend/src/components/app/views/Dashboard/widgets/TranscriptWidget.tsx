@@ -2,7 +2,8 @@ import { useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import { Box, Typography, Button } from '@mui/material'
+import { Box, Typography, Button, Tooltip } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
 import { Loading, QueryError } from 'components/common'
 
@@ -70,6 +71,13 @@ const TranscriptWidget = () => {
 							<Typography variant='body1' fontWeight='bold'>
 								{transcript.name}
 							</Typography>
+						</Box>
+						<Box display='flex' flexDirection='row' alignItems='center' paddingTop={1}>
+							<Tooltip title={t('View Transcript')} placement='top' arrow disableInteractive>
+								<Button href={transcript.link} disabled={!transcript.link} target='_blank' size='small' variant='contained' color='primary' sx={{marginRight: 1}}>
+									<VisibilityIcon/>
+								</Button>
+							</Tooltip>
 						</Box>
 					</Box>
 				))
