@@ -11,6 +11,12 @@
 		"num_bce": "0762.508.684",
 		"date-ago": "16/06/2023",
 		"nbr-parts": 100,
+		"profits": 15000,
+		"reported_profits": 10000,
+		"royalties": 5000,
+		"dividends": 10000,
+		"report_profits": 10000,
+		"size": "small",
 		"administrators": [
 			{
 				"id": 2,
@@ -29,6 +35,56 @@
 				"email": "g.dejardin@gmail.com",
 				"address":"Rue Capouillet 9",
 				"parts": 1
+			}
+		]
+	},
+	{
+		"id": 2,
+		"name": "Asgard ressource Holding",
+		"address": "Rue Capouillet 10",
+		"locality": "Saint-Gilles",
+		"code_postal": "1060",
+		"phoneNumber": "012345678",
+		"email": "Org2@gmail.com",
+		"registre_nationnal": "0123456789",
+		"num_bce": "0762.508.685",
+		"date-ago": "29/06/2023",
+		"nbr-parts": 100,
+		"profits": 25000,
+		"reported_profits": 20000,
+		"royalties": 10000,
+		"dividends": 15000,
+		"report_profits": 20000,
+		"size": "small",
+		"administrators": [
+			{
+				"id": 3,
+				"firstName": "James",
+				"lastName": "Bond",
+				"email": "j.bond@gmail.com",
+				"address":"Rue Capouillet 10",
+				"sexe": "M",
+				"parts": 90
+			},
+			{
+				"id": 4,
+				"firstName": "Madelaine",
+				"lastName": "Swann",
+				"email": "m.swann@gmail.com",
+				"address":"Rue Capouillet 10",
+				"sexe": "F",
+				"parts": 5
+			}
+		],
+		"share_holders": [
+			{
+				"id": 4,
+				"firstName": "Robert",
+				"lastName": "Downey Jr",
+				"email": "rdj@gmail.com",
+				"address":"Rue Capouillet 10",
+				"sexe": "M",
+				"parts": 5
 			}
 		]
 	}

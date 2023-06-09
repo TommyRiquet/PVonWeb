@@ -2,7 +2,7 @@ var pdf = require('pdf-creator-node')
 var fs = require('fs')
 
 
-export const generatePdf = async (organization, transcript) => {
+export const generatePdf = async (organization, transcript, warrants) => {
 	var html = fs.readFileSync('./services/template/template.html', 'utf8')
 
 	var options = {
@@ -32,11 +32,16 @@ export const generatePdf = async (organization, transcript) => {
 		}
 	}
 
+	organization.total_profits = organization.profits + organization.reported_profits
+	organization.total = organization.royalties + organization.dividends + organization.report_profits
+
+
 	var document = {
 		html: html,
 		data: {
 			organization: organization,
-			transcript: transcript
+			transcript: transcript,
+			warrants: warrants
 		},
 		path: `./media/${transcript.id}.pdf`,
 		type: ''

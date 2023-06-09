@@ -3,6 +3,13 @@ import useAPI from './common.services'
 import { Tag } from './tags.services'
 
 
+export interface Warrant {
+	id: number
+	adminName: string
+	state: string
+	duration?: number
+}
+
 export interface Transcript {
 	id: number
 	name: string
@@ -12,6 +19,9 @@ export interface Transcript {
 	scrutineerName: string
 	secretaryName: string
 	link: string
+	isConvocation: boolean
+	isExact: boolean
+	warrants: Warrant[]
 	tags: Tag[]
 }
 
@@ -47,10 +57,11 @@ export const useTranscriptAPI = () => {
 		return API.get(`transcript/${limit}`).then(res => res.data)
 	}
 
-	const updateTranscript = async (data: any, transcript: Transcript, selectedTags: Tag[]): Promise<any> => {
+	const updateTranscript = async (data: any, transcript: Transcript, selectedTags: Tag[], warrants: Warrant[]): Promise<any> => {
 		return API.patch(`transcript/${transcript.id}/`, {
 			...data,
-			tags: selectedTags
+			tags: selectedTags,
+			warrants: warrants
 		}).then(res => res.data)
 	}
 
@@ -58,10 +69,11 @@ export const useTranscriptAPI = () => {
 		return API.get('transcript/organizations').then(res => res.data)
 	}
 
-	const createTranscript = async (data: any, selectedTags: Tag[], organization: Organization): Promise<any> => {
+	const createTranscript = async (data: any, selectedTags: Tag[], organization: Organization, warrants: Warrant[]): Promise<any> => {
 		return API.post('transcript/', {
 			...data,
 			organization: organization,
+			warrants: warrants,
 			tags: selectedTags
 		}).then(res => res.data)
 	}

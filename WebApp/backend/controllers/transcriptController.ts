@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import { AppDataSource } from '../config/database'
 
-import { Transcript } from '../entity'
+import { Transcript, Warrant } from '../entity'
 
 import { getUserAndEnvironment } from './commonController'
 
@@ -16,9 +16,12 @@ export const getTranscriptById = async (req: Request, res: Response) => {
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
 
 	try {
-		const transcript = await transcriptRepository.findOneBy({
-			id: req.params.id,
-			deleted: false
+		const transcript = await transcriptRepository.find({
+			where: {
+				id: req.params.id,
+				deleted: false
+			},
+			relations: ['environment', 'warrants']
 		})
 		res.json(transcript)
 	} catch (error) {
@@ -42,7 +45,7 @@ export const getTranscriptByEnvironment = async (req: Request, res: Response) =>
 				environment: environment,
 				deleted: false
 			},
-			relations: ['tags']
+			relations: ['tags', 'warrants']
 		})
 
 		res.json(transcripts)
@@ -56,6 +59,7 @@ export const getTranscriptByEnvironment = async (req: Request, res: Response) =>
 
 export const updateTranscript = async (req: Request, res: Response) => {
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
+	const warrantRepository = AppDataSource.getRepository(Warrant)
 
 	try {
 
@@ -85,11 +89,32 @@ export const updateTranscript = async (req: Request, res: Response) => {
 			transcript.adminName = req.body.adminName
 			transcript.scrutineerName = req.body.scrutineerName
 			transcript.secretaryName = req.body.secretaryName
+			transcript.isConvocation = req.body.isConvocation
+			transcript.isExact = req.body.isExact
 			transcript.tags = req.body.tags
+
+			const warrants = await warrantRepository.find({
+				where: {
+					transcript: transcript
+				}
+			})
+
+
+			warrants.forEach((warrant, index) => {
+				req.body.warrants.forEach((warrantBody) => {
+					if (warrant.id === warrantBody.id) {
+						warrants[index].state = warrantBody.state
+						warrants[index].duration = warrantBody.duration
+					}
+				})
+			})
+
+			await warrantRepository.save(warrants)
+
 
 			const organization = organizations.find((organization) => organization.name === transcript.companyName)
 
-			const link = await generatePdf(organization, transcript)
+			const link = await generatePdf(organization, transcript, warrants)
 
 			if ('filename' in link)
 				transcript.link = link.filename
@@ -127,6 +152,7 @@ export const getAllOrganization = async (_: Request, res: Response) => {
 
 export const createTranscript = async (req: Request, res: Response) => {
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
+	const warrantRepository = AppDataSource.getRepository(Warrant)
 
 	try {
 
@@ -143,11 +169,25 @@ export const createTranscript = async (req: Request, res: Response) => {
 			transcript.scrutineerName = req.body.scrutineerName
 			transcript.secretaryName = req.body.secretaryName
 			transcript.tags = req.body.tags
+			transcript.isConvocation = req.body.isConvocation
+			transcript.isExact = req.body.isExact
 			transcript.environment = environment
 
 			await transcriptRepository.save(transcript)
 
-			const link = await generatePdf(organization, transcript)
+			const warrants = []
+
+			await req.body.warrants.map(async (warrant) => {
+				const NewWarrant = new Warrant()
+				NewWarrant.transcript = transcript
+				NewWarrant.adminName = warrant.adminName
+				NewWarrant.state = warrant.state
+				NewWarrant.duration = warrant.duration
+				warrants.push(NewWarrant)
+				await warrantRepository.save(NewWarrant)
+			})
+
+			const link = await generatePdf(organization, transcript, warrants)
 
 			if ('filename' in link)
 				transcript.link = link.filename

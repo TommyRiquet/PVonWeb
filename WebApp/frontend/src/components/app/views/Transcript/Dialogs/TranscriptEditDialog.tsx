@@ -1,9 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from 'react-query'
-import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert, SelectChangeEvent } from '@mui/material'
+import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert, SelectChangeEvent, AccordionSummary, Accordion, AccordionDetails, Checkbox, Tooltip, Select, MenuItem, Grid} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 import { useForm, Controller } from 'react-hook-form'
 
@@ -12,7 +13,7 @@ import * as yup from 'yup'
 
 import { Loading, ChipSelect } from 'components/common'
 
-import { Transcript, useTranscriptAPI } from 'services/transcripts.services'
+import { Transcript, useTranscriptAPI, Warrant } from 'services/transcripts.services'
 import { Tag, useTagsAPI } from 'services/tags.services'
 
 
@@ -28,7 +29,9 @@ const TranscriptSchema = yup.object().shape({
 	companyName: yup.string().required('This field is required'),
 	adminName: yup.string().required('This field is required'),
 	scrutineerName: yup.string().required('This field is required'),
-	secretaryName: yup.string().required('This field is required')
+	secretaryName: yup.string().required('This field is required'),
+	isConvocation: yup.boolean().required('This field is required'),
+	isExact: yup.boolean().required('This field is required')
 })
 
 
@@ -53,7 +56,11 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 	const [isLoading, setIsLoading] = useState(false)
 	const [listTags, setListTags] = useState<Tag[]>([])
 	const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+	const [adminWarrants, setAdminWarrants] = useState<Warrant[]>([])
 	const [showSuccessDialog, setShowSuccessDialog] = useState(false)
+	const [participantAccordionExpanded, setParticipantAccordionExpanded] = useState(false)
+	const [warrantAccordionExpanded, setWarrantAccordionExpanded] = useState(false)
+	const [otherAccordionExpanded, setOtherAccordionExpanded] = useState(false)
 
 	const { updateTranscript } = useTranscriptAPI()
 	const { getTags } = useTagsAPI()
@@ -62,9 +69,9 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 
 	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(TranscriptSchema) })
 
-	const handleAddMember = async (data: any) => {
+	const handleEditTranscript	 = async (data: any) => {
 		setIsLoading(true)
-		const result = await updateTranscript(data, transcript, selectedTags)
+		const result = await updateTranscript(data, transcript, selectedTags, adminWarrants)
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
@@ -90,9 +97,12 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 			setValue('adminName', transcript.adminName)
 			setValue('scrutineerName', transcript.scrutineerName)
 			setValue('secretaryName', transcript.secretaryName)
+			setValue('isConvocation', transcript.isConvocation)
+			setValue('isExact', transcript.isExact)
+			setAdminWarrants(transcript.warrants)
 			setSelectedTags(transcript.tags)
 		}
-	}, [transcript])
+	}, [transcript, open])
 
 	const handleCloseDialog = () => {
 		setShowSuccessDialog(false)
@@ -103,8 +113,28 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 		setValue('adminName', transcript.adminName)
 		setValue('scrutineerName', transcript.scrutineerName)
 		setValue('secretaryName', transcript.secretaryName)
+		setValue('isConvocation', transcript.isConvocation)
+		setValue('isExact', transcript.isExact)
+		setAdminWarrants(transcript.warrants)
 		setSelectedTags(transcript.tags)
 		setIsLoading(false)
+		setOtherAccordionExpanded(false)
+		setParticipantAccordionExpanded(false)
+		setWarrantAccordionExpanded(false)
+	}
+
+	const handleWarrantStateChange = (event: SelectChangeEvent<string>, index: number) => {
+		const { target: { value } } = event
+		const newAdminWarrants = [...adminWarrants]
+		newAdminWarrants[index].state = value
+		setAdminWarrants(newAdminWarrants)
+	}
+
+	const handleWarrantDurationChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+		const { target: { value } } = event
+		const newAdminWarrants = [...adminWarrants]
+		newAdminWarrants[index].duration = parseInt(value)
+		setAdminWarrants(newAdminWarrants)
 	}
 
 	const handleSelectTags = (event: SelectChangeEvent<any>) => {
@@ -154,7 +184,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 					showSuccessDialog ?
 						<DisplayTranscriptSuccessDialog/>
 						:
-						<form onSubmit={handleSubmit((data) => handleAddMember(data))} >
+						<form onSubmit={handleSubmit((data) => handleEditTranscript(data))} >
 							<Controller
 								render={({ field }) => (
 									<TextField
@@ -189,60 +219,211 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 								name='companyName'
 								control={control}
 							/>
-							<Controller
-								render={({ field }) => (
-									<TextField
-										label={t('Transcript Admin')}
-										fullWidth
-										margin='normal'
-										variant='outlined'
-										size='small'
-										error={!!errors.adminName}
-										helperText={errors.adminName?.message as string}
-										{...field}
-									/>
-								)}
-								name='adminName'
-								control={control}
-							/>
-							<Controller
-								render={({ field }) => (
-									<TextField
-										label={t('Transcript Scrutineer')}
-										fullWidth
-										margin='normal'
-										variant='outlined'
-										size='small'
-										error={!!errors.scrutineerName}
-										helperText={errors.scrutineerName?.message as string}
-										{...field}
-									/>
-								)}
-								name='scrutineerName'
-								control={control}
-							/>
-							<Controller
-								render={({ field }) => (
-									<TextField
-										label={t('Transcript Secretary')}
-										fullWidth
-										margin='normal'
-										variant='outlined'
-										size='small'
-										error={!!errors.secretaryName}
-										helperText={errors.secretaryName?.message as string}
-										{...field}
-									/>
-								)}
-								name='secretaryName'
-								control={control}
-							/>
-							<ChipSelect
-								label={t('Tags')}
-								allChips={listTags}
-								selectedChips={selectedTags}
-								handleChange={handleSelectTags}
-							/>
+							<Box marginTop={1}>
+								<ChipSelect
+									label={t('Tags')}
+									allChips={listTags}
+									selectedChips={selectedTags}
+									handleChange={handleSelectTags}
+								/>
+							</Box>
+							<Accordion expanded={participantAccordionExpanded} sx={{marginTop: 2}}>
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls='participants-content'
+									id='participants-header'
+									onClick={() => {
+										if(participantAccordionExpanded){
+											setParticipantAccordionExpanded(false)
+										}
+										else{
+											setParticipantAccordionExpanded(true)
+											setOtherAccordionExpanded(false)
+											setWarrantAccordionExpanded(false)
+										}
+									}}
+								>
+									<Typography>{t('Participants')}</Typography>
+								</AccordionSummary>
+								<Controller
+									render={({ field }) => (
+										<TextField
+											label={t('Transcript Admin')}
+											fullWidth
+											margin='normal'
+											variant='outlined'
+											size='small'
+											error={!!errors.adminName}
+											helperText={errors.adminName?.message as string}
+											sx={{
+												paddingLeft: 2,
+												paddingRight: 2
+											}}
+											{...field}
+										/>
+									)}
+									name='adminName'
+									control={control}
+								/>
+								<Controller
+									render={({ field }) => (
+										<TextField
+											label={t('Transcript Scrutineer')}
+											fullWidth
+											margin='normal'
+											variant='outlined'
+											size='small'
+											error={!!errors.scrutineerName}
+											helperText={errors.scrutineerName?.message as string}
+											sx={{
+												paddingLeft: 2,
+												paddingRight: 2
+											}}
+											{...field}
+										/>
+									)}
+									name='scrutineerName'
+									control={control}
+								/>
+								<Controller
+									render={({ field }) => (
+										<TextField
+											label={t('Transcript Secretary')}
+											fullWidth
+											margin='normal'
+											variant='outlined'
+											size='small'
+											error={!!errors.secretaryName}
+											helperText={errors.secretaryName?.message as string}
+											sx={{
+												paddingLeft: 2,
+												paddingRight: 2
+											}}
+											{...field}
+										/>
+									)}
+									name='secretaryName'
+									control={control}
+								/>
+							</Accordion>
+							<Accordion expanded={warrantAccordionExpanded} sx={{marginTop: 2}}>
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls='warrants-content'
+									id='warrants-header'
+									onClick={() => {
+										if(warrantAccordionExpanded){
+											setWarrantAccordionExpanded(false)
+										}
+										else{
+											setWarrantAccordionExpanded(true)
+											setParticipantAccordionExpanded(false)
+											setOtherAccordionExpanded(false)
+										}
+									}}
+								>
+									<Typography>{t('Warrants')}</Typography>
+								</AccordionSummary>
+								<AccordionDetails>
+									{
+										adminWarrants.map((warrant, index) => (
+											<Grid container key={warrant.id} sx={{marginTop: index!== 0 ? 2 : 0}}>
+												<Grid item xs={6} sx={{display: 'flex', alignItems: 'center'}}>
+													{warrant?.adminName}
+												</Grid>
+												<Grid item xs={6}>
+													<Select
+														variant='outlined'
+														size='small'
+														fullWidth
+														defaultValue={warrant.state}
+														onChange={(e) => handleWarrantStateChange(e, index)}
+													>
+														<MenuItem value='free'>{t('Free')}</MenuItem>
+														<MenuItem value='resigned'>{t('Resigned')}</MenuItem>
+														<MenuItem value='renewed'>{t('Renewed')}</MenuItem>
+													</Select>
+												</Grid>
+
+												{
+													warrant.state === 'renewed' &&
+													<>
+														<Grid item xs={6} sx={{display: 'flex', alignItems: 'center'}}>
+															{t('Warrant Duration')}
+														</Grid>
+														<Grid item xs={6}>
+															<TextField
+																margin='normal'
+																variant='outlined'
+																fullWidth
+																size='small'
+																type='number'
+																defaultValue={warrant.duration}
+																onChange={(e) => handleWarrantDurationChange(e, index)}
+															/>
+														</Grid>
+													</>
+												}
+											</Grid>
+										))
+									}
+
+
+								</AccordionDetails>
+							</Accordion>
+							<Accordion expanded={otherAccordionExpanded} sx={{marginTop: 2}}>
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls='more-details-content'
+									id='more-details-header'
+									onClick={() => {
+										if(otherAccordionExpanded){
+											setOtherAccordionExpanded(false)
+										}
+										else{
+											setOtherAccordionExpanded(true)
+											setWarrantAccordionExpanded(false)
+											setParticipantAccordionExpanded(false)
+										}
+									}}
+								>
+									<Typography>{t('More details')}</Typography>
+								</AccordionSummary>
+								<AccordionDetails>
+									<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' width='100%'>
+										<Tooltip title={t('The General Meeting has been validly convened')} arrow disableInteractive>
+											<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' width='100%'>
+												<Typography>{t('Convened')}</Typography>
+												<Controller
+													render={({ field }) => (
+														<Checkbox
+															checked={field.value}
+															{...field}
+														/>
+													)}
+													name='isConvocation'
+													control={control}
+												/>
+											</Box>
+										</Tooltip>
+										<Tooltip title={t('The general meeting recognizes as accurate the statement of validity')} arrow disableInteractive>
+											<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' width='100%'>
+												<Typography>{t('Valid')}</Typography>
+												<Controller
+													render={({ field }) => (
+														<Checkbox
+															checked={field.value}
+															{...field}
+														/>
+													)}
+													name='isExact'
+													control={control}
+												/>
+											</Box>
+										</Tooltip>
+									</Box>
+								</AccordionDetails>
+							</Accordion>
 							<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%', marginTop: 2}}>
 								{ isLoading ? <CircularProgress size={25} /> : t('Save Transcript') }
 							</Button>
