@@ -78,7 +78,15 @@
 
 			<div>
 				<br/>
-				<div style="font-weight: bold;">3.2	L’assemblée générale a été valablement convoquée. OU La présente assemblée se tient sans convocation formelle. Tous les actionnaires sont présents ou représentés et représentent la totalité des capitaux propres. </div>
+				<div style="font-weight: bold;">
+					3.2
+					{{#ifCond transcript.isConvocation "===" true }}
+					L’assemblée générale a été valablement convoquée.
+					{{else}}
+					La présente assemblée se tient sans convocation formelle.
+					{{/ifCond}}
+					Tous les actionnaires sont présents ou représentés et représentent la totalité des capitaux propres.
+				</div>
 				<br/>
 				<div style="font-weight: bold;">3.3	Les actionnaires se sont conformés aux règles relatives à l’admission et à la représentation des actionnaires à l’assemblée générale.</div>
 				<br/>
@@ -92,9 +100,11 @@
 		</li>
 
 		<li><h3>CONSTATATION DE LA VALIDITE DE LA CONVOCATION</h3>
+			{{#ifCond transcript.isExact "===" true }}
 			L’assemblée générale reconnaît comme exact le constat de validité de la convocation tel qu’exposé par le Président. 
-			<br/>OU<br/>
+			{{else}}
 			L’assemblée générale déclare renoncer à l’unanimité au respect des formalités de convocation et vouloir délibérer sur les points proposés à l’ordre du jour.
+			{{/ifCond}}
 		</li>
 
 		<li><h3>CONSTATATION DE LA VALIDITE DE L'ASSEMBLEE</h3>
@@ -118,11 +128,13 @@
 				<br/>
 				<div style="font-weight: bold;">6.2	Rapport de gestion</div>
 				<div>
+					{{#ifCond organization.size "===" "small" }}
 					Conformément à l’article 3:4 du Code des sociétés et des associations, aucun rapport de gestion n’est établi en ce que la société est une petite société.
-					<br/>OU<br/>
-					Le Président donne lecture du rapport de gestion sur l'exercice clôturé le 31 décembre [xxx].
+					{{else}}
+					Le Président donne lecture du rapport de gestion sur l'exercice clôturé le 31 décembre 2023.
 					<br/>
 					L’assemblée entend le rapport et n’émet aucune observation ni ne demande des informations complémentaires.
+					{{/ifCond}}
 				</div>
 
 				<br/>
@@ -136,38 +148,38 @@
 					<table>
 						<tr>
 							<td>Bénéfice de l'exercice</td>
-							<td style="text-align: end;">€</td>
+							<td style="text-align: end;">{{organization.profits}}€</td>
 						</tr>
 						<tr>
 							<td>Bénéfice reporté</td>
-							<td style="text-align: end;">€</td>
+							<td style="text-align: end;">{{organization.reported_profits}}€</td>
 						</tr>
 						<tr>
 							<td>Total à affecter</td>
-							<td style="text-align: end;">€</td>
+							<td style="text-align: end;">{{organization.total_profits}}€</td>
 						</tr>
 						<tr>
 							<td colspan="2" style="text-align: center;">AFFECTATION</td>
 						</tr>
 						<tr>
 							<td>Tantièmes</td>
-							<td style="text-align: end;">€</td>
+							<td style="text-align: end;">{{organization.royalties}}€</td>
 						</tr>
 						<tr>
 							<td>Dividende</td>
-							<td style="text-align: end;">€</td>
+							<td style="text-align: end;">{{organization.dividends}}€</td>
 						</tr>
 						<tr>
 							<td>Bénéfice à reporter</td>
-							<td style="text-align: end;">€</td>
+							<td style="text-align: end;">{{organization.report_profits}}€</td>
 						</tr>
 						<tr>
 							<td></td>
-							<td style="text-align: end;">0,00€</td>
+							<td style="text-align: end;">{{organization.total}}€</td>
 						</tr>
 					</table>
 					<br/>
-					L’assemblée générale a pu constater que toutes les conditions légales pour distribuer un dividende de XXX EUR sont réunies. En effet, conformément aux articles 5.142 du CSA et 5.143 du CSA, les administrateurs ont fait procéder aux tests de liquidité et de solvabilité, lesquels ont démontré que les conditions légales sont rencontrées.
+					L’assemblée générale a pu constater que toutes les conditions légales pour distribuer un dividende de {{organization.dividends}} EUR sont réunies. En effet, conformément aux articles 5.142 du CSA et 5.143 du CSA, les administrateurs ont fait procéder aux tests de liquidité et de solvabilité, lesquels ont démontré que les conditions légales sont rencontrées.
 					<br/>
 					L'assemblée générale charge l’organe d’administration de fixer la date et les modalités de mise en paiement des dividendes.
 					<br/>
@@ -193,11 +205,20 @@
 				<br/>
 				<div style="font-weight: bold;">6.5	Nomination, renouvellement ou révocation des mandats</div>
 				<div>
-					L’assemblée générale renouvelle le mandat d’administrateur de Monsieur/Madame [xxx]. Son mandat actuel se terminera dès la clôture de la présente assemblée et son nouveau mandat commencera à courir dès la clôture de la présente assemblée pour une durée de [xxx] ans, se clôturant ainsi légalement le [xxx].
-					<br/>ou<br/>
-					L’assemblée générale prend acte de la démission de Monsieur/Madame [xxx] de son mandat d’administrateur et lui donne décharge pour son mandat écoulé.
-					<br/>ou<br/>
-					L'assemblée appelle aux fonctions d’administrateur, Monsieur ***. Son mandat est gratuit. Il se terminera immédiatement après l'assemblée générale annuelle de 20**.
+					{{#each warrants}}
+						{{#ifCond this.state "===" "renewed" }}
+							L’assemblée générale renouvelle le mandat d’administrateur de Monsieur/Madame {{this.adminName}}. Son mandat actuel se terminera dès la clôture de la présente assemblée et son nouveau mandat commencera à courir dès la clôture de la présente assemblée pour une durée de {{this.duration}} ans, se clôturant ainsi légalement le [xxx].
+						{{/ifCond}}
+						{{#ifCond this.state "===" "resigned" }}
+							L’assemblée générale prend acte de la démission de Monsieur/Madame {{this.adminName}} de son mandat d’administrateur et lui donne décharge pour son mandat écoulé.
+						{{/ifCond}}
+						{{#ifCond this.state "===" "free" }}
+							L'assemblée appelle aux fonctions d’administrateur, Monsieur {{this.adminName}}. Son mandat est gratuit. Il se terminera immédiatement après l'assemblée générale annuelle de 2024
+						{{/ifCond}}
+						<br/>
+					
+					{{/each}}
+
 					<br/>
 					L'assemblée adopte cette résolution à l'unanimité.
 				</div>
@@ -206,7 +227,7 @@
 				<div style="font-weight: bold;">6.6	Rémunération des administrateurs </div>
 				<div>
 					{{#each organization.administrators}}
-						L’assemblée générale approuve la rémunération de l‘administrateur Monsieur/Madame {{this.firstName}} {{this.lastName}} pour l’année [xxx] , celle-ci sert de base à la rémunération de l’année [xxx+1]<br/>
+						L’assemblée générale approuve la rémunération de l‘administrateur Monsieur/Madame {{this.firstName}} {{this.lastName}} pour l’année 2023 , celle-ci sert de base à la rémunération de l’année 2024<br/>
 					{{/each}}
 					<br/>
 					L’assemblée générale se réserve le droit de modifier cette rémunération à tout moment en cours d’exercice.
