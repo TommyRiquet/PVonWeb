@@ -32,7 +32,7 @@ app.use('/api/transcript', transcriptRouter)
 app.use('/api/team', teamRouter)
 app.use('/api/user', userRouter)
 app.use('/api/environment', environmentRouter)
-app.get('/media/', mediaRouter)
+app.use('/media/', mediaRouter)
 
 app.use(express.static(__dirname + '/build'))
 app.get('/*', (_, res) => {
