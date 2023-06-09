@@ -24,6 +24,7 @@ import transcriptRouter from './routes/transcriptRoutes'
 import teamRouter from './routes/teamRoutes'
 import userRouter from './routes/userRoutes'
 import environmentRouter from './routes/environmentRoutes'
+import mediaRouter from './routes/mediaRoutes'
 
 app.use('/api/health', (_, res) => res.send('OK'))
 app.use('/api/auth', authRouter)
@@ -31,10 +32,7 @@ app.use('/api/transcript', transcriptRouter)
 app.use('/api/team', teamRouter)
 app.use('/api/user', userRouter)
 app.use('/api/environment', environmentRouter)
-
-app.get('/media/:id', (req, res) => {
-	res.sendFile(path.join(__dirname + `/media/${req.params.id}`))
-})
+app.get('/media/', mediaRouter)
 
 app.use(express.static(__dirname + '/build'))
 app.get('/*', (_, res) => {
