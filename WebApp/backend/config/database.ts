@@ -4,15 +4,13 @@ import { User, Environment, Transcript, Log, Tag, UserEnvironment, Warrant } fro
 
 import config from './config'
 
-const dbConfig = config[process.env.NODE_ENV || 'development']
-
 const AppDataSource = new DataSource({
 	type: 'mysql',
-	host: dbConfig.host,
+	host: config.host,
 	port: 3306,
-	username: dbConfig.username,
-	password: dbConfig.password,
-	database: dbConfig.database,
+	username: config.username,
+	password: config.password,
+	database: config.database,
 	entities: [User, Environment, Transcript, Log, Tag, UserEnvironment, Warrant],
 	synchronize: true,
 	logging: false

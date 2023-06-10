@@ -1,5 +1,5 @@
 import { User, Environment, Tag, UserEnvironment } from '../entity/'
-require('dotenv').config()
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 
 const createEnvironment = async (environmentRepository, name, description) => {
@@ -52,7 +52,7 @@ const createUser = async (userRepository, firstName, lastName, email, password) 
 
 
 export const loadDemoData = async (AppDataSource) => {
-	if (process.env.NODE_ENV !== 'development') return
+	if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test') return
 
 	const userRepository = AppDataSource.getRepository(User)
 	const userEnvironmentRepository = AppDataSource.getRepository(UserEnvironment)

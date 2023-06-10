@@ -3,9 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "ts-node index.ts",
-    "devStart": "nodemon index.ts ",
-    "test": "jest --forceExit --passWithNoTests",
+    "start": "cross-env NODE_ENV=production ts-node index.ts",
+    "testStart": "cross-env NODE_ENV=test ts-node index.ts",
+    "devStart": "nodemon index.ts",
+    "test-ci": "concurrently --kill-others -s first \"wait-on http://localhost:3001 && npm run test\" \"npm run testStart\"",
+    "test": "jest --forceExit --detectOpenHandles --runInBand --testTimeout=10000 --verbose",
     "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix"
   },
@@ -28,9 +30,23 @@
   "devDependencies": {
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.3",
+    "concurrently": "^8.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.39.0",
     "jest": "^29.5.0",
     "nodemon": "^2.0.20",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "wait-on": "^7.0.1"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      "node_modules/**/node_modules"
+    ],
+    "delay": "2500",
+    "env": {
+      "NODE_ENV": "development",
+      "NODE_CONFIG_DIR": "./config"
+    }
   }
 }
