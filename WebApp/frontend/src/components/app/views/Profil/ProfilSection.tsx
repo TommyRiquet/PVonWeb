@@ -9,15 +9,16 @@ import * as yup from 'yup'
 
 import useCurrentUser from 'hooks/useCurrentUser'
 
-import { Loading } from 'components/common'
+import { Loading, PhoneNumberSelect } from 'components/common'
 
 import { useGlobalContext } from 'contexts/GlobalContext'
+
 
 const ProfileSchema = yup.object().shape({
 	firstName: yup.string().required('This field is required').max(40, 'First Name must be at most 40 characters'),
 	lastName: yup.string().required('This field is required').max(40, 'Last Name must be at most 40 characters'),
 	email: yup.string(),
-	phoneNumber: yup.string().max(15, 'Phone Number must be at most 15 characters').nullable()
+	phoneNumber: yup.string()
 })
 
 const ProfileSection: FC = () => {
@@ -39,6 +40,8 @@ const ProfileSection: FC = () => {
 		setValue('email', data.email)
 		setValue('phoneNumber', data.phoneNumber)
 	}
+
+
 	const handleChangeUserProfile = async (data: any) => {
 		setIsLoading(true)
 		const result = await updateCurrentUser(data)
@@ -56,7 +59,6 @@ const ProfileSection: FC = () => {
 			handleUserProfileData(userProfile)
 		}
 	}, [userProfile])
-
 
 	if (!userProfile) {
 		return <Loading/>
@@ -132,8 +134,7 @@ const ProfileSection: FC = () => {
 					/>
 					<Controller
 						render={({ field }) => (
-							<TextField
-								label={t('Phone Number')}
+							<PhoneNumberSelect
 								fullWidth
 								error={!!errors.phoneNumber}
 								helperText={errors.phoneNumber?.message as string}

@@ -8,5 +8,6 @@ import Widget from './Widget'
 import WidgetHeader from './WidgetHeader'
 import QueryError from './QueryError'
 import PrivacyPolicy from './PrivacyPolicy'
+import PhoneNumberSelect from './PhoneNumberSelect'
 
-export { ChipSelect, CopyToClipboardButton, ListView, Loading, PasswordTextField, TabsBox, Widget, WidgetHeader, QueryError, PrivacyPolicy}
+export { ChipSelect, CopyToClipboardButton, ListView, Loading, PasswordTextField, TabsBox, Widget, WidgetHeader, QueryError, PrivacyPolicy, PhoneNumberSelect }
