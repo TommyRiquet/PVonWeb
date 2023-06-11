@@ -35,6 +35,19 @@ export const generatePdf = async (organization, transcript, warrants) => {
 	organization.total_profits = organization.profits + organization.reported_profits
 	organization.total = organization.royalties + organization.dividends + organization.report_profits
 
+	organization.administrators = organization.administrators.map((administrator) => {
+		return {
+			...administrator,
+			total_parts: organization.nbr_parts
+		}
+	})
+
+	organization.share_holders = organization.share_holders.map((share_holder) => {
+		return {
+			...share_holder,
+			total_parts: organization.nbr_parts
+		}
+	})
 
 	var document = {
 		html: html,

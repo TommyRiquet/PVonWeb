@@ -7,5 +7,6 @@ import PasswordTextField from './PasswordTextField'
 import Widget from './Widget'
 import WidgetHeader from './WidgetHeader'
 import QueryError from './QueryError'
+import PrivacyPolicy from './PrivacyPolicy'
 
-export { ChipSelect, CopyToClipboardButton, ListView, Loading, PasswordTextField, TabsBox, Widget, WidgetHeader, QueryError }
+export { ChipSelect, CopyToClipboardButton, ListView, Loading, PasswordTextField, TabsBox, Widget, WidgetHeader, QueryError, PrivacyPolicy}

@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
 
 import { TabsBox } from 'components/common'
+
 import GeneralSettingsView from './GeneralSettings/GeneralSettingsView'
+import PrivacyView from './PrivacyView'
 
 const SettingsView: React.FC = () => {
 
@@ -14,7 +16,7 @@ const SettingsView: React.FC = () => {
 		{label: t('General'), content: <GeneralSettingsView/>, tab: 'general'},
 		{label: t('Automatisation'), content: <Box>Automatisation</Box>, tab: 'automatisation'},
 		{label: t('Notifications'), content: <Box>Notifications</Box>, tab: 'notifications'},
-		{label: t('Privacy'), content: <Box>Privacy</Box>, tab: 'privacy'},
+		{label: t('Privacy'), content: <PrivacyView/>, tab: 'privacy'},
 		{label: t('Logs'), content: <Box>Logs</Box>, tab: 'logs'}
 	], [t])
 

@@ -100,6 +100,11 @@ function LoginScreen() {
 					</Box>
 				</form>
 			</Container>
+			<Link href='/policy' rel='noreferrer' underline='none' sx={{position: 'absolute', bottom: 0, right: '47%', margin: 2}}>
+				<Typography variant='body2' fontWeight='bold' textAlign='end' sx={{color: theme.palette.primary.contrastText}}>
+					Privacy Policy
+				</Typography>
+			</Link>
 		</Box>
 	)
 }
