@@ -6,7 +6,7 @@ services:
     container_name: db
     image: mysql:5.7
     restart: unless-stopped
-    env_file: .env
+    env_file: .env.production
     environment:
       - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
       - MYSQL_DATABASE=$DB_NAME
@@ -24,7 +24,7 @@ services:
       - mysqldb
     build: ./WebApp/backend
     restart: unless-stopped
-    env_file: .env
+    env_file: .env.production
     ports:
       - 3001:3001
     environment:
