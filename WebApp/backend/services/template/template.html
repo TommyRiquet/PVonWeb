@@ -213,8 +213,9 @@
 							L’assemblée générale prend acte de la démission de Monsieur/Madame {{this.adminName}} de son mandat d’administrateur et lui donne décharge pour son mandat écoulé.
 						{{/ifCond}}
 						{{#ifCond this.state "===" "free" }}
-							L'assemblée appelle aux fonctions d’administrateur, Monsieur {{this.adminName}}. Son mandat est gratuit. Il se terminera immédiatement après l'assemblée générale annuelle de 2024
+							L'assemblée appelle aux fonctions d’administrateur, Monsieur {{this.adminName}}. Son mandat est gratuit. Il se terminera immédiatement après l'assemblée générale annuelle de 2024.
 						{{/ifCond}}
+						<br/>
 						<br/>
 					
 					{{/each}}
@@ -227,7 +228,9 @@
 				<div style="font-weight: bold;">6.6	Rémunération des administrateurs </div>
 				<div>
 					{{#each organization.administrators}}
-						L’assemblée générale approuve la rémunération de l‘administrateur Monsieur/Madame {{this.firstName}} {{this.lastName}} pour l’année 2023 , celle-ci sert de base à la rémunération de l’année 2024<br/>
+						L’assemblée générale approuve la rémunération de l‘administrateur Monsieur/Madame {{this.firstName}} {{this.lastName}} pour l’année 2023 , celle-ci sert de base à la rémunération de l’année 2024
+						<br/>
+						<br/>
 					{{/each}}
 					<br/>
 					L’assemblée générale se réserve le droit de modifier cette rémunération à tout moment en cours d’exercice.
@@ -299,7 +302,7 @@
 					<td>{{this.firstName}} {{this.lastName}}</td>
 					<td>{{this.address}}</td>
 					<td>/</td>
-					<td>{{this.parts}}</td>
+					<td>{{this.parts}} / {{this.total_parts}}</td>
 					<td></td>
 				</tr>
 			{{/each}}
@@ -308,7 +311,7 @@
 					<td>{{this.firstName}} {{this.lastName}}</td>
 					<td>{{this.address}}</td>
 					<td>/</td>
-					<td>{{this.parts}}</td>
+					<td>{{this.parts}} / {{this.total_parts}}</td>
 					<td></td>
 				</tr>
 			{{/each}}
