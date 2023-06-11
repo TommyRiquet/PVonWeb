@@ -300,7 +300,7 @@
 			{{#each organization.administrators}}
 				<tr>
 					<td>{{this.firstName}} {{this.lastName}}</td>
-					<td>{{this.address}}</td>
+					<td>{{this.address}}<br/>{{this.code_postal}}, {{this.locality}}</td>
 					<td>/</td>
 					<td>{{this.parts}} / {{this.total_parts}}</td>
 					<td></td>
@@ -309,7 +309,7 @@
 			{{#each organization.share_holders}}
 				<tr>
 					<td>{{this.firstName}} {{this.lastName}}</td>
-					<td>{{this.address}}</td>
+					<td>{{this.address}}<br/>{{this.code_postal}}, {{this.locality}}</td>
 					<td>/</td>
 					<td>{{this.parts}} / {{this.total_parts}}</td>
 					<td></td>

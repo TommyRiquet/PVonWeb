@@ -24,6 +24,8 @@
 				"lastName": "Dejardin Verkinder",
 				"email": "g.dejardin@gmail.com",
 				"address":"Rue Capouillet 9",
+				"locality": "Saint-Gilles",
+				"code_postal": "1060",
 				"parts": 99
 			}
 		],
@@ -34,6 +36,8 @@
 				"lastName": "Dejardin Verkinder",
 				"email": "g.dejardin@gmail.com",
 				"address":"Rue Capouillet 9",
+				"locality": "Saint-Gilles",
+				"code_postal": "1060",
 				"parts": 1
 			}
 		]
@@ -63,6 +67,8 @@
 				"lastName": "Bond",
 				"email": "j.bond@gmail.com",
 				"address":"Rue Capouillet 10",
+				"locality": "Saint-Gilles",
+				"code_postal": "1060",
 				"sexe": "M",
 				"parts": 90
 			},
@@ -72,6 +78,8 @@
 				"lastName": "Swann",
 				"email": "m.swann@gmail.com",
 				"address":"Rue Capouillet 10",
+				"locality": "Saint-Gilles",
+				"code_postal": "1060",
 				"sexe": "F",
 				"parts": 35
 			}
@@ -83,6 +91,8 @@
 				"lastName": "Downey Jr",
 				"email": "rdj@gmail.com",
 				"address":"Rue Capouillet 10",
+				"locality": "Saint-Gilles",
+				"code_postal": "1060",
 				"sexe": "M",
 				"parts": 25
 			}
