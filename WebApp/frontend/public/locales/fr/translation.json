@@ -23,7 +23,7 @@
 	"Role": "Rôle",
 	"Transcripts Created": "Procès-verbaux créés",
 	"Transcripts Deleted": "Procès-verbaux supprimés",
-	"Transcripts Downloaded": "Procès-verbaux téléchargés",
+	"Tags Created": "Tags créés",
 	"Transcript": "Procès-verbal",
 	"Transcripts": "Procès-verbaux",
 	"No transcript" : "Aucun procès-verbal",
@@ -106,6 +106,7 @@
 	"Renewed": "Renouvelé",
 	"Warrant Duration (year)": "Durée du mandat (année)",
 	"Click here to download": "Cliquez ici pour télécharger",
+	"Privacy Policy": "Politique de confidentialité",
 	
 	"Unknown error, please try again later.": "Erreur inconnue, veuillez réessayer plus tard.",
 	"Your profile has been updated!": "Votre profil a été mis à jour !",

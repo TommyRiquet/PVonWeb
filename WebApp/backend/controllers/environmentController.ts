@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import { AppDataSource } from '../config/database'
 
-import { User, Environment, Transcript } from '../entity'
+import { User, Environment, Transcript, Tag } from '../entity'
 
 import { verifyToken } from '../services/authService'
 
@@ -65,6 +65,7 @@ export const updateEnvironment = async (req: Request, res: Response) => {
 export const getStatisticsByEnvironment = async (req: Request, res: Response) => {
 	const userRepository = AppDataSource.getRepository(User)
 	const transcriptRepository = AppDataSource.getRepository(Transcript)
+	const tagRepository = AppDataSource.getRepository(Tag)
 
 	try {
 		const { environment } = await getUserAndEnvironment(req)
@@ -89,10 +90,17 @@ export const getStatisticsByEnvironment = async (req: Request, res: Response) =>
 			}
 		})
 
+		const TagCount = await tagRepository.count({
+			where: {
+				environment: environment
+			}
+		})
+
 		const statistics = {
 			numberOfUsers: teamMembersCount,
 			numberOfTranscriptCreated: transcriptCount,
-			numberOfTranscriptDeleted: deletedTranscriptCount
+			numberOfTranscriptDeleted: deletedTranscriptCount,
+			numberOfTagCreated: TagCount
 		}
 
 		res.json(statistics)
