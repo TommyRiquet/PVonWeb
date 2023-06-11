@@ -1,13 +1,17 @@
-export const generateRandomPassword = () => {
+const generateRandomLink = () => {
 
-	var chars = '0123456789abcdefghijklmnopqrstuvwxyz!@$ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-	var passwordLength = 12
-	var password = ''
+	var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+	var linkLength = Math.floor(Math.random() * 6) + 12
+	var link = ''
 
-	for (var i = 0; i <= passwordLength; i++) {
+	for (var i = 0; i <= linkLength; i++) {
 		var randomNumber = Math.floor(Math.random() * chars.length)
-		password += chars.substring(randomNumber, randomNumber +1)
+		link += chars.substring(randomNumber, randomNumber +1)
 	}
 
-	return password
+	return link
+}
+
+module.exports = {
+	generateRandomLink
 }

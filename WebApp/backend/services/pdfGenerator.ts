@@ -1,5 +1,6 @@
 var pdf = require('pdf-creator-node')
 var fs = require('fs')
+var utils = require('../utils/utils')
 
 
 export const generatePdf = async (organization, transcript, warrants) => {
@@ -49,6 +50,8 @@ export const generatePdf = async (organization, transcript, warrants) => {
 		}
 	})
 
+	const link = await utils.generateRandomLink()
+
 	var document = {
 		html: html,
 		data: {
@@ -56,7 +59,7 @@ export const generatePdf = async (organization, transcript, warrants) => {
 			transcript: transcript,
 			warrants: warrants
 		},
-		path: `./media/${transcript.id}.pdf`,
+		path: `./media/${link}.pdf`,
 		type: ''
 	}
 
