@@ -25,6 +25,10 @@ jobs:
         npm run build-prod
       working-directory: WebApp/frontend/
 
+    - name: Remove test build from backend
+      run: rm -rf build
+      working-directory: WebApp/backend/
+
     - name: Move frontend build to backend
       run: mv frontend/build backend/build
       working-directory: WebApp/
@@ -41,6 +45,6 @@ jobs:
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
             sudo docker compose down
-            sudo docker compose build
-            sudo docker compose up -d
+            sudo docker compose --env-file .env.production build
+            sudo docker compose --env-file .env.production up -d
             sudo docker system prune -f
