@@ -1,8 +1,10 @@
 import { FC, useMemo, useState } from 'react'
 
+import { useQueryClient } from 'react-query'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import { Box, Typography } from '@mui/material'
+import { Box, Grid, Tooltip, Typography } from '@mui/material'
+import ClearIcon from '@mui/icons-material/Clear'
 
 import { Loading, QueryError } from 'components/common'
 
@@ -33,8 +35,16 @@ const tagActions = {
 	'delete': 'deleted tag'
 }
 
+interface HistoryItemI extends Log {
+	compact?: boolean
+}
 
-const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targetTranscript, targetTag}) => {
+
+export const HistoryItem: FC<HistoryItemI> = ({id, user, action, timestamp, targetUser, targetEnvironment, targetTranscript, targetTag, compact}) => {
+
+	const { deleteLog } = useStatisticsAPI()
+
+	const queryClient = useQueryClient()
 
 	const { t } = useTranslation()
 
@@ -63,23 +73,64 @@ const HistoryItem: FC<Log> = ({user, action, targetUser, targetEnvironment, targ
 	if (userAction === undefined || target === undefined)
 		return null
 
-	return (
-		<Box
-			display='flex' flexDirection='row'
-			justifyContent='space-between'
-			alignItems='center'
-			paddingY={1}
-		>
-			<Box display='flex' flexDirection='row' alignItems='center' paddingTop={1}>
-				<Typography display='inline-block' variant='body1' fontWeight='bold'>
-					{`${user.firstName} `}
-					<span style={{color: 'gray'}}>
-						{`${t(userAction)} `}
-					</span>
-					{target}
-				</Typography>
+	if (compact)
+		return (
+			<Box
+				display='flex'
+				flexDirection='row'
+				justifyContent='space-between'
+				alignItems='center'
+				paddingY={1}
+			>
+				<Box display='flex' flexDirection='row' alignItems='center' paddingTop={1}>
+					<Typography display='inline-block' variant='body1' fontWeight='bold'>
+						{`${user.firstName} `}
+						<span style={{color: 'gray'}}>
+							{`${t(userAction)} `}
+						</span>
+						{target}
+					</Typography>
+				</Box>
 			</Box>
-		</Box>
+		)
+
+	return (
+		<Grid item xs={12}>
+			<Box
+				display='flex'
+				flexDirection='row'
+				justifyContent='space-between'
+				alignItems='center'
+				border='1px solid lightgray'
+				boxShadow='0px 0px 5px lightgray'
+				borderRadius='10px'
+				padding={1}
+				marginBottom={1}
+			>
+				<Box display='flex' flexDirection='row' alignItems='center' paddingTop={1}>
+					<Typography display='inline-block' variant='body1' fontWeight='bold' color={theme => theme.palette.primary.main}>
+						{`${user.firstName} `}
+						<span style={{color: 'gray'}}>
+							{`${t(userAction)} `}
+						</span>
+						{target}
+					</Typography>
+					<Typography display='inline-block' variant='body1' fontWeight='bold' color='gray' paddingLeft={1}>
+						{`(${new Date(timestamp).toLocaleString()})`}
+					</Typography>
+				</Box>
+				<Box display='flex' flexDirection='row' justifyContent='flex-end' sx={{cursor: 'pointer'}}>
+					<Tooltip title='Delete log' placement='top' arrow disableInteractive>
+						<ClearIcon
+							color='error'
+							onClick={() =>  {
+								deleteLog(id).then(() => queryClient.invalidateQueries(['logs']))
+							}}
+						/>
+					</Tooltip>
+				</Box>
+			</Box>
+		</Grid>
 	)
 }
 
@@ -90,7 +141,7 @@ const HistoryWidget = () => {
 	const [history, setHistory] = useState<any[]>([])
 	const { getEnvironmentLogs } = useStatisticsAPI()
 
-	const { isLoading, isError, error } = useQuery(['logs'], () => getEnvironmentLogs(), {
+	const { isLoading, isError, error } = useQuery(['logs'], () => getEnvironmentLogs(30), {
 		onSuccess: (data) => {
 			setHistory(data)
 		}
@@ -131,7 +182,7 @@ const HistoryWidget = () => {
 			}}>
 			{
 				history.map((log) => (
-					<HistoryItem key={log.id} {...log} />
+					<HistoryItem key={log.id} compact {...log}/>
 				))
 			}
 		</Box>

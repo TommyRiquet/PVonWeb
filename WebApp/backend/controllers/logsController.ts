@@ -22,7 +22,7 @@ export const getLogs = async (req: Request, res: Response) => {
 			order: {
 				timestamp: 'DESC'
 			},
-			take: 30
+			take: req.query.limit || 500
 		})
 		logs.forEach(log => {
 			if (log.user && log.user.password)
@@ -31,6 +31,30 @@ export const getLogs = async (req: Request, res: Response) => {
 				log.targetUser.password = undefined
 		})
 		res.json(logs)
+	}
+	catch (error) {
+		res.status(500).json(error)
+	}
+}
+
+export const deleteLog = async (req: Request, res: Response) => {
+	const logRepository = AppDataSource.getRepository(Log)
+
+	try {
+		const { error, role, environment } = await getUserAndEnvironment(req)
+
+		if (error)
+			return res.status(403).json({ message: error.message })
+
+		if (role !== 'admin' && role !== 'owner')
+			return res.status(403).json({ message: 'You are not allowed to delete logs' })
+
+		await logRepository.delete({
+			id: req.params.id,
+			environment: environment
+		})
+
+		res.json({ message: 'Logs deleted' })
 	}
 	catch (error) {
 		res.status(500).json(error)

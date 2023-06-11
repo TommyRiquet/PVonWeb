@@ -8,6 +8,7 @@ export interface Statistics {
 	numberOfUsers: number
 	numberOfTranscriptCreated: number
 	numberOfTranscriptDeleted: number
+	numberOfTagCreated: number
 }
 
 export interface Log {
@@ -30,12 +31,20 @@ export const useStatisticsAPI = () => {
 		return API.get('environment/statistics/').then(res => res.data)
 	}
 
-	const getEnvironmentLogs = async (): Promise<Log[]> => {
-		return API.get('environment/history/').then(res => res.data)
+	const getEnvironmentLogs = async (limit?: number): Promise<Log[]> => {
+		if (limit)
+			return API.get(`environment/history/?limit=${limit}`).then(res => res.data)
+		else
+			return API.get('environment/history/').then(res => res.data)
+	}
+
+	const deleteLog = async (id: number): Promise<void> => {
+		return API.delete(`environment/history/${id}/`)
 	}
 
 	return {
 		getEnvironmentStatistics,
-		getEnvironmentLogs
+		getEnvironmentLogs,
+		deleteLog
 	}
 }

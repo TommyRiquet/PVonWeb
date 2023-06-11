@@ -15,6 +15,7 @@ export interface TabData {
 	label: string | JSX.Element
 	content: React.ReactNode
 	tab: string
+	isVisible?: boolean
   }
 
 interface TopTabsProps {
@@ -56,27 +57,29 @@ const TabsBox :FC<TopTabsProps> = ({tabDataList}) => {
 		<Box display='flex' flexDirection='column' width='100%' height='100%'>
 			<Tabs variant={isMobile ? 'scrollable' : 'standard'} scrollButtons={isMobile ? 'auto': undefined} value={selectedTab} onChange={handleChange} sx={{ ml: isMobile ? '' : '2rem', height: '3rem' }} textColor='secondary' TabIndicatorProps={{style: {display: 'none'}}}>
 				{
-					tabDataList.map((tabData, idx) => {
-						return (
-							<Tab
-								label={
-									<Typography fontWeight='bold'>{tabData.label}</Typography>
-								}
-								key={tabData.tab}
-								sx={{
-									height: selectedTab === idx ? '3.2rem' : '3rem',
-									marginX: 1,
-									alignSelf: 'end',
-									color: 'white',
-									transition: 'all 0.3s ease-in-out',
-									backgroundColor: selectedTab === idx ? 'primary.dark': 'primary.main',
-									borderWidth: '1px 1px 0 1px',
-									borderStyle: 'solid',
-									borderColor: 'whitesmoke',
-									borderRadius: '1rem 1rem 0 0'
-								}}/>
-						)
-					})
+					tabDataList
+						.filter(tabData => tabData.isVisible !== false)
+						.map((tabData, idx) => {
+							return (
+								<Tab
+									label={
+										<Typography fontWeight='bold'>{tabData.label}</Typography>
+									}
+									key={tabData.tab}
+									sx={{
+										height: selectedTab === idx ? '3.2rem' : '3rem',
+										marginX: 1,
+										alignSelf: 'end',
+										color: 'white',
+										transition: 'all 0.3s ease-in-out',
+										backgroundColor: selectedTab === idx ? 'primary.dark': 'primary.main',
+										borderWidth: '1px 1px 0 1px',
+										borderStyle: 'solid',
+										borderColor: 'whitesmoke',
+										borderRadius: '1rem 1rem 0 0'
+									}}/>
+							)
+						})
 				}
 			</Tabs>
 			<Box
