@@ -38,7 +38,7 @@ const ProfileSection: FC = () => {
 		setValue('firstName', data.firstName)
 		setValue('lastName', data.lastName)
 		setValue('email', data.email)
-		setValue('phoneNumber', data.phoneNumber)
+		setValue('phoneNumber', data.phoneNumber ? data.phoneNumber : '')
 	}
 
 
@@ -143,7 +143,7 @@ const ProfileSection: FC = () => {
 						)}
 						name='phoneNumber'
 						control={control}
-						defaultValue={userProfile?.phoneNumber}
+						defaultValue={userProfile?.phoneNumber ? userProfile.phoneNumber : ''}
 					/>
 					<Button type='submit' variant='contained' disabled={isLoading} sx={{height: 45, width: '100%'}}>
 						{ isLoading ? <CircularProgress size={25} /> : t('Update Profile') }
