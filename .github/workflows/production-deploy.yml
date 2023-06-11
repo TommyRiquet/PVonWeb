@@ -40,6 +40,7 @@ jobs:
           EXCLUDE: WebApp/backend/test/, WebApp/frontend/, WebApp/.gitignore, WebApp/package.json, WebApp/package-lock.json .github, docs, LICENCE.txt, README.md
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
+            sudo docker compose down
             sudo docker compose build
             sudo docker compose up -d
             sudo docker system prune -f
