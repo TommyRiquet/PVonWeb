@@ -5,7 +5,7 @@ const path = require('path')
 const { AppDataSource } = require('./config/database')
 const { loadDemoData } = require('./utils/demoData')
 const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./docs/api_endpoints.json')
+const swaggerFile = require('./doc/api_endpoints.json')
 
 const app = express()
 

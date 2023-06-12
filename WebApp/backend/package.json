@@ -10,7 +10,7 @@
     "test": "jest --forceExit --detectOpenHandles --runInBand --testTimeout=10000 --verbose",
     "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix",
-	"swagger": "node ./docs/swagger.ts"
+	"swagger": "node ./doc/swagger.ts"
   },
   "dependencies": {
     "@typescript-eslint/parser": "^5.59.8",
