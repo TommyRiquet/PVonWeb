@@ -62,57 +62,57 @@ jobs:
       working-directory: WebApp/backend/
 
 
-  cypress-run:
-      name: E2E Testing
+  # cypress-run:
+  #     name: E2E Testing
 
-      runs-on: ubuntu-latest
+  #     runs-on: ubuntu-latest
 
-      services:
-        db:
-          image: mysql:8.0
-          env:
-            MYSQL_ALLOW_EMPTY_PASSWORD: yes
-            MYSQL_DATABASE: pvonweb
-          ports:
-          - 3306:3306
-          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+  #     services:
+  #       db:
+  #         image: mysql:8.0
+  #         env:
+  #           MYSQL_ALLOW_EMPTY_PASSWORD: yes
+  #           MYSQL_DATABASE: pvonweb
+  #         ports:
+  #         - 3306:3306
+  #         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-      steps:
-        - uses: actions/checkout@v3
+  #     steps:
+  #       - uses: actions/checkout@v3
 
-        - name: Use Node.js '16.x'
-          uses: actions/setup-node@v3
-          with:
-            node-version: '16.x'
-            cache: 'npm'
-            cache-dependency-path: ${{github.workspace}}/WebApp/frontend/package-lock.json
+  #       - name: Use Node.js '16.x'
+  #         uses: actions/setup-node@v3
+  #         with:
+  #           node-version: '16.x'
+  #           cache: 'npm'
+  #           cache-dependency-path: ${{github.workspace}}/WebApp/frontend/package-lock.json
 
-        - name: Installing frontend dependencies
-          run: npm ci --include=dev --legacy-peer-deps
-          working-directory: WebApp/frontend/
+  #       - name: Installing frontend dependencies
+  #         run: npm ci --include=dev --legacy-peer-deps
+  #         working-directory: WebApp/frontend/
 
-        - name: Installing backend dependencies
-          run: npm ci --include=dev --legacy-peer-deps
-          working-directory: WebApp/backend/
+  #       - name: Installing backend dependencies
+  #         run: npm ci --include=dev --legacy-peer-deps
+  #         working-directory: WebApp/backend/
 
-        - name: Installing global dependencies
-          run: npm ci --include=dev --legacy-peer-deps
-          working-directory: WebApp/
+  #       - name: Installing global dependencies
+  #         run: npm ci --include=dev --legacy-peer-deps
+  #         working-directory: WebApp/
 
-        # - name: Build the frontend
-        #   run: npm run build-test
-        #   working-directory: Web App/frontend/
+  #       - name: Build the frontend
+  #         run: npm run build-test
+  #         working-directory: Web App/frontend/
 
-        # - name: Serving build to backend
-        #   run: mv frontend/build backend/build
-        #   working-directory: Web App/
+  #       - name: Serving build to backend
+  #         run: mv frontend/build backend/build
+  #         working-directory: Web App/
 
-        # - name: Cypress run
-        #   uses: cypress-io/github-action@v5.5.1
-        #   env:
-        #     TEST_USER_MAIL: ${{ secrets.TEST_USER_MAIL }}
-        #     TEST_USER_PWD: ${{ secrets.TEST_USER_PWD }}
-        #   with:
-        #     working-directory: Web App/backend
-        #     install: false
-        #     start: npm start
+  #       - name: Cypress run
+  #         uses: cypress-io/github-action@v5.5.1
+  #         env:
+  #           TEST_USER_MAIL: ${{ secrets.TEST_USER_MAIL }}
+  #           TEST_USER_PWD: ${{ secrets.TEST_USER_PWD }}
+  #         with:
+  #           working-directory: Web App/backend
+  #           install: false
+  #           start: npm start
