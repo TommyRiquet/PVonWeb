@@ -6,7 +6,7 @@ import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar,
 import CloseIcon from '@mui/icons-material/Close'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, useWatch } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -69,6 +69,8 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 
 	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(TranscriptSchema) })
 
+	const isConvened = useWatch({ control, name: 'isConvocation', defaultValue: transcript?.isConvocation })
+
 	const handleEditTranscript	 = async (data: any) => {
 		setIsLoading(true)
 		const result = await updateTranscript(data, transcript, selectedTags, adminWarrants)
@@ -103,6 +105,11 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 			setSelectedTags(transcript.tags)
 		}
 	}, [transcript, open])
+
+	useEffect(() => {
+		if(!isConvened)
+			setValue('isExact', false)
+	}, [isConvened])
 
 	const handleCloseDialog = () => {
 		setShowSuccessDialog(false)
@@ -248,7 +255,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label={t('Transcript Admin')}
+											label={t('Administrator')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -256,8 +263,8 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 											error={!!errors.adminName}
 											helperText={errors.adminName?.message as string}
 											sx={{
-												paddingLeft: 2,
-												paddingRight: 2
+												marginLeft: 2,
+												paddingRight: 4
 											}}
 											{...field}
 										/>
@@ -268,7 +275,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label={t('Transcript Scrutineer')}
+											label={t('Scrutineer')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -276,8 +283,8 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 											error={!!errors.scrutineerName}
 											helperText={errors.scrutineerName?.message as string}
 											sx={{
-												paddingLeft: 2,
-												paddingRight: 2
+												marginLeft: 2,
+												paddingRight: 4
 											}}
 											{...field}
 										/>
@@ -288,7 +295,7 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 								<Controller
 									render={({ field }) => (
 										<TextField
-											label={t('Transcript Secretary')}
+											label={t('Secretary')}
 											fullWidth
 											margin='normal'
 											variant='outlined'
@@ -296,8 +303,8 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 											error={!!errors.secretaryName}
 											helperText={errors.secretaryName?.message as string}
 											sx={{
-												paddingLeft: 2,
-												paddingRight: 2
+												marginLeft: 2,
+												paddingRight: 4
 											}}
 											{...field}
 										/>
@@ -406,13 +413,14 @@ const TranscriptEditDialog: FC<TranscriptEditDialogProps> = ({open, transcript, 
 												/>
 											</Box>
 										</Tooltip>
-										<Tooltip title={t('The general meeting recognizes as accurate the statement of validity')} arrow disableInteractive>
+										<Tooltip title={isConvened ? t('The general meeting recognizes as accurate the statement of validity') : t('The general meeting must be convened to recognize its validity')} arrow disableInteractive>
 											<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' width='100%'>
 												<Typography>{t('Valid')}</Typography>
 												<Controller
 													render={({ field }) => (
 														<Checkbox
 															checked={field.value}
+															disabled={!isConvened}
 															{...field}
 														/>
 													)}

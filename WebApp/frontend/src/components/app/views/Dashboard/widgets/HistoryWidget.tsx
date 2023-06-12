@@ -138,6 +138,8 @@ export const HistoryItem: FC<HistoryItemI> = ({id, user, action, timestamp, targ
 
 const HistoryWidget = () => {
 
+	const { t } = useTranslation()
+
 	const [history, setHistory] = useState<any[]>([])
 	const { getEnvironmentLogs } = useStatisticsAPI()
 
@@ -156,7 +158,7 @@ const HistoryWidget = () => {
 	if (history.length === 0 || history.length === undefined)
 		return (
 			<Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='100%'>
-				<Typography variant='h6' sx={{paddingBottom: 2}}>Nothing to show yet :/</Typography>
+				<Typography variant='h6' sx={{paddingBottom: 2}}>{t('Nothing to show yet :/')}</Typography>
 			</Box>
 		)
 
