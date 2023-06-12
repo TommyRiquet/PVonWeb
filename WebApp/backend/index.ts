@@ -4,6 +4,8 @@ const express = require('express')
 const path = require('path')
 const { AppDataSource } = require('./config/database')
 const { loadDemoData } = require('./utils/demoData')
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./docs/api_endpoints.json')
 
 const app = express()
 
@@ -31,6 +33,9 @@ app.use('/api/transcript', transcriptRouter)
 app.use('/api/team', teamRouter)
 app.use('/api/user', userRouter)
 app.use('/api/environment', environmentRouter)
+
+app.use('/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile, { customCss: '.try-out__btn { display: none }' }))
+
 app.get('/media/:id', (req, res) => {
 	res.sendFile(path.join(__dirname + `/media/${req.params.id}`))
 })
