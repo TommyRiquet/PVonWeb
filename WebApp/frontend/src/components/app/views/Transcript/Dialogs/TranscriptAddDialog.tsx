@@ -1,8 +1,8 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from 'react-query'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, useWatch } from 'react-hook-form'
 import { useQuery } from 'react-query'
 import { Box, Dialog, TextField, Typography, Button, CircularProgress, Snackbar, Alert, Autocomplete, SelectChangeEvent, Accordion, AccordionSummary, AccordionDetails, Tooltip, Checkbox, Grid, MenuItem, Select } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -73,6 +73,8 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 
 	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(TranscriptSchema) })
 
+	const isConvened = useWatch({ control, name: 'isConvocation', defaultValue: true })
+
 
 	const handleCloseDialog = () => {
 		handleClose()
@@ -133,6 +135,11 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 		setOrganizationData(data)
 		setAdminWarrants(data[0].administrators.map((admin: any) => ({adminName: `${admin.firstName} ${admin.lastName}`, state: 'free', duration: 0})))
 	}
+
+	useEffect(() => {
+		if(!isConvened)
+			setValue('isExact', false)
+	}, [isConvened])
 
 	const { isLoading: isOrganizationsLoading } = useQuery(['organizations'], () => getOrganizationOptions(), {
 		onSuccess: (data) => {
@@ -252,8 +259,8 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 												error={!!errors.adminName}
 												helperText={errors.adminName?.message as string}
 												sx={{
-													paddingLeft: 2,
-													paddingRight: 2
+													marginLeft: 2,
+													paddingRight: 4
 												}}
 												{...field}
 											/>
@@ -274,8 +281,8 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 												error={!!errors.scrutineerName}
 												helperText={errors.scrutineerName?.message as string}
 												sx={{
-													paddingLeft: 2,
-													paddingRight: 2
+													marginLeft: 2,
+													paddingRight: 4
 												}}
 												{...field}
 											/>
@@ -296,8 +303,8 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 												error={!!errors.secretaryName}
 												helperText={errors.secretaryName?.message as string}
 												sx={{
-													paddingLeft: 2,
-													paddingRight: 2
+													marginLeft: 2,
+													paddingRight: 4
 												}}
 												{...field}
 											/>
@@ -390,7 +397,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 									</AccordionSummary>
 									<AccordionDetails>
 										<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' width='100%'>
-											<Tooltip title={t('The General Meeting has been validly convened')} arrow disableInteractive>
+											<Tooltip title={t('The General Meeting has been validly convened')} placement='top' arrow disableInteractive>
 												<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' width='100%'>
 													<Typography>{t('Convened')}</Typography>
 													<Controller
@@ -406,13 +413,14 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 													/>
 												</Box>
 											</Tooltip>
-											<Tooltip title={t('The general meeting recognizes as accurate the statement of validity')} arrow disableInteractive>
+											<Tooltip title={isConvened ? t('The general meeting recognizes as accurate the statement of validity') : t('The general meeting must be convened to recognize its validity')} placement='top' arrow disableInteractive>
 												<Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' width='100%'>
 													<Typography>{t('Valid')}</Typography>
 													<Controller
 														render={({ field }) => (
 															<Checkbox
-																checked={field.value}
+																checked={isConvened ? field.value : false}
+																disabled={!isConvened}
 																{...field}
 															/>
 														)}

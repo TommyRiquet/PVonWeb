@@ -12,6 +12,12 @@ const generateRandomLink = () => {
 	return link
 }
 
+const getLink = (link) => {
+	return link.split('/').slice(-1)[0].split('.')[0]
+}
+
+
 module.exports = {
-	generateRandomLink
+	generateRandomLink,
+	getLink
 }

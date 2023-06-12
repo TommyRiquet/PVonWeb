@@ -50,7 +50,7 @@ export const generatePdf = async (organization, transcript, warrants) => {
 		}
 	})
 
-	const link = await utils.generateRandomLink()
+	const link = transcript.link ? utils.getLink(transcript.link) : await utils.generateRandomLink()
 
 	var document = {
 		html: html,
