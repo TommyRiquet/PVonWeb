@@ -20,7 +20,7 @@ describe('Auth Testing', () => {
 			cy.login(user.email, 'WrongPassword')
 			cy.get('button[type="submit"]').click()
 
-			cy.get('.MuiAlert-message').contains('Wrong Credentials')
+			cy.get('.MuiAlert-message').contains('Invalid credentials')
 		})
 	})
 

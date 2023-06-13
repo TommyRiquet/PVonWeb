@@ -40,6 +40,14 @@ services:
     networks:
       network:
         ipv4_address: 172.24.0.2
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
   
   fake-api:
     container_name: fake-api
