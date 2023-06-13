@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Box, Typography, TextField, Button, Container, Stack, Paper, Snackbar, Alert, Link} from '@mui/material'
+import { Box, Typography, TextField, Button, Container, Stack, Paper, Snackbar, Alert, Link, CircularProgress} from '@mui/material'
 
 import { PasswordTextField } from 'components/common'
 import { useAuth } from 'contexts/AuthContext'
@@ -13,18 +13,25 @@ import theme from 'theme'
 function LoginScreen() {
 	const { login } = useAuth()
 	const [errorMessage, setErrorMessage] = useState('')
+	const [loading, setLoading] = useState(false)
 
 	function handleSubmit(event: any) {
+		setLoading(true)
 		event.preventDefault()
 		login(
 			event.target.email.value,
 			event.target.password.value,
 			() => {
-				//window.location.reload()
+				setLoading(false)
 			},
-			() => {
-				setErrorMessage('Wrong Credentials')
-			}
+			(error) => error.json()
+				.then((data: any) => {
+					setLoading(false)
+					if (data.message)
+						setErrorMessage(data.message)
+					else
+						setErrorMessage('An error occured')
+				})
 		)
 	}
 
@@ -91,8 +98,8 @@ function LoginScreen() {
 							</Paper>
 							<Paper elevation={0} sx={{width: '100%'}}>
 								<Stack justifyContent='right' alignItems='left' spacing={1}>
-									<Button type='submit' sx={{height: 45}} fullWidth variant='contained'>
-										<Typography variant='body1' fontWeight='bold'>Login</Typography>
+									<Button type='submit' variant='contained' disabled={loading} sx={{height: 45, width: '100%'}}>
+										{ loading ? <CircularProgress size={25} /> : <Typography variant='body1' fontWeight='bold'>Login</Typography> }
 									</Button>
 								</Stack>
 							</Paper>
