@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# An  hook script to run the End-to-End tests before pushing
+#
+# Move this file to /.git/hooks/
+
+cd WebApp/frontend
+
+npm run test-e2e

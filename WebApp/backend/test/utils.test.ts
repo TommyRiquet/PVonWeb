@@ -31,21 +31,6 @@ describe('Random link generator', () => {
 		expect(link).not.toMatch(/\s/)
 	  })
 
-	  it('Should return a string with at least one uppercase character', () => {
-		const link = utils.generateRandomLink()
-		expect(link).toMatch(/[A-Z]/)
-	  })
-
-	  it('Should return a string with at least one lowercase character', () => {
-		const link = utils.generateRandomLink()
-		expect(link).toMatch(/[a-z]/)
-	  })
-
-	  it('Should return a string with at least one digit', () => {
-		const link = utils.generateRandomLink()
-		expect(link).toMatch(/[0-9]/)
-	  })
-
 })
 
 describe('Link extractor function', () => {

@@ -1,3 +1,5 @@
+import { user } from '../fixtures/config'
+
 beforeEach(() => {
 	cy.visit('')
 })
@@ -8,9 +10,8 @@ describe('Page renders', () => {
 	context('Menu Items Pages ', () => {
 
 		beforeEach(() => {
-			cy.window().then((win) => {
-				win.localStorage.setItem('token', '123')
-			})
+			cy.login(user.email, user.password)
+
 		})
 
 		it('should display the Dashboard', () => {
@@ -27,8 +28,14 @@ describe('Page renders', () => {
 
 		it('should display the Team List', () => {
 			cy.get('.MuiSvgIcon-root[data-testid="GroupsIcon"]').click()
-			cy.clickText('Teams')
+			cy.clickText('Team')
 			cy.url().should('include', '/team')
+		})
+
+		it('should display the Profil Page', () => {
+			cy.get('.MuiSvgIcon-root[data-testid="PersonIcon"]').click()
+			cy.clickText('Profil')
+			cy.url().should('include', '/profil')
 		})
 
 		it('should display the Settings List', () => {

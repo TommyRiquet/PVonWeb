@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# An  hook script to automatically generate swagger.json file
+#
+# Move this file to /.git/hooks/
+
+cd WebApp/backend
+
+npm run swagger
+
+git add .
