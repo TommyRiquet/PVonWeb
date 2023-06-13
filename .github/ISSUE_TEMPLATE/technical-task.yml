@@ -18,5 +18,4 @@ body:
     attributes:
       label: Description of the technical task
       description: Briefly explain the technical task
-    validations:
-      required: true
+    
