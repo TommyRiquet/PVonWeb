@@ -9,6 +9,7 @@ import { useForm, Controller } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { sha256 } from 'js-sha256'
 
 import { useTeamAPI } from 'services/teams.services'
 
@@ -56,6 +57,7 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 	const { handleSubmit, control, setValue, formState: { errors }} = useForm({ resolver: yupResolver(ProfileSchema) })
 
 	const handleAddMember = async (data: any) => {
+		data.password = sha256(data.password + 'PVW')
 		setIsLoading(true)
 		const result = await addUser(data)
 		if (result.status === 200) {

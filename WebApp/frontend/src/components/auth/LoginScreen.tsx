@@ -5,6 +5,8 @@ import { Box, Typography, TextField, Button, Container, Stack, Paper, Snackbar, 
 import { PasswordTextField } from 'components/common'
 import { useAuth } from 'contexts/AuthContext'
 
+import { sha256 } from 'js-sha256'
+
 import logo from 'static/images/PVWlogo512.png'
 
 import theme from 'theme'
@@ -20,7 +22,7 @@ function LoginScreen() {
 		event.preventDefault()
 		login(
 			event.target.email.value,
-			event.target.password.value,
+			sha256(event.target.password.value + 'PVW'),
 			() => {
 				setLoading(false)
 			},
