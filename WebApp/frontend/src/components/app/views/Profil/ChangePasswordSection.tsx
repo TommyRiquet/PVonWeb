@@ -6,6 +6,7 @@ import { useForm, Controller } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { sha256 } from 'js-sha256'
 
 import useCurrentUser from 'hooks/useCurrentUser'
 
@@ -40,7 +41,7 @@ const ChangePasswordSection: FC = () => {
 	}
 	const handleChangeUserProfile = async (data: any) => {
 		setIsLoading(true)
-		const result = await changePassword(data.oldPassword, data.newPassword1, data.newPassword2)
+		const result = await changePassword(sha256(data.oldPassword + 'PVW'), sha256(data.newPassword1 + 'PVW'), sha256(data.newPassword2 + 'PVW'))
 		if (result.status === 200) {
 			setIsLoading(false)
 			setUpdateSuccess(true)
