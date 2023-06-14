@@ -1,3 +1,4 @@
+const userSha256 = require('js-sha256').sha256
 const fetchUser = require('node-fetch')
 
 describe('Testing for the /user routes', function() {
@@ -12,7 +13,7 @@ describe('Testing for the /user routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'demo@pvonweb.com',
-				password: 'demodemo'
+				password: userSha256('demodemo' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)

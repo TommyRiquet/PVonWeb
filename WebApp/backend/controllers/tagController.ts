@@ -13,7 +13,12 @@ export const getTagsByEnvironment = async (req: Request, res: Response) => {
 
 	try {
 
-		const { environment } = await getUserAndEnvironment(req)
+		const { user, environment } = await getUserAndEnvironment(req)
+
+		if (!user || !environment) {
+			res.status(401).json({ status: 401, message: 'Unauthorized' })
+			return
+		}
 
 		const number = req.query.limit || 500
 
