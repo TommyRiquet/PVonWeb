@@ -4,6 +4,10 @@ server {
 
 	server_name pvonweb.be www.pvonweb.be;
 
+	if ($host = "www.pvonweb.be") {
+		return 301 https://pvonweb.be$request_uri;
+	}
+
 	error_page 500 501 502 503 504 /maintenancePage.html;
     location = /maintenancePage.html {
         root /usr/share/nginx/html;

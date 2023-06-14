@@ -41,7 +41,10 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
-          EXCLUDE: WebApp/backend/test/, WebApp/backend/.env.test, WebApp/frontend/, WebApp/.gitignore, WebApp/package.json, WebApp/package-lock.json, .git, .githooks, .github, docs, LICENCE.txt, README.md
+          EXCLUDE: WebApp/backend/test/, WebApp/backend/.env.test, WebApp/frontend/, WebApp/.gitignore, WebApp/package.json, WebApp/package-lock.json, proxy, .git, .githooks, .github, docs, LICENCE.txt, README.md
+          SCRIPT_BEFORE: |
+            cd /home/ubuntu/pvonweb
+            sudo rm -rf build
           SCRIPT_AFTER: |
             cd /home/ubuntu/pvonweb
             sudo docker compose --env-file .env.production down
