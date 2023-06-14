@@ -11,6 +11,7 @@ jobs:
     name: Deploy to Production
     runs-on: ubuntu-latest
 
+    if: contains(github.event.head_commit.message, '(skip ci)') == false
     steps:
     - uses: actions/checkout@v3
 
@@ -41,7 +42,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
-          EXCLUDE: WebApp/backend/test/, WebApp/backend/.env.test, WebApp/frontend/, WebApp/.gitignore, WebApp/package.json, WebApp/package-lock.json, proxy, .git, .githooks, .github, docs, LICENCE.txt, README.md
+          EXCLUDE: WebApp/backend/test/, WebApp/backend/.env.test, WebApp/frontend/, WebApp/.gitignore, WebApp/package.json, WebApp/package-lock.json, proxy, fail2ban, .git, .githooks, .github, docs, LICENCE.txt, README.md
           SCRIPT_BEFORE: |
             cd /home/ubuntu/pvonweb
             sudo rm -rf build
