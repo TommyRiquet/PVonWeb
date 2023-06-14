@@ -1,3 +1,4 @@
+const authSha256 = require('js-sha256').sha256
 const fetchAuth = require('node-fetch')
 
 describe('Testing for the /auth routes', function() {
@@ -10,7 +11,7 @@ describe('Testing for the /auth routes', function() {
 	it('Test if login is successful with valid credentials', async () => {
 		const validLoginCredentials = {
 		  email: 'demo@pvonweb.com',
-		  password: 'demodemo'
+		  password: authSha256('demodemo' + 'PVW')
 		}
 		const validLoginResponse = await fetchAuth('http://localhost:3001/api/auth/login', {
 			method: 'POST',
@@ -56,7 +57,7 @@ describe('Testing for the /auth routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'demo@pvonweb.com',
-				password: 'demodemo'
+				password: authSha256('demodemo' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)

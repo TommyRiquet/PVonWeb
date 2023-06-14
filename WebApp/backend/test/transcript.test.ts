@@ -1,3 +1,4 @@
+const transcriptSha256 = require('js-sha256').sha256
 const fetchTranscript = require('node-fetch')
 
 describe('Testing for the /transcript routes', function() {
@@ -12,7 +13,7 @@ describe('Testing for the /transcript routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'demo@pvonweb.com',
-				password: 'demodemo'
+				password: transcriptSha256('demodemo' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)
@@ -33,7 +34,7 @@ describe('Testing for the /transcript routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'demo@pvonweb.com',
-				password: 'demodemo'
+				password: transcriptSha256('demodemo' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)

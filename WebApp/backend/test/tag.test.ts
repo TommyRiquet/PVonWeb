@@ -1,10 +1,11 @@
+const tagSha256 = require('js-sha256').sha256
 const fetchTag = require('node-fetch')
 
 describe('Testing for the /tag routes', function() {
 
-	it('Should responds 200 to transcript/tag', async () => {
+	it('Should responds 401 to transcript/tag', async () => {
 		let res = await fetchTag('http://localhost:3001/api/transcript/tag/')
-		expect(res.status).toEqual(200)
+		expect(res.status).toEqual(401)
 	})
 
 	it ('Should responds 200 to /transcript/tag with valid token', async () => {
@@ -12,7 +13,7 @@ describe('Testing for the /tag routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'demo@pvonweb.com',
-				password: 'demodemo'
+				password: tagSha256('demodemo' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)
@@ -33,7 +34,7 @@ describe('Testing for the /tag routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'demo@pvonweb.com',
-				password: 'demodemo'
+				password: tagSha256('demodemo' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)
@@ -57,7 +58,7 @@ describe('Testing for the /tag routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'demo@pvonweb.com',
-				password: 'demodemo'
+				password: tagSha256('demodemo' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)
@@ -83,7 +84,7 @@ describe('Testing for the /tag routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'demo@pvonweb.com',
-				password: 'demodemo'
+				password: tagSha256('demodemo' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)
@@ -110,7 +111,7 @@ describe('Testing for the /tag routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'admin@pvonweb.com',
-				password: 'adminadmin'
+				password: tagSha256('adminadmin' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)
@@ -120,7 +121,7 @@ describe('Testing for the /tag routes', function() {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Token ${validToken}`,
-				'X-Env-Id': 2
+				'x-env-id': 2
 			}
 		})
 
@@ -134,7 +135,7 @@ describe('Testing for the /tag routes', function() {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'admin@pvonweb.com',
-				password: 'adminadmin'
+				password: tagSha256('adminadmin' + 'PVW')
 			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(res => res.json()).then(json => json.token)
@@ -144,7 +145,7 @@ describe('Testing for the /tag routes', function() {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Token ${validToken}`,
-				'X-Env-Id': 3
+				'x-env-id': 3
 			}
 		})
 
