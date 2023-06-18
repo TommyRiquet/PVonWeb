@@ -120,9 +120,11 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 
 	const handleWarrantDurationChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
 		const { target: { value } } = event
-		const newAdminWarrants = [...adminWarrants]
-		newAdminWarrants[index].duration = parseInt(value)
-		setAdminWarrants(newAdminWarrants)
+		if (parseInt(value) >= 0) {
+			const newAdminWarrants = [...adminWarrants]
+			newAdminWarrants[index].duration = parseInt(value)
+			setAdminWarrants(newAdminWarrants)
+		}
 	}
 
 	const handleSelectTags = (event: SelectChangeEvent<any>) => {
@@ -367,6 +369,7 @@ const TranscriptAddDialog: FC<TranscriptDialogProps> = ({open, handleClose}) => 
 																	size='small'
 																	type='number'
 																	defaultValue={warrant.duration}
+																	value={warrant.duration}
 																	onChange={(e) => handleWarrantDurationChange(e, index)}
 																/>
 															</Grid>

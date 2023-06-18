@@ -78,7 +78,7 @@ const DashboardView = () => {
 									i: layouts === null || layouts === undefined ? widget.i : layouts[index].i,
 									minW: 1,
 									maxW: 1,
-									minH: 1,
+									minH: 2,
 									maxH: 4,
 									minX: 0,
 									maxX: 2,
