@@ -174,22 +174,6 @@ const TeamAddMemberDialog: FC<TeamAddMemberDialogProps> = ({open, handleClose}) 
 							<Controller
 								render={({ field }) => (
 									<TextField
-										label={t('Phone Number')}
-										fullWidth
-										margin='normal'
-										variant='outlined'
-										size='small'
-										error={!!errors.phoneNumber}
-										helperText={errors.phoneNumber?.message as string}
-										{...field}
-									/>
-								)}
-								name='phoneNumber'
-								control={control}
-							/>
-							<Controller
-								render={({ field }) => (
-									<TextField
 										label={t('Password')}
 										fullWidth
 										margin='normal'

@@ -5,14 +5,14 @@ import ChangePasswordSection from './ChangePasswordSection'
 
 const UserSection = () => {
 	return (
-		<>
+		<Box>
 			<Box>
 				<ProfileSection />
 			</Box>
 			<Box paddingTop={2}>
 				<ChangePasswordSection />
 			</Box>
-		</>
+		</Box>
 	)
 }
 
