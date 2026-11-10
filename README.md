@@ -41,8 +41,6 @@ Distributed under the MIT license. See LICENSE.txt for more information.
 <!-- Contact -->
 ## Contact
 
-Tommy Riquet - tommy.riquet@hotmail.com
-
 Project Link: https://github.com/TommyRiquet/PVonWeb
 
 
